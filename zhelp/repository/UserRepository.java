@@ -33,7 +33,6 @@ public interface UserRepository
 
     /**
      * Counts the number of user role combinations for the given userid and roleid. Answer should be only 0 or 1.
-     *
      * @param userid The userid of the user of the user role combination to check
      * @param roleid The roleid of the role of the user role combination to check
      * @return A single number, a count
