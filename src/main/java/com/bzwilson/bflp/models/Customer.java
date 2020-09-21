@@ -13,16 +13,7 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
 
-    /*
-    THINGS Customer needs
-    - email
-    - first name
-    - last name
-    - password
-    - a list of job posts
-        - a list of people that apply for each job
-
-     */
+// GO THROUGH AND MAKE SURE THINGS ARE UNIQUE AND WHAT NOT
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +22,7 @@ public class Customer {
     @Column(nullable = false)
     private String firstname;
     private String lastname;
+    private String customername;
     private String customeremail;
 
 
@@ -38,24 +30,25 @@ public class Customer {
     @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    
+
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnoreProperties(value = "customer",
             allowSetters = true)
-    private List<CustomerPost> customerpost = new ArrayList<>();
+    private List<CustomerPosts> customerposts = new ArrayList<>();
 
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String customeremail, String password, List<CustomerPost> customerpost) {
+    public Customer(String firstname, String lastname, String customername, String customeremail, String password, List<CustomerPosts> customerposts) {
         this.firstname = firstname;
         this.lastname = lastname;
+        this.customername = customername;
         this.customeremail = customeremail;
         this.password = password;
-        this.customerpost = customerpost;
+        this.customerposts = customerposts;
     }
 
     public long getCustomerid() {
@@ -82,6 +75,14 @@ public class Customer {
         this.lastname = lastname;
     }
 
+    public String getCustomername() {
+        return customername;
+    }
+
+    public void setCustomername(String customername) {
+        this.customername = customername;
+    }
+
     public String getCustomeremail() {
         return customeremail;
     }
@@ -98,11 +99,12 @@ public class Customer {
         this.password = password;
     }
 
-    public List<CustomerPost> getCustomerpost() {
-        return customerpost;
+    public List<CustomerPosts> getCustomerposts() {
+        return customerposts;
     }
 
-    public void setCustomerpost(List<CustomerPost> customerpost) {
-        this.customerpost = customerpost;
+    public void setCustomerposts(List<CustomerPosts> customerposts) {
+        this.customerposts = customerposts;
     }
 }
+

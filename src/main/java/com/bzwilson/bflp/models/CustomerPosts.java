@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "customerpost")
-public class CustomerPost {
+public class CustomerPosts {
 
     // THINGS a customer post needs
     // unique id
@@ -33,14 +33,14 @@ public class CustomerPost {
 
     @ManyToOne
     @JoinColumn(name = "customerid")
-    @JsonIgnoreProperties(value = "customerpost",
+    @JsonIgnoreProperties(value = "customerposts",
             allowSetters = true)
     private Customer customer;
 
-    public CustomerPost() {
+    public CustomerPosts() {
     }
 
-    public CustomerPost(String name, String description, String tech, Customer customer) {
+    public CustomerPosts(String name, String description, String tech, Customer customer) {
         this.name = name;
         this.description = description;
         this.tech = tech;

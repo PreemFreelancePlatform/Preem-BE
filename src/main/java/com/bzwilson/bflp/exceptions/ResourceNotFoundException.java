@@ -1,4 +1,4 @@
-package com.lambdaschool.foundation.exceptions;
+package com.bzwilson.bflp.exceptions;
 
 /**
  * A custom exception to be used when a resource is not but is suppose to be
@@ -8,6 +8,6 @@ public class ResourceNotFoundException
 {
     public ResourceNotFoundException(String message)
     {
-        super("Error from a Lambda School Application " + message);
+        super("WE GOT ERRORS CUH " + message);
     }
 }

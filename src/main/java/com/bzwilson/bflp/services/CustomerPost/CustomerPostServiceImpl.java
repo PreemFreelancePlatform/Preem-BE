@@ -1,23 +1,23 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
-import com.bzwilson.bflp.models.CustomerPost;
+import com.bzwilson.bflp.models.CustomerPosts;
 
 import java.util.List;
 
 public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
-    public List<CustomerPost> findAll() {
+    public List<CustomerPosts> findAll() {
         return null;
     }
 
     @Override
-    public CustomerPost findCustomerPostById(long id) {
+    public CustomerPosts findCustomerPostById(long id) {
         return null;
     }
 
     @Override
-    public CustomerPost findCustomerPostByName(String name) {
+    public CustomerPosts findCustomerPostByName(String name) {
         return null;
     }
 
@@ -27,12 +27,12 @@ public class CustomerPostServiceImpl implements CustomerPostService {
     }
 
     @Override
-    public CustomerPost save(CustomerPost Customerpost) {
+    public CustomerPosts save(CustomerPosts customerpost) {
         return null;
     }
 
     @Override
-    public CustomerPost update(CustomerPost Customerpost, long id) {
+    public CustomerPosts update(CustomerPosts customerpost, long id) {
         return null;
     }
 }

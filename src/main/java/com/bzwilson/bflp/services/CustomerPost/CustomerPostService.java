@@ -1,21 +1,21 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
-import com.bzwilson.bflp.models.CustomerPost;
+import com.bzwilson.bflp.models.CustomerPosts;
 
 import java.util.List;
 
 public interface CustomerPostService {
-    List<CustomerPost> findAll();
+    List<CustomerPosts> findAll();
 
-    CustomerPost findCustomerPostById(long id);
+    CustomerPosts findByCustomerPostId(long id);
 
-    CustomerPost findCustomerPostByName(String name);
+    CustomerPosts findByCustomerPostName(String name);
 
     void delete(long id);
 
-    CustomerPost save(CustomerPost Customerpost);
+    CustomerPosts save(CustomerPosts customerpost);
 
-    CustomerPost update(
-            CustomerPost Customerpost,
+    CustomerPosts update(
+            CustomerPosts customerpost,
             long id);
 }

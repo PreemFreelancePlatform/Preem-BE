@@ -1,7 +1,5 @@
-package com.lambdaschool.foundation.exceptions;
+package com.bzwilson.bflp.exceptions;
 
-import com.lambdaschool.foundation.handlers.HelperFunctions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
@@ -19,8 +17,8 @@ public class CustomErrorDetails
     /**
      * Connects this class with the Helper Functions
      */
-    @Autowired
-    private HelperFunctions helper;
+//    @Autowired
+//    private HelperFunctions helper;
 
     /**
      * Custom method to override the error details provided by Spring Boot. We want to use our own format.
@@ -53,8 +51,8 @@ public class CustomErrorDetails
         errorDetails.put("developerMessage",
                          "path: " + errorAttributes.get("path"));
 
-        errorDetails.put("errors",
-                         helper.getConstraintViolation(this.getError(webRequest)));
-        return errorDetails;
+//        errorDetails.put("errors",
+////                         helper.getConstraintViolation(this.getError(webRequest)));
+////        return errorDetails;
     }
 }
