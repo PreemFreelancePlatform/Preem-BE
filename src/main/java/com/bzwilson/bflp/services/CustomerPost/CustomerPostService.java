@@ -9,8 +9,6 @@ public interface CustomerPostService {
 
     CustomerPosts findByCustomerPostId(long id);
 
-    CustomerPosts findByCustomerPostName(String name);
-
     void delete(long id);
 
     CustomerPosts save(CustomerPosts customerpost);

@@ -1,34 +1,98 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
+import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
+import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
+import com.bzwilson.bflp.repositories.CustomerPostRepo;
+import com.bzwilson.bflp.repositories.CustomerRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
+@Service(value = "customerPostService")
 public class CustomerPostServiceImpl implements CustomerPostService {
+
+    @Autowired
+    private CustomerPostRepo customerpostrepo;
 
     @Override
     public List<CustomerPosts> findAll() {
-        return null;
+        List<CustomerPosts> list = new ArrayList<>();
+        customerpostrepo.findAll()
+                .iterator()
+                .forEachRemaining(list::add);
+        return list;
     }
 
     @Override
-    public CustomerPosts findCustomerPostById(long id) {
-        return null;
+    public CustomerPosts findByCustomerPostId(long id)
+            throws
+            ResourceNotFoundException {
+        return customerpostrepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("customer post " + id + " not found!"));
     }
 
-    @Override
-    public CustomerPosts findCustomerPostByName(String name) {
-        return null;
-    }
 
     @Override
     public void delete(long id) {
-
+        customerpostrepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("customer post " + id + " not found!"));
+        customerpostrepo.deleteById(id);
     }
 
+    @Transactional
     @Override
-    public CustomerPosts save(CustomerPosts customerpost) {
-        return null;
+    public CustomerPosts save(CustomerPosts customerposts) {
+
+        // making new customerpost object
+        CustomerPosts newCustomerPosts = new CustomerPosts();
+
+        // if we get an id back then set it to new customer
+        if (customerposts.getPostid() != 0) {
+//            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
+//                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
+            newCustomerPosts.setPostid(customerposts.getPostid());
+        }
+
+
+        // delete the roles for the old user we are replacing
+        //not using roles rn
+//            for (UserRole ur: User.getUserroles() {
+//                 oldCustomer.getCustomerposts()) {
+//                deleteUserRole(ur.getUser()
+//                                .getUserid(),
+//                        ur.getRole()
+//                                .getRoleid());
+//            }
+//        }
+
+
+        newCustomerPosts.setName(customerposts.getName());
+
+        newCustomerPosts.setDescription(customerposts.getDescription());
+
+        newCustomerPosts.setTech(customerposts.getTech());
+
+        newCustomerPosts.setCustomeremail(customerposts.getCustomeremail());
+
+        // REMEMBER TO ENCRYPT PASSWORD
+//            customer.setPasswordNoEncrypt(customer.getPassword());
+
+        newCustomer.setPassword(customer.getPassword());
+
+
+        newCustomer.getCustomerposts()
+                .clear();
+        for (CustomerPosts cp : customer.getCustomerposts()) {
+            newCustomer.getCustomerposts()
+                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
+        }
+
+        return customerrepo.save(newCustomer);
     }
 
     @Override

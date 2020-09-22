@@ -1,7 +1,8 @@
 package com.bzwilson.bflp.services.customer;
 
-import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
+import com.bzwilson.bflp.exceptions.*;
 import com.bzwilson.bflp.models.Customer;
+import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,14 +55,20 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public Customer save(Customer customer) {
+
+        // making new customer object
         Customer newCustomer = new Customer();
 
+        // if we get an id back then set it to new customer
         if (customer.getCustomerid() != 0) {
-            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
-                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
+//            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
+//                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
+            newCustomer.setCustomerid(customer.getCustomerid());
+        }
 
-            // delete the roles for the old user we are replacing
-            //not using roles rn
+
+        // delete the roles for the old user we are replacing
+        //not using roles rn
 //            for (UserRole ur: User.getUserroles() {
 //                 oldCustomer.getCustomerposts()) {
 //                deleteUserRole(ur.getUser()
@@ -69,55 +76,76 @@ public class CustomerServiceImpl implements CustomerService {
 //                        ur.getRole()
 //                                .getRoleid());
 //            }
-//            newUser.setUserid(user.getUserid());
 //        }
 
-            customer.set(customer.getUsername()
-                    .toLowerCase());
-            customer.setPasswordNoEncrypt(customer.getPassword());
-            customer.setPrimaryemail(customer.getPrimaryemail()
-                    .toLowerCase());
 
-            newUser.getRoles()
-                    .clear();
-            if (user.getUserid() == 0) {
-                for (UserRoles ur : user.getRoles()) {
-                    Role newRole = roleService.findRoleById(ur.getRole()
-                            .getRoleid());
+        newCustomer.setFirstname(customer.getFirstname());
 
-                    newUser.addRole(newRole);
-                }
-            } else {
-                // add the new roles for the user we are replacing
-                for (UserRoles ur : user.getRoles()) {
-                    addUserRole(newUser.getUserid(),
-                            ur.getRole()
-                                    .getRoleid());
-                }
-            }
+        newCustomer.setLastname(customer.getLastname());
 
-            newUser.getUseremails()
-                    .clear();
-            for (Useremail ue : user.getUseremails()) {
-                newUser.getUseremails()
-                        .add(new Useremail(newUser,
-                                ue.getUseremail()));
-            }
+        newCustomer.setCustomername(customer.getCustomername());
 
-            newUser.getUserprops()
-                    .clear();
-            for (UserProperty uu : user.getUserprops()) {
-                newUser.getUserprops()
-                        .add(new UserProperty(uu.getName(), uu.getBedrooms(), uu.getNeighbourhood(), uu.getRoomtype(), uu.getMinimumnights(), uu.getNumberofreviews(), uu.getPrice(), newUser));
-            }
+        newCustomer.setCustomeremail(customer.getCustomeremail());
 
-            return userrepos.save(newUser);
+        // REMEMBER TO ENCRYPT PASSWORD
+//            customer.setPasswordNoEncrypt(customer.getPassword());
+
+        newCustomer.setPassword(customer.getPassword());
+
+
+        newCustomer.getCustomerposts()
+                .clear();
+        for (CustomerPosts cp : customer.getCustomerposts()) {
+            newCustomer.getCustomerposts()
+                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
         }
 
-        @Override
-        public Customer update (Customer customer,long id){
-            return null;
-        }
-
-
+        return customerrepo.save(newCustomer);
     }
+
+    @Transactional
+    @Override
+    public Customer update(
+            Customer customer,
+            long id) {
+        Customer currentCustomer = findCustomerById(id);
+
+        // WILL I NEED THIS LATER??
+//        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
+
+        if (customer.getFirstname() != null) {
+            currentCustomer.setFirstname(customer.getFirstname());
+        }
+
+        if (customer.getLastname() != null) {
+            currentCustomer.setLastname(customer.getLastname());
+        }
+
+        if (customer.getCustomername() != null) {
+            currentCustomer.setCustomername(customer.getCustomername());
+        }
+
+        if (customer.getCustomeremail() != null) {
+            currentCustomer.setCustomeremail(customer.getCustomeremail());
+        }
+
+        // MAKESURE TO ENCRTYPT
+        if (customer.getPassword() != null) {
+            currentCustomer.setPassword(customer.getPassword());
+        }
+        // test to clear
+        if (customer.getCustomerposts()
+                .size() > 0) {
+            currentCustomer.getCustomerposts().clear();
+            for (CustomerPosts cp : customer.getCustomerposts()) {
+                currentCustomer.getCustomerposts()
+                        .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), currentCustomer));
+            }
+        }
+
+
+        return customerrepo.save(currentCustomer);
+    }
+}
+
+// IF NOT AUTH THROW EXCEPTION NOT AUTHORIZED

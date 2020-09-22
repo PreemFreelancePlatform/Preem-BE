@@ -8,6 +8,6 @@ public class ResourceFoundException
 {
     public ResourceFoundException(String message)
     {
-        super("Recource found exception wtff does this do " + message);
+        super("Resource found exception wtf does this do " + message);
     }
 }

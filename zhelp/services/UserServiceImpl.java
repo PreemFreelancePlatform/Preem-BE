@@ -104,6 +104,7 @@ public class UserServiceImpl
             newUser.setUserid(user.getUserid());
         }
 
+
         newUser.setUsername(user.getUsername()
                 .toLowerCase());
         newUser.setPasswordNoEncrypt(user.getPassword());
@@ -112,6 +113,8 @@ public class UserServiceImpl
 
         newUser.getRoles()
                 .clear();
+
+
         if (user.getUserid() == 0) {
             for (UserRoles ur : user.getRoles()) {
                 Role newRole = roleService.findRoleById(ur.getRole()
