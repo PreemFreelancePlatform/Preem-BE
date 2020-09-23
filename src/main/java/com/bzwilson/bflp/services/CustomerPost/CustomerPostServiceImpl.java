@@ -77,26 +77,47 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         newCustomerPosts.setTech(customerposts.getTech());
 
-        newCustomerPosts.setCustomeremail(customerposts.getCustomeremail());
+
 
         // REMEMBER TO ENCRYPT PASSWORD
 //            customer.setPasswordNoEncrypt(customer.getPassword());
 
-        newCustomer.setPassword(customer.getPassword());
 
 
-        newCustomer.getCustomerposts()
-                .clear();
-        for (CustomerPosts cp : customer.getCustomerposts()) {
-            newCustomer.getCustomerposts()
-                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
-        }
 
-        return customerrepo.save(newCustomer);
+//        newCustomer.getCustomerposts()
+//                .clear();
+//        for (CustomerPosts cp : customer.getCustomerposts()) {
+//            newCustomer.getCustomerposts()
+//                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
+//        }
+
+        return customerpostrepo.save(newCustomerPosts);
     }
 
+    @Transactional
     @Override
-    public CustomerPosts update(CustomerPosts customerpost, long id) {
-        return null;
+    public CustomerPosts update(
+            CustomerPosts customerpost,
+            long id) {
+
+        CustomerPosts currentcustomerposts = findByCustomerPostId(id);
+
+        // WILL I NEED THIS LATER??
+//        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
+
+        if (customerpost.getName() != null) {
+            currentcustomerposts.setName(customerpost.getName());
+        }
+
+        if (customerpost.getDescription() != null) {
+            currentcustomerposts.setDescription(customerpost.getDescription());
+        }
+
+        if (customerpost.getTech() != null) {
+            currentcustomerposts.setTech(customerpost.getTech());
+        }
+
+        return customerpostrepo.save(currentcustomerposts);
     }
 }

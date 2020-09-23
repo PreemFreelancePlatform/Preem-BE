@@ -19,15 +19,14 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long customerid;
 
-    @Column(nullable = false)
+    @Column
     private String firstname;
     private String lastname;
     private String customername;
     private String customeremail;
 
 
-    @Column(nullable = false)
-    @NotNull
+    @Column
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -42,13 +41,13 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String customername, String customeremail, String password, List<CustomerPosts> customerposts) {
+    public Customer(String firstname, String lastname, String customername, String customeremail, String password ) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.customername = customername;
         this.customeremail = customeremail;
         this.password = password;
-        this.customerposts = customerposts;
+
     }
 
     public long getCustomerid() {
