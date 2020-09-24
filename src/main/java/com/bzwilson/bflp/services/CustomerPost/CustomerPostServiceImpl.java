@@ -5,6 +5,7 @@ import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.repositories.CustomerPostRepo;
 import com.bzwilson.bflp.repositories.CustomerRepo;
+import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Autowired
     private CustomerPostRepo customerpostrepo;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Override
     public List<CustomerPosts> findAll() {
@@ -76,6 +80,8 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         newCustomerPosts.setDescription(customerposts.getDescription());
 
         newCustomerPosts.setTech(customerposts.getTech());
+
+        newCustomerPosts.setCustomer(customerposts.getCustomer());
 
 
 

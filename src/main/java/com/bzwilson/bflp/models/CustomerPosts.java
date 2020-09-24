@@ -4,6 +4,8 @@ package com.bzwilson.bflp.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customerpost")
@@ -36,6 +38,13 @@ public class CustomerPosts {
     @JsonIgnoreProperties(value = "customerposts",
             allowSetters = true)
     private Customer customer;
+
+    @OneToMany(mappedBy = "customerPost",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties(value = "customerpost",
+            allowSetters = true)
+    private List<Freelancer> freelancers = new ArrayList<>();
 
     public CustomerPosts() {
     }
@@ -85,6 +94,14 @@ public class CustomerPosts {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Freelancer> getFreelancers() {
+        return freelancers;
+    }
+
+    public void setFreelancers(List<Freelancer> freelancers) {
+        this.freelancers = freelancers;
     }
 }
 

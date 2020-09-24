@@ -86,7 +86,8 @@ public class SeedData
                 "b@yahoo.com",
                 "a v");
 
-
+        c2.getCustomerposts().add(new CustomerPosts("post1", "description", "using this and that", c2));
+        c1.getCustomerposts().add(new CustomerPosts("post2", "another description", "uWOOOOTTTY SCOOOTY and that", c1));
 
         // making a customer post and assigning it to the customer i made above
 

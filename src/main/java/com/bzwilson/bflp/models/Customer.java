@@ -41,13 +41,12 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String customername, String customeremail, String password ) {
+    public Customer(String firstname, String lastname, String customername, String customeremail, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.customername = customername;
         this.customeremail = customeremail;
         this.password = password;
-
     }
 
     public long getCustomerid() {
