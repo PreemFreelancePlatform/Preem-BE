@@ -83,6 +83,8 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         newCustomerPosts.setCustomer(customerposts.getCustomer());
 
+        newCustomerPosts.setFreelancers(customerposts.getFreelancers());
+
 
 
         // REMEMBER TO ENCRYPT PASSWORD
