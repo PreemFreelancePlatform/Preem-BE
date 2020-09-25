@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "freelancer")
@@ -23,14 +25,14 @@ public class Freelancer {
     private String skills;
     private int rating;
 
-    @NotNull
-    @Column(nullable = false)
+
+    @Column
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "postid")
-    @JsonIgnoreProperties(value = "freelancer",
+    @JsonIgnoreProperties(value = {"freelancers", "customer" },
             allowSetters = true)
     private CustomerPosts customerPost;
 

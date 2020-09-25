@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
 
-// GO THROUGH AND MAKE SURE THINGS ARE UNIQUE AND WHAT NOT
+// make stuff unique and encrypt password
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
