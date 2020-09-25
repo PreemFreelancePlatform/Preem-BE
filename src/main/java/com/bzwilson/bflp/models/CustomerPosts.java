@@ -42,9 +42,10 @@ public class CustomerPosts {
     @OneToMany(mappedBy = "customerPost",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JsonIgnoreProperties(value = "customerpost",
+    @JsonIgnoreProperties(value = {"customerpost", "customerPost" },
             allowSetters = true)
     private List<Freelancer> freelancers = new ArrayList<>();
+
 
     public CustomerPosts() {
     }
@@ -103,6 +104,7 @@ public class CustomerPosts {
     public void setFreelancers(List<Freelancer> freelancers) {
         this.freelancers = freelancers;
     }
+
 }
 
 

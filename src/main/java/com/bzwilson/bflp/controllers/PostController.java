@@ -56,6 +56,7 @@ public class PostController {
             URISyntaxException {
 
         Customer u = customerService.findCustomerById(customerid);
+
         List<CustomerPosts> list = u.getCustomerposts();
 
         newcustomerpost.setCustomer(u);

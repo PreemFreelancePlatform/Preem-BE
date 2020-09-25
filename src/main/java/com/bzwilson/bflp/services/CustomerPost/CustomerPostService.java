@@ -16,4 +16,5 @@ public interface CustomerPostService {
     CustomerPosts update(
             CustomerPosts customerpost,
             long id);
+
 }

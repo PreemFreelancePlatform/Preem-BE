@@ -1,11 +1,10 @@
 package com.bzwilson.bflp.services.Freelancer;
 
-import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 
 import java.util.List;
 
-public interface FreelancerServices {
+public interface FreelancerService {
     List<Freelancer> findAll();
 
     Freelancer FindFreelancerById(long id);
@@ -17,4 +16,7 @@ public interface FreelancerServices {
     Freelancer update(
             Freelancer freelancer,
             long id);
+
 }
+
+

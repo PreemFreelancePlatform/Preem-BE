@@ -1,16 +1,19 @@
 package com.bzwilson.bflp.services.Freelancer;
 
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
-import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FreelancerServicesImpl implements FreelancerServices {
+
+@Transactional
+@Service(value = "freelancerservice")
+public class FreelancerServiceImpl implements FreelancerService {
 
 
     @Autowired
