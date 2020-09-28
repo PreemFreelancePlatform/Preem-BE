@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customerpost")
+@RequestMapping("/customer/post")
 public class PostController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class PostController {
                 HttpStatus.OK);
     }
 
-    @GetMapping(value = "/post/{postid}",
+    @GetMapping(value = "/{postid}",
             produces = {"application/json"})
     public ResponseEntity<?> findPostById(
             @PathVariable
@@ -44,7 +44,7 @@ public class PostController {
                 HttpStatus.OK);
     }
 
-    @PostMapping(value = "/customer/{customerid}/post",
+    @PostMapping(value = "/customer/{customerid}",
             consumes = {"application/json"})
     public ResponseEntity<?> addNewPost(
 
@@ -75,7 +75,7 @@ public class PostController {
                 HttpStatus.CREATED);
     }
 
-    @PatchMapping(value = "/post/{postid}",
+    @PatchMapping(value = "/{postid}",
             consumes = {"application/json"})
     public ResponseEntity<?> updatePost(
             @RequestBody
@@ -87,26 +87,13 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/post/{postid}")
-    public ResponseEntity<?> savePost(
-            @RequestBody CustomerPosts post,
-            @PathVariable long postid)
-    {
-        post.setPostid(postid);
-        postService.save(post);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "post/{postid}")
+    @DeleteMapping(value = "/{postid}")
     public ResponseEntity<?> deleteUserById(
             @PathVariable
-                    long postid)
-    {
+                    long postid) {
         postService.delete(postid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
 }

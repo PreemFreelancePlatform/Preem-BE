@@ -1,12 +1,15 @@
 package com.bzwilson.bflp.services.Freelancer;
 
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
+import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
+import com.bzwilson.bflp.repositories.CustomerPostRepo;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,10 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Autowired
     private FreelancerRepo freerepo;
+
+    @Autowired
+    private CustomerPostRepo postRepo;
+
 
     @Override
     public List<Freelancer> findAll() {
@@ -73,36 +80,25 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setEmail(freelancer.getEmail());
 
+        newfreelancer.setUsername(freelancer.getUsername());
+
         newfreelancer.setFirstname(freelancer.getFirstname());
-
-        newfreelancer.setLastname(freelancer.getLastname());
-
-        newfreelancer.setDescription(freelancer.getDescription());
-
-        newfreelancer.setSkills(freelancer.getSkills());
 
         newfreelancer.setRating(freelancer.getRating());
 
         newfreelancer.setPassword(freelancer.getPassword());
-
-        newfreelancer.setCustomerPost(freelancer.getCustomerPost());
-
-
-
 
 
         // REMEMBER TO ENCRYPT PASSWORD
 //            customer.setPasswordNoEncrypt(customer.getPassword());
 
 
-
-
-//        newCustomer.getCustomerposts()
-//                .clear();
-//        for (CustomerPosts cp : customer.getCustomerposts()) {
-//            newCustomer.getCustomerposts()
-//                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
-//        }
+        newfreelancer.getCustomerposts()
+                .clear();
+        for (CustomerPosts cp : freelancer.getCustomerposts()) {
+            newfreelancer.getCustomerposts()
+                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), cp.getCustomer()));
+        }
 
         return freerepo.save(newfreelancer);
     }
@@ -122,20 +118,12 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setEmail(freelancer.getEmail());
         }
 
+        if (freelancer.getUsername() != null) {
+            currentfreelancer.setUsername(freelancer.getUsername());
+        }
+
         if (freelancer.getFirstname() != null) {
             currentfreelancer.setFirstname(freelancer.getFirstname());
-        }
-
-        if (freelancer.getLastname() != null) {
-            currentfreelancer.setLastname(freelancer.getLastname());
-        }
-
-        if (freelancer.getDescription() != null) {
-            currentfreelancer.setDescription(freelancer.getDescription());
-        }
-
-        if (freelancer.getSkills() != null) {
-            currentfreelancer.setSkills(freelancer.getSkills());
         }
 
         if (freelancer.getRating() != 0) {
@@ -146,6 +134,28 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setPassword(freelancer.getPassword());
         }
 
+        if (freelancer.getCustomerposts().size() > 0) {
+            for (CustomerPosts cp : freelancer.getCustomerposts()) {
+                currentfreelancer.getCustomerposts()
+                        .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), cp.getCustomer()));
+            }
+
+        }
+
         return freerepo.save(currentfreelancer);
     }
+
+    @Override
+    public Freelancer apply(long fid, long pid) {
+
+        Freelancer fl = freerepo.findById(fid).orElseThrow(EntityNotFoundException::new);
+        CustomerPosts cp = postRepo.findById(pid).orElseThrow(EntityNotFoundException::new);
+
+        fl.getCustomerposts().add(cp);
+
+        return freerepo.save(fl);
+    }
 }
+//
+
+

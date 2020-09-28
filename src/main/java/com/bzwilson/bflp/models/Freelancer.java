@@ -17,37 +17,42 @@ public class Freelancer {
     private long freelancerid;
 
 
-    @Column
+    @NotNull
+    @Column(nullable = false,
+            unique = true)
     private String email;
+    private String username;
+
+    @NotNull
+    @Column(nullable = false)
     private String firstname;
-    private String lastname;
-    private String description;
-    private String skills;
-    private int rating;
 
 
     @Column
+    private double rating;
+
+    @NotNull
+    @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "postid")
-    @JsonIgnoreProperties(value = {"freelancers", "customer" },
-            allowSetters = true)
-    private CustomerPosts customerPost;
+    @ManyToMany()
+    @JoinTable(name = "freelancerpost",
+            joinColumns = @JoinColumn(name = "freelancerid"),
+            inverseJoinColumns = @JoinColumn(name = "postid"))
+    @JsonIgnoreProperties(value = {"freelancers", "customerposts"})
+    List<CustomerPosts> customerposts = new ArrayList<>();
+    
 
     public Freelancer() {
     }
 
-    public Freelancer(String email, String firstname, String lastname, String description, String skills, int rating, String password, CustomerPosts customerPost) {
+    public Freelancer(String email, String username, String firstname, double rating, String password) {
         this.email = email;
+        this.username = username;
         this.firstname = firstname;
-        this.lastname = lastname;
-        this.description = description;
-        this.skills = skills;
         this.rating = rating;
         this.password = password;
-        this.customerPost = customerPost;
     }
 
     public long getFreelancerid() {
@@ -66,6 +71,14 @@ public class Freelancer {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -74,35 +87,11 @@ public class Freelancer {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSkills() {
-        return skills;
-    }
-
-    public void setSkills(String skills) {
-        this.skills = skills;
-    }
-
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -114,11 +103,11 @@ public class Freelancer {
         this.password = password;
     }
 
-    public CustomerPosts getCustomerPost() {
-        return customerPost;
+    public List<CustomerPosts> getCustomerposts() {
+        return customerposts;
     }
 
-    public void setCustomerPost(CustomerPosts customerPost) {
-        this.customerPost = customerPost;
+    public void setCustomerposts(List<CustomerPosts> customerposts) {
+        this.customerposts = customerposts;
     }
 }

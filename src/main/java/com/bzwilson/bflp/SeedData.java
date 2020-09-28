@@ -1,17 +1,14 @@
 package com.bzwilson.bflp;
 
 import com.bzwilson.bflp.models.Customer;
-import com.bzwilson.bflp.models.CustomerPosts;
+import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
+import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * SeedData puts both known and random data into the database. It implements CommandLineRunner.
@@ -22,8 +19,7 @@ import java.util.Locale;
 @Transactional
 @Component
 public class SeedData
-        implements CommandLineRunner
-{
+        implements CommandLineRunner {
     /**
      * Connects the Role Service to this process
      */
@@ -36,6 +32,9 @@ public class SeedData
     @Autowired
     CustomerPostService customerPostService;
 
+    @Autowired
+    FreelancerService freelancerService;
+
     /**
      * Generates test, seed data for our application
      * First a set of known data is seeded into our database.
@@ -47,10 +46,10 @@ public class SeedData
      */
     @Transactional
     @Override
+
     public void run(String[] args)
             throws
-            Exception
-    {
+            Exception {
 //        Role r1 = new Role("admin");
 //        Role r2 = new Role("user");
 //        Role r3 = new Role("data");
@@ -74,20 +73,20 @@ public class SeedData
 //
 //
         // making a customer in the db
-        Customer c1 = new Customer("William",
-                           "Wilson",
-                           "AgentBillster",
-                           "something@yahoo.com",
-                            "a password");
+        Customer c1 = new Customer(
+                "AgentBillster",
+                "something@yahoo.com",
+                "a password");
 
-        Customer c2 = new Customer("bob",
-                "dabob",
+        Customer c2 = new Customer(
                 "bb",
                 "b@yahoo.com",
                 "a v");
 
-        c2.getCustomerposts().add(new CustomerPosts("post1", "description", "using this and that", c2));
-        c1.getCustomerposts().add(new CustomerPosts("post2", "another description", "uWOOOOTTTY SCOOOTY and that", c1));
+        Freelancer f1 = new Freelancer("freelancer@yahoo.com",
+                "firstname",
+                "lastname", 2.9, "password");
+
 
         // making a customer post and assigning it to the customer i made above
 
@@ -95,6 +94,7 @@ public class SeedData
         // save it
         customerService.save(c1);
         customerService.save(c2);
+        freelancerService.save(f1);
 //
 //        // data, user
 

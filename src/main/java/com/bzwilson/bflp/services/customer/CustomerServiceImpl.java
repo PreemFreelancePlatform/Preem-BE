@@ -1,6 +1,6 @@
 package com.bzwilson.bflp.services.customer;
 
-import com.bzwilson.bflp.exceptions.*;
+import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.repositories.CustomerRepo;
@@ -79,11 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
 //        }
 
 
-        newCustomer.setFirstname(customer.getFirstname());
-
-        newCustomer.setLastname(customer.getLastname());
-
-        newCustomer.setCustomername(customer.getCustomername());
+        newCustomer.setUsername(customer.getUsername());
 
         newCustomer.setCustomeremail(customer.getCustomeremail());
 
@@ -113,16 +109,8 @@ public class CustomerServiceImpl implements CustomerService {
         // WILL I NEED THIS LATER??
 //        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
 
-        if (customer.getFirstname() != null) {
-            currentCustomer.setFirstname(customer.getFirstname());
-        }
-
-        if (customer.getLastname() != null) {
-            currentCustomer.setLastname(customer.getLastname());
-        }
-
-        if (customer.getCustomername() != null) {
-            currentCustomer.setCustomername(customer.getCustomername());
+        if (customer.getUsername() != null) {
+            currentCustomer.setUsername(customer.getUsername());
         }
 
         if (customer.getCustomeremail() != null) {

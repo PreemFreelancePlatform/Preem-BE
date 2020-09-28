@@ -1,4 +1,4 @@
-package com.lambdaschool.foundation.controllers;
+wpackage com.lambdaschool.foundation.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

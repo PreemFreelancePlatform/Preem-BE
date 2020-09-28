@@ -1,24 +1,17 @@
 package com.bzwilson.bflp.controllers;
 
-import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
-
-import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/freelancer")
+@RequestMapping("/users")
 public class FreelancerController {
 
 
@@ -48,35 +41,21 @@ public class FreelancerController {
                 HttpStatus.OK);
     }
 
-    @PostMapping(value = "/post/{id}",
-            consumes = {"application/json"})
-    public ResponseEntity<?> AddFreelancer(
+    @PostMapping(value = "/freelancer/{freelancerid}/post/{postid}")
+    public ResponseEntity<?> AddFreelancertopost(
+            @PathVariable
+                    long freelancerid,
+            @PathVariable
+                    long postid) {
 
-            @RequestBody
-                    Freelancer newfreelancer,
-            @PathVariable long id)
-
-            throws
-            URISyntaxException {
 
         // do this for adding
-        CustomerPosts cp = customerPostService.findByCustomerPostId(id);
 
-        newfreelancer.setCustomerPost(cp);
+        freelancerServices.apply(freelancerid, postid);
 
-        freelancerServices.save(newfreelancer);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newPropURI = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{postid}")
-                .buildAndExpand(newfreelancer.getFreelancerid())
-                .toUri();
-        responseHeaders.setLocation(newPropURI);
-
-        return new ResponseEntity<>(null,
-                responseHeaders,
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @PatchMapping(value = "/freelancer/{id}",
             consumes = {"application/json"})
@@ -90,26 +69,23 @@ public class FreelancerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PutMapping(value = "/post/{postid}")
-//    public ResponseEntity<?> savePost(
-//            @RequestBody CustomerPosts post,
-//            @PathVariable long postid)
-//    {
-//        post.setPostid(postid);
-//        postService.save(post);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping(value = "/freelancer/{freelancerid}")
+    public ResponseEntity<?> savePost(
+            @RequestBody Freelancer freelancer,
+            @PathVariable long freelancerid) {
+        freelancer.setFreelancerid(freelancerid);
+        freelancerServices.save(freelancer);
 
-//    @DeleteMapping(value = "post/{postid}")
-//    public ResponseEntity<?> deleteUserById(
-//            @PathVariable
-//                    long postid)
-//    {
-//        postService.delete(postid);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @DeleteMapping(value = "freelancer/{freelancerid}")
+    public ResponseEntity<?> deleteUserById(
+            @PathVariable
+                    long freelancerid) {
+        freelancerServices.delete(freelancerid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }

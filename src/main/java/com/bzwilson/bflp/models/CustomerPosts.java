@@ -32,18 +32,14 @@ public class CustomerPosts {
     private String description;
     private String tech;
 
-
     @ManyToOne
     @JoinColumn(name = "customerid")
     @JsonIgnoreProperties(value = "customerposts",
             allowSetters = true)
     private Customer customer;
 
-    @OneToMany(mappedBy = "customerPost",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @JsonIgnoreProperties(value = {"customerpost", "customerPost" },
-            allowSetters = true)
+    @ManyToMany(mappedBy = "customerposts")
+    @JsonIgnoreProperties(value = {"customerposts"})
     private List<Freelancer> freelancers = new ArrayList<>();
 
 
@@ -104,7 +100,6 @@ public class CustomerPosts {
     public void setFreelancers(List<Freelancer> freelancers) {
         this.freelancers = freelancers;
     }
-
 }
 
 

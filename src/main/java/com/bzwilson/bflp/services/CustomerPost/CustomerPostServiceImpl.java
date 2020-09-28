@@ -1,10 +1,9 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
-import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
+import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.repositories.CustomerPostRepo;
-import com.bzwilson.bflp.repositories.CustomerRepo;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,22 +82,17 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         newCustomerPosts.setCustomer(customerposts.getCustomer());
 
-        newCustomerPosts.setFreelancers(customerposts.getFreelancers());
-
-
 
         // REMEMBER TO ENCRYPT PASSWORD
 //            customer.setPasswordNoEncrypt(customer.getPassword());
 
 
-
-
-//        newCustomer.getCustomerposts()
-//                .clear();
-//        for (CustomerPosts cp : customer.getCustomerposts()) {
-//            newCustomer.getCustomerposts()
-//                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
-//        }
+        newCustomerPosts.getFreelancers()
+                .clear();
+        for (Freelancer fl : customerposts.getFreelancers()) {
+            newCustomerPosts.getFreelancers()
+                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getFirstname(), fl.getRating(), fl.getPassword()));
+        }
 
         return customerpostrepo.save(newCustomerPosts);
     }
@@ -124,6 +118,15 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         if (customerpost.getTech() != null) {
             currentcustomerposts.setTech(customerpost.getTech());
+        }
+
+        if (customerpost.getFreelancers()
+                .size() > 0) {
+            currentcustomerposts.getFreelancers().clear();
+            for (Freelancer fl : customerpost.getFreelancers()) {
+                currentcustomerposts.getFreelancers()
+                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getFirstname(), fl.getRating(), fl.getPassword()));
+            }
         }
 
         return customerpostrepo.save(currentcustomerposts);

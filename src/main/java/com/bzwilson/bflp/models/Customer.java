@@ -19,14 +19,16 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long customerid;
 
-    @Column
-    private String firstname;
-    private String lastname;
-    private String customername;
+
+    @NotNull
+    @Column(nullable = false,
+            unique = true)
+    private String username;
     private String customeremail;
 
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -41,10 +43,8 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String customername, String customeremail, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.customername = customername;
+    public Customer(String username, String customeremail, String password) {
+        this.username = username;
         this.customeremail = customeremail;
         this.password = password;
     }
@@ -57,28 +57,12 @@ public class Customer {
         this.customerid = customerid;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getCustomername() {
-        return customername;
-    }
-
-    public void setCustomername(String customername) {
-        this.customername = customername;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getCustomeremail() {
@@ -105,4 +89,3 @@ public class Customer {
         this.customerposts = customerposts;
     }
 }
-
