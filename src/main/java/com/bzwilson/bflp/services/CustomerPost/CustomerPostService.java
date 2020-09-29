@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
 import com.bzwilson.bflp.models.CustomerPosts;
+import com.bzwilson.bflp.models.Freelancer;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface CustomerPostService {
     CustomerPosts update(
             CustomerPosts customerpost,
             long id);
+
+    CustomerPosts apply(long pid, long fid);
 
 }

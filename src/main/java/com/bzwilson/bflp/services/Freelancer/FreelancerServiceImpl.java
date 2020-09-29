@@ -84,6 +84,8 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setFirstname(freelancer.getFirstname());
 
+        newfreelancer.setRating(freelancer.getRate());
+
         newfreelancer.setRating(freelancer.getRating());
 
         newfreelancer.setPassword(freelancer.getPassword());
@@ -126,6 +128,10 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setFirstname(freelancer.getFirstname());
         }
 
+        if (freelancer.getRate() != 0) {
+            currentfreelancer.setRate(freelancer.getRate());
+        }
+
         if (freelancer.getRating() != 0) {
             currentfreelancer.setRating(freelancer.getRating());
         }
@@ -143,17 +149,6 @@ public class FreelancerServiceImpl implements FreelancerService {
         }
 
         return freerepo.save(currentfreelancer);
-    }
-
-    @Override
-    public Freelancer apply(long fid, long pid) {
-
-        Freelancer fl = freerepo.findById(fid).orElseThrow(EntityNotFoundException::new);
-        CustomerPosts cp = postRepo.findById(pid).orElseThrow(EntityNotFoundException::new);
-
-        fl.getCustomerposts().add(cp);
-
-        return freerepo.save(fl);
     }
 }
 //

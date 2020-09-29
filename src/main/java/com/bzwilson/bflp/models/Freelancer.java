@@ -27,7 +27,6 @@ public class Freelancer {
     @Column(nullable = false)
     private String firstname;
 
-
     @Column
     private double rating;
 
@@ -36,13 +35,12 @@ public class Freelancer {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToMany()
-    @JoinTable(name = "freelancerpost",
-            joinColumns = @JoinColumn(name = "freelancerid"),
-            inverseJoinColumns = @JoinColumn(name = "postid"))
-    @JsonIgnoreProperties(value = {"freelancers", "customerposts"})
-    List<CustomerPosts> customerposts = new ArrayList<>();
-    
+
+    @ManyToMany(mappedBy = "freelancers")
+    @JsonIgnoreProperties(value = {"customerposts", "freelancers"})
+    private List<CustomerPosts> customerposts = new ArrayList<>();
+
+
 
     public Freelancer() {
     }

@@ -38,9 +38,13 @@ public class CustomerPosts {
             allowSetters = true)
     private Customer customer;
 
-    @ManyToMany(mappedBy = "customerposts")
-    @JsonIgnoreProperties(value = {"customerposts"})
-    private List<Freelancer> freelancers = new ArrayList<>();
+
+    @ManyToMany()
+    @JoinTable(name = "freelancerpost",
+            joinColumns = @JoinColumn(name = "postid"),
+            inverseJoinColumns = @JoinColumn(name = "freelancerid"))
+    @JsonIgnoreProperties(value = {"freelancers", "customerposts"})
+    List<Freelancer> freelancers = new ArrayList<>();
 
 
     public CustomerPosts() {

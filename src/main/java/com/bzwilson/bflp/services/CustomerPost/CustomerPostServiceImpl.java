@@ -4,11 +4,13 @@ import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.repositories.CustomerPostRepo;
+import com.bzwilson.bflp.repositories.FreelancerRepo;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private FreelancerRepo freerepo;
 
     @Override
     public List<CustomerPosts> findAll() {
@@ -130,5 +135,17 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         }
 
         return customerpostrepo.save(currentcustomerposts);
+    }
+
+
+    @Override
+    public CustomerPosts apply(long fid, long pid) {
+
+        CustomerPosts cp = customerpostrepo.findById(pid).orElseThrow(EntityNotFoundException::new);
+        Freelancer fl = freerepo.findById(fid).orElseThrow(EntityNotFoundException::new);
+
+        cp.getFreelancers().add(fl);
+
+        return customerpostrepo.save(cp);
     }
 }

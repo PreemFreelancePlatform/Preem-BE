@@ -51,7 +51,7 @@ public class FreelancerController {
 
         // do this for adding
 
-        freelancerServices.apply(freelancerid, postid);
+        customerPostService.apply(freelancerid, postid);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

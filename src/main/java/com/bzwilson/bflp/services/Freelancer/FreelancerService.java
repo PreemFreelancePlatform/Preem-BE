@@ -17,8 +17,6 @@ public interface FreelancerService {
             Freelancer freelancer,
             long id);
 
-    Freelancer apply(long fid, long pid);
-
 }
 
 
