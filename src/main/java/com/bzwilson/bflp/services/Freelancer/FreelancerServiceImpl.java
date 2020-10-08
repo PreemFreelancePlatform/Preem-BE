@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,16 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Autowired
     private CustomerPostRepo postRepo;
+
+
+    @Override
+    public Freelancer findByUsername(String username) {
+        Freelancer uu = freerepo.findByUsername(username.toLowerCase());
+        if (uu == null) {
+            throw new ResourceNotFoundException("User name " + username + " not found!");
+        }
+        return uu;
+    }
 
 
     @Override
@@ -84,15 +93,11 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setFirstname(freelancer.getFirstname());
 
-        newfreelancer.setRating(freelancer.getRate());
-
         newfreelancer.setRating(freelancer.getRating());
 
-        newfreelancer.setPassword(freelancer.getPassword());
+        newfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
 
-
-        // REMEMBER TO ENCRYPT PASSWORD
-//            customer.setPasswordNoEncrypt(customer.getPassword());
+        newfreelancer.setLOCKED_role(freelancer.getLOCKED_role());
 
 
         newfreelancer.getCustomerposts()
@@ -128,16 +133,17 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setFirstname(freelancer.getFirstname());
         }
 
-        if (freelancer.getRate() != 0) {
-            currentfreelancer.setRate(freelancer.getRate());
-        }
 
         if (freelancer.getRating() != 0) {
             currentfreelancer.setRating(freelancer.getRating());
         }
 
         if (freelancer.getPassword() != null) {
-            currentfreelancer.setPassword(freelancer.getPassword());
+            currentfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
+        }
+
+        if (freelancer.getLOCKED_role() != null) {
+            freelancer.setLOCKED_role(freelancer.getLOCKED_role());
         }
 
         if (freelancer.getCustomerposts().size() > 0) {
@@ -150,6 +156,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         return freerepo.save(currentfreelancer);
     }
+
 }
 //
 

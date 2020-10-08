@@ -1,5 +1,7 @@
 package com.bzwilson.bflp.controllers;
 
+import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
+import com.bzwilson.bflp.exceptions.ResourceFoundException;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.models.FreelancerMin;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
@@ -22,6 +24,9 @@ public class OpenFreelancercontroller {
     @Autowired
     private FreelancerService freelancerservice;
 
+    @Autowired
+    private HelperFunctions helper;
+
 
     @PostMapping(value = "/createnewfreelancer",
             consumes = {"application/json"},
@@ -33,32 +38,40 @@ public class OpenFreelancercontroller {
             throws
             URISyntaxException {
         // Create the user
-        Freelancer newfreelancer = new Freelancer();
 
-        newfreelancer.setEmail(newminFreelancer.getEmail());
-        newfreelancer.setUsername(newminFreelancer.getUsername());
-        newfreelancer.setFirstname(newminFreelancer.getFirstname());
-        newfreelancer.setPassword(newminFreelancer.getPassword());
+        if (helper.freelancerUserNameisAvailable(newminFreelancer.getUsername())) {
+
+            Freelancer newfreelancer = new Freelancer();
+
+            newfreelancer.setEmail(newminFreelancer.getEmail());
+            newfreelancer.setUsername(newminFreelancer.getUsername());
+            newfreelancer.setFirstname(newminFreelancer.getFirstname());
+            newfreelancer.setPassword(newminFreelancer.getPassword());
+            newfreelancer.setLOCKED_role("freelancer");
 
 
-        // add the default role of user
+            // add the default role of user
 //        List<UserRoles> newRoles = new ArrayList<>();
 //        newRoles.add(new UserRoles(newuser,
 //                roleService.findByName("user")));
 //        newuser.setRoles(newRoles);
 
-        newfreelancer = freelancerservice.save(newfreelancer);
+            newfreelancer = freelancerservice.save(newfreelancer);
 
-        // set the location header for the newly created resource
-        // The location comes from a different controller!
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newFreelancerURI = ServletUriComponentsBuilder.fromUriString(httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/users/freelancer/{freelancerid}")
-                .buildAndExpand(newfreelancer.getFreelancerid())
-                .toUri();
-        responseHeaders.setLocation(newFreelancerURI);
+            // set the location header for the newly created resource
+            // The location comes from a different controller!
+            HttpHeaders responseHeaders = new HttpHeaders();
+            URI newFreelancerURI = ServletUriComponentsBuilder.fromUriString(httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/users/freelancer/{freelancerid}")
+                    .buildAndExpand(newfreelancer.getFreelancerid())
+                    .toUri();
+            responseHeaders.setLocation(newFreelancerURI);
 
-        return new ResponseEntity<>(
-                responseHeaders,
-                HttpStatus.CREATED);
+            return new ResponseEntity<>(
+                    responseHeaders,
+                    HttpStatus.CREATED);
+
+        } else {
+            throw new ResourceFoundException("The Username " + newminFreelancer.getUsername() + " has been taken");
+        }
     }
 }

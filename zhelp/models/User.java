@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -128,11 +127,7 @@ public class User
 //        this.primaryemail = primaryemail;
 //        this.roles = roles;
 //    }
-    public User(
-            String username,
-            String password,
-            String primaryemail,
-            List<UserRoles> userRoles) {
+    public User(String username, String password, String primaryemail, List<UserRoles> userRoles {
         setUsername(username);
         setPassword(password);
         setPrimaryemail(primaryemail);

@@ -5,6 +5,9 @@ import com.bzwilson.bflp.models.Customer;
 import java.util.List;
 
 public interface CustomerService {
+
+    Customer findByUsername(String username);
+
     List<Customer> findAll();
 
     Customer findCustomerById(long id);
@@ -16,4 +19,5 @@ public interface CustomerService {
     Customer update(
             Customer customer,
             long id);
+
 }

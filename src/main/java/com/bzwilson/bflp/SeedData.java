@@ -74,18 +74,24 @@ public class SeedData
 //
         // making a customer in the db
         Customer c1 = new Customer(
-                "AgentBillster",
+                "billy1",
                 "something@yahoo.com",
-                "a password");
+                "admin", "admin");
 
         Customer c2 = new Customer(
-                "bb",
-                "b@yahoo.com",
-                "a v");
+                "cus1",
+                "asfasf",
+                "cus1", "customer");
 
-        Freelancer f1 = new Freelancer("freelancer@yahoo.com",
-                "firstname",
-                "lastname", 2.9, "password");
+        Freelancer f1 = new Freelancer("free1@gmail.com",
+                "billy2",
+                "bob", 2.5, "free1",
+                "admin");
+
+        Freelancer f2 = new Freelancer("asd",
+                "free2",
+                "ddd", 2.5, "free2",
+                "freelancer");
 
 
         // making a customer post and assigning it to the customer i made above
@@ -95,6 +101,8 @@ public class SeedData
         customerService.save(c1);
         customerService.save(c2);
         freelancerService.save(f1);
+        freelancerService.save(f2);
+
 //
 //        // data, user
 

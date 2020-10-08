@@ -1,5 +1,6 @@
 package com.bzwilson.bflp.services.customer;
 
+import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
@@ -18,9 +19,23 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepo customerrepo;
 
+    @Autowired
+    private HelperFunctions helper;
+
+
+    @Override
+    public Customer findByUsername(String username) {
+        Customer uu = customerrepo.findByUsername(username.toLowerCase());
+        if (uu == null) {
+            throw new ResourceNotFoundException("User name " + username + " not found!");
+        }
+        return uu;
+    }
+
 
     @Override
     public List<Customer> findAll() {
+
         List<Customer> list = new ArrayList<>();
         /*
          * findAll returns an iterator set.
@@ -51,7 +66,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    // NOTE THAT YOU NEED TO ENCRYPT PASSWORD ON MODELS AND HERE AS WELL
     @Transactional
     @Override
     public Customer save(Customer customer) {
@@ -67,26 +81,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
 
-        // delete the roles for the old user we are replacing
-        //not using roles rn
-//            for (UserRole ur: User.getUserroles() {
-//                 oldCustomer.getCustomerposts()) {
-//                deleteUserRole(ur.getUser()
-//                                .getUserid(),
-//                        ur.getRole()
-//                                .getRoleid());
-//            }
-//        }
-
-
         newCustomer.setUsername(customer.getUsername());
 
         newCustomer.setCustomeremail(customer.getCustomeremail());
 
-        // REMEMBER TO ENCRYPT PASSWORD
-//            customer.setPasswordNoEncrypt(customer.getPassword());
+        newCustomer.setPasswordNoEncrypt(customer.getPassword());
 
-        newCustomer.setPassword(customer.getPassword());
+        newCustomer.setLOCKED_role(customer.getLOCKED_role());
 
 
         newCustomer.getCustomerposts()
@@ -107,33 +108,46 @@ public class CustomerServiceImpl implements CustomerService {
         Customer currentCustomer = findCustomerById(id);
 
         // WILL I NEED THIS LATER??
-//        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
+        if (helper.isAuthorizedToMakeChange(currentCustomer.getUsername())) {
 
-        if (customer.getUsername() != null) {
-            currentCustomer.setUsername(customer.getUsername());
-        }
-
-        if (customer.getCustomeremail() != null) {
-            currentCustomer.setCustomeremail(customer.getCustomeremail());
-        }
-
-        // MAKESURE TO ENCRTYPT
-        if (customer.getPassword() != null) {
-            currentCustomer.setPassword(customer.getPassword());
-        }
-        // test to clear
-        if (customer.getCustomerposts()
-                .size() > 0) {
-            currentCustomer.getCustomerposts().clear();
-            for (CustomerPosts cp : customer.getCustomerposts()) {
-                currentCustomer.getCustomerposts()
-                        .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), currentCustomer));
+            if (customer.getUsername() != null) {
+                currentCustomer.setUsername(customer.getUsername());
             }
+
+            if (customer.getCustomeremail() != null) {
+                currentCustomer.setCustomeremail(customer.getCustomeremail());
+            }
+
+            // MAKESURE TO ENCRTYPT
+            if (customer.getPassword() != null) {
+                currentCustomer.setPasswordNoEncrypt(customer.getPassword());
+            }
+
+            if (customer.getLOCKED_role() != null) {
+                currentCustomer.setLOCKED_role(customer.getLOCKED_role());
+            }
+            // test to clear
+            if (customer.getCustomerposts()
+                    .size() > 0) {
+                currentCustomer.getCustomerposts().clear();
+                for (CustomerPosts cp : customer.getCustomerposts()) {
+                    currentCustomer.getCustomerposts()
+                            .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), currentCustomer));
+                }
+            }
+
+
+            return customerrepo.save(currentCustomer);
+        } else {
+
+            // note we should never get to this line but is needed for the compiler
+            // to recognize that this exception can be thrown
+            throw new ResourceNotFoundException(customer.getUsername() + " is not authorized to make change");
+            
         }
 
-
-        return customerrepo.save(currentCustomer);
     }
+
 }
 
 // IF NOT AUTH THROW EXCEPTION NOT AUTHORIZED

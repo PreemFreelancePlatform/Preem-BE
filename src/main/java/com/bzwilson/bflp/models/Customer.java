@@ -1,8 +1,11 @@
 package com.bzwilson.bflp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,21 +35,26 @@ public class Customer {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @NotNull
+    @Column(nullable = false)
+    private String LOCKED_role;
+
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JsonIgnoreProperties(value = "customer",
+    @JsonIgnoreProperties(value = {"customer", "freelancerpost"},
             allowSetters = true)
     private List<CustomerPosts> customerposts = new ArrayList<>();
 
     public Customer() {
     }
 
-    public Customer(String username, String customeremail, String password) {
-        this.username = username;
-        this.customeremail = customeremail;
-        this.password = password;
+    public Customer(String username, String customeremail, String password, String LOCKED_role) {
+        setUsername(username);
+        setCustomeremail(customeremail);
+        setPassword(password);
+        setLOCKED_role(LOCKED_role);
     }
 
     public long getCustomerid() {
@@ -77,8 +85,22 @@ public class Customer {
         return password;
     }
 
-    public void setPassword(String password) {
+
+    public void setPasswordNoEncrypt(String password) {
         this.password = password;
+    }
+
+    public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public String getLOCKED_role() {
+        return LOCKED_role;
+    }
+
+    public void setLOCKED_role(String LOCKED_role) {
+        this.LOCKED_role = LOCKED_role;
     }
 
     public List<CustomerPosts> getCustomerposts() {
@@ -88,4 +110,19 @@ public class Customer {
     public void setCustomerposts(List<CustomerPosts> customerposts) {
         this.customerposts = customerposts;
     }
+
+
+    @JsonIgnore
+    public List<SimpleGrantedAuthority> getAuthority() {
+        List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
+
+        String myRole = "ROLE_" + this.getLOCKED_role()
+                .toUpperCase();
+
+        rtnList.add(new SimpleGrantedAuthority(myRole));
+
+        return rtnList;
+    }
+
+
 }

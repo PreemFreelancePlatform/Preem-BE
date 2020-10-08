@@ -6,12 +6,13 @@ import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/freelancer")
 public class FreelancerController {
 
 
@@ -22,6 +23,8 @@ public class FreelancerController {
     private CustomerPostService customerPostService;
 
 
+    // ADMIN ONLY
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @GetMapping(value = "/freelancers",
             produces = {"application/json"})
     public ResponseEntity<?> findAll() {
@@ -31,6 +34,8 @@ public class FreelancerController {
                 HttpStatus.OK);
     }
 
+    // FREELANCER AUTHORIZED IF I WANT TO GET MYSELF USE CURRENTLY AUTHENTICATED METHOD
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER', 'ROLE_FREELANCER')")
     @GetMapping(value = "/freelancer/{id}",
             produces = {"application/json"})
     public ResponseEntity<?> FindFreelancerById(
@@ -41,6 +46,8 @@ public class FreelancerController {
                 HttpStatus.OK);
     }
 
+    // FREELANCER AUTHORIZED  CONSIDER USING AUTHENTICATED USER FOR THIS LATER
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
     @PostMapping(value = "/freelancer/{freelancerid}/post/{postid}")
     public ResponseEntity<?> AddFreelancertopost(
             @PathVariable
@@ -57,6 +64,8 @@ public class FreelancerController {
     }
 
 
+    // FREELANCER AUTHORIZED
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
     @PatchMapping(value = "/freelancer/{id}",
             consumes = {"application/json"})
     public ResponseEntity<?> updatePost(
@@ -69,16 +78,20 @@ public class FreelancerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/freelancer/{freelancerid}")
-    public ResponseEntity<?> savePost(
-            @RequestBody Freelancer freelancer,
-            @PathVariable long freelancerid) {
-        freelancer.setFreelancerid(freelancerid);
-        freelancerServices.save(freelancer);
+    // ADMIN ONLY
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @PutMapping(value = "/freelancer/{freelancerid}")
+//    public ResponseEntity<?> savePost(
+//            @RequestBody Freelancer freelancer,
+//            @PathVariable long freelancerid) {
+//        freelancer.setFreelancerid(freelancerid);
+//        freelancerServices.save(freelancer);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
+    // ADMIN ONLY
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(value = "freelancer/{freelancerid}")
     public ResponseEntity<?> deleteUserById(
             @PathVariable

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,8 @@ public class PostController {
     @Autowired
     private CustomerService customerService;
 
+
+    @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
     @GetMapping(value = "/posts",
             produces = {"application/json"})
     public ResponseEntity<?> findAll() {
@@ -34,6 +37,8 @@ public class PostController {
                 HttpStatus.OK);
     }
 
+    // CUSTOMER ONLY
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{postid}",
             produces = {"application/json"})
     public ResponseEntity<?> findPostById(
@@ -44,6 +49,8 @@ public class PostController {
                 HttpStatus.OK);
     }
 
+    // CUSTOMER ONLY
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @PostMapping(value = "/customer/{customerid}",
             consumes = {"application/json"})
     public ResponseEntity<?> addNewPost(
@@ -75,6 +82,8 @@ public class PostController {
                 HttpStatus.CREATED);
     }
 
+    // CUSTOMER ONLY
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @PatchMapping(value = "/{postid}",
             consumes = {"application/json"})
     public ResponseEntity<?> updatePost(
@@ -87,6 +96,8 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // CUSTOMER CAN EITHER DELETE POST OR WILL AUTO DELETE AFTER FREELANCER IS HIRED
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @DeleteMapping(value = "/{postid}")
     public ResponseEntity<?> deleteUserById(
             @PathVariable

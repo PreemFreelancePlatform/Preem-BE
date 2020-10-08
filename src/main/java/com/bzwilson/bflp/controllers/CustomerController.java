@@ -5,12 +5,13 @@ import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/customer")
 public class CustomerController {
 
     @Autowired
@@ -24,6 +25,18 @@ public class CustomerController {
      * @return JSON list of all users with a status of OK
      **/
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping(value = "/customer/name/{userName}",
+            produces = {"application/json"})
+    public ResponseEntity<?> getuserbyname(
+            @PathVariable
+                    String userName) {
+        Customer u = customerService.findByUsername(userName);
+        return new ResponseEntity<>(u,
+                HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(value = "/customers",
             produces = {"application/json"})
     public ResponseEntity<?> findAll() {
@@ -32,7 +45,8 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
-
+    // CUSTOMER SHOULD BE ABLE TO SEE HIMSELF WITHER HERE OR GET AUTHENTICATED USER
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER', 'ROLE_FREELANCER')")
     @GetMapping(value = "/customer/{customerid}",
             produces = {"application/json"})
     public ResponseEntity<?> findCustomerById(
@@ -43,6 +57,7 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
+    // NEW CUSTOMER IS ALREADY BEING HANDLED
 
 //    @PostMapping(value = "/customer",
 //            consumes = {"application/json"})
@@ -68,22 +83,25 @@ public class CustomerController {
 //                HttpStatus.CREATED);
 //    }
 
-    @PutMapping(value = "/customer/{customerid}",
-            consumes = {"application/json"})
-    public ResponseEntity<?> updateFullUser(
+    // CUSTOMER WILL BE ABLE TO UPDATE HIMSELF THRU UPDATE METHOD
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @PutMapping(value = "/customer/{customerid}",
+//            consumes = {"application/json"})
+//    public ResponseEntity<?> updateFullUser(
+//
+//            @RequestBody
+//                    Customer updateCustomer,
+//
+//            @PathVariable
+//                    long customerid) {
+//        updateCustomer.setCustomerid(customerid);
+//        customerService.save(updateCustomer);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
-            @RequestBody
-                    Customer updateCustomer,
-
-            @PathVariable
-                    long customerid) {
-        updateCustomer.setCustomerid(customerid);
-        customerService.save(updateCustomer);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
+    // CUSTOMER WILL BE ABLE TO UPDATE HIS OWN INFORMATION
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @PatchMapping(value = "/customer/{customerid}",
             consumes = {"application/json"})
     public ResponseEntity<?> updateUser(
@@ -96,7 +114,8 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    // ADMIN ONLY. REFRAIN FROM USING. IF I WANT TO BAN USER THEN I WILL CHANGE ROLE TO BAN
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/customer/{customerid}")
     public ResponseEntity<?> deleteUserById(
 
