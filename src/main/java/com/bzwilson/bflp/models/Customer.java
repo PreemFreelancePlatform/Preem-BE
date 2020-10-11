@@ -39,6 +39,10 @@ public class Customer {
     @Column(nullable = false)
     private String LOCKED_role;
 
+    @Column
+    private Boolean tutorial;
+    private Boolean setup;
+
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
@@ -50,11 +54,13 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String username, String customeremail, String password, String LOCKED_role) {
+    public Customer(String username, String customeremail, String password, String LOCKED_role, Boolean tutorial, Boolean setup) {
         setUsername(username);
         setCustomeremail(customeremail);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
+        setTutorial(tutorial);
+        setSetup(setup);
     }
 
     public long getCustomerid() {
@@ -101,6 +107,22 @@ public class Customer {
 
     public void setLOCKED_role(String LOCKED_role) {
         this.LOCKED_role = LOCKED_role;
+    }
+
+    public Boolean getTutorial() {
+        return tutorial;
+    }
+
+    public void setTutorial(Boolean tutorial) {
+        this.tutorial = tutorial;
+    }
+
+    public Boolean getSetup() {
+        return setup;
+    }
+
+    public void setSetup(Boolean setup) {
+        this.setup = setup;
     }
 
     public List<CustomerPosts> getCustomerposts() {

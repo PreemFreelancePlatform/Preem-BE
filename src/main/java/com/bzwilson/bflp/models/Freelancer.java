@@ -42,6 +42,10 @@ public class Freelancer {
     @Column(nullable = false)
     private String LOCKED_role;
 
+    @Column
+    private Boolean tutorial;
+    private Boolean setup;
+
     @ManyToMany(mappedBy = "freelancers")
     @JsonIgnoreProperties(value = {"freelancers"})
     private List<CustomerPosts> customerposts = new ArrayList<>();
@@ -50,13 +54,15 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String firstname, double rating, String password, String LOCKED_role) {
+    public Freelancer(String email, String username, String firstname, double rating, String password, String LOCKED_role, Boolean tutorial, Boolean setup) {
         setEmail(email);
         setUsername(username);
         setFirstname(firstname);
         setRating(rating);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
+        setTutorial(tutorial);
+        setSetup(setup);
     }
 
     public long getFreelancerid() {
@@ -118,6 +124,22 @@ public class Freelancer {
 
     public void setLOCKED_role(String LOCKED_role) {
         this.LOCKED_role = LOCKED_role;
+    }
+
+    public Boolean getTutorial() {
+        return tutorial;
+    }
+
+    public void setTutorial(Boolean tutorial) {
+        this.tutorial = tutorial;
+    }
+
+    public Boolean getSetup() {
+        return setup;
+    }
+
+    public void setSetup(Boolean setup) {
+        this.setup = setup;
     }
 
     public List<CustomerPosts> getCustomerposts() {

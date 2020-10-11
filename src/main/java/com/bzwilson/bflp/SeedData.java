@@ -76,22 +76,22 @@ public class SeedData
         Customer c1 = new Customer(
                 "billy1",
                 "something@yahoo.com",
-                "admin", "admin");
+                "admin", "admin", false, false);
 
         Customer c2 = new Customer(
                 "cus1",
                 "asfasf",
-                "cus1", "customer");
+                "cus1", "customer", false, false);
 
         Freelancer f1 = new Freelancer("free1@gmail.com",
                 "billy2",
-                "bob", 2.5, "free1",
-                "admin");
+                "bob", 2.5, "admin",
+                "admin", false, false);
 
         Freelancer f2 = new Freelancer("asd",
                 "free2",
                 "ddd", 2.5, "free2",
-                "freelancer");
+                "freelancer", false, false);
 
 
         // making a customer post and assigning it to the customer i made above

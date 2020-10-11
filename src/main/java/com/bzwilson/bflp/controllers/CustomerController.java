@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.controllers;
 
 import com.bzwilson.bflp.models.Customer;
+import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private FreelancerService freelancerService;
 
 
     /**
@@ -122,6 +126,24 @@ public class CustomerController {
             @PathVariable
                     long customerid) {
         customerService.delete(customerid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
+    @PatchMapping(value = "/{cid}/tutorial")
+    public ResponseEntity<?> setTut(
+            @PathVariable
+                    long cid) {
+        customerService.didTutorial(cid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
+    @PatchMapping(value = "/{cid}/setup")
+    public ResponseEntity<?> setSetup(
+            @PathVariable
+                    long cid) {
+        customerService.didTutorial(cid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

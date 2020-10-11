@@ -20,4 +20,9 @@ public interface CustomerService {
             Customer customer,
             long id);
 
+    Customer didTutorial(long id);
+
+    Customer isSetup(long id);
+
+
 }

@@ -100,5 +100,23 @@ public class FreelancerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
+    @PatchMapping(value = "/{fid}/tutorial")
+    public ResponseEntity<?> setTut(
+            @PathVariable
+                    long fid) {
+        freelancerServices.didTutorial(fid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
+    @PatchMapping(value = "/{fid}/setup")
+    public ResponseEntity<?> setSetup(
+            @PathVariable
+                    long fid) {
+        freelancerServices.isSetup(fid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

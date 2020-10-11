@@ -2,6 +2,7 @@ package com.bzwilson.bflp.services.customer;
 
 import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
+import com.bzwilson.bflp.exceptions.RestrictionException;
 import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.repositories.CustomerRepo;
@@ -89,6 +90,10 @@ public class CustomerServiceImpl implements CustomerService {
 
         newCustomer.setLOCKED_role(customer.getLOCKED_role());
 
+        newCustomer.setTutorial(customer.getTutorial());
+
+        newCustomer.setSetup(customer.getSetup());
+
 
         newCustomer.getCustomerposts()
                 .clear();
@@ -99,6 +104,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customerrepo.save(newCustomer);
     }
+
 
     @Transactional
     @Override
@@ -124,7 +130,7 @@ public class CustomerServiceImpl implements CustomerService {
             }
 
             if (customer.getLOCKED_role() != null) {
-                currentCustomer.setLOCKED_role(customer.getLOCKED_role());
+                throw new RestrictionException("you cannot change your role");
             }
             // test to clear
             if (customer.getCustomerposts()
@@ -140,14 +146,26 @@ public class CustomerServiceImpl implements CustomerService {
             return customerrepo.save(currentCustomer);
         } else {
 
-            // note we should never get to this line but is needed for the compiler
-            // to recognize that this exception can be thrown
             throw new ResourceNotFoundException(customer.getUsername() + " is not authorized to make change");
-            
+
         }
 
+
+    }
+
+    @Override
+    public Customer didTutorial(long id) {
+        Customer currentCustomer = findCustomerById(id);
+        currentCustomer.setTutorial(true);
+        return customerrepo.save(currentCustomer);
+    }
+
+    @Override
+    public Customer isSetup(long id) {
+        Customer currentCustomer = findCustomerById(id);
+        currentCustomer.setSetup(true);
+        return customerrepo.save(currentCustomer);
     }
 
 }
 
-// IF NOT AUTH THROW EXCEPTION NOT AUTHORIZED

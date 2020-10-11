@@ -48,6 +48,8 @@ public class OpenFreelancercontroller {
             newfreelancer.setFirstname(newminFreelancer.getFirstname());
             newfreelancer.setPassword(newminFreelancer.getPassword());
             newfreelancer.setLOCKED_role("freelancer");
+            newfreelancer.setTutorial(false);
+            newfreelancer.setSetup(false);
 
 
             // add the default role of user

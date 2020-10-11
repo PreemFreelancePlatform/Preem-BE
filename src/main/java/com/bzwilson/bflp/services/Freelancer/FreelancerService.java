@@ -20,6 +20,9 @@ public interface FreelancerService {
             Freelancer freelancer,
             long id);
 
+    Freelancer didTutorial(long id);
+
+    Freelancer isSetup(long id);
 }
 
 

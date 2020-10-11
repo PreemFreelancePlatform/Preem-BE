@@ -54,6 +54,8 @@ public class OpenCustomerController {
             newcustomer.setPassword(newmincustomer.getPassword());
             newcustomer.setCustomeremail(newmincustomer.getCustomeremail());
             newcustomer.setLOCKED_role("customer");
+            newcustomer.setTutorial(false);
+            newcustomer.setSetup(false);
 
             // add the default role of user
 //        List<UserRoles> newRoles = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.services.Freelancer;
 
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
+import com.bzwilson.bflp.exceptions.RestrictionException;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.repositories.CustomerPostRepo;
@@ -99,6 +100,10 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setLOCKED_role(freelancer.getLOCKED_role());
 
+        newfreelancer.setTutorial(freelancer.getTutorial());
+
+        newfreelancer.setSetup(freelancer.getSetup());
+
 
         newfreelancer.getCustomerposts()
                 .clear();
@@ -143,7 +148,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         }
 
         if (freelancer.getLOCKED_role() != null) {
-            freelancer.setLOCKED_role(freelancer.getLOCKED_role());
+            throw new RestrictionException("you cannot change your role");
         }
 
         if (freelancer.getCustomerposts().size() > 0) {
@@ -155,6 +160,21 @@ public class FreelancerServiceImpl implements FreelancerService {
         }
 
         return freerepo.save(currentfreelancer);
+    }
+
+
+    @Override
+    public Freelancer didTutorial(long id) {
+        Freelancer currentFreelancer = FindFreelancerById(id);
+        currentFreelancer.setTutorial(true);
+        return freerepo.save(currentFreelancer);
+    }
+
+    @Override
+    public Freelancer isSetup(long id) {
+        Freelancer currentFreelancer = FindFreelancerById(id);
+        currentFreelancer.setSetup(true);
+        return freerepo.save(currentFreelancer);
     }
 
 }
