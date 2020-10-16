@@ -5,10 +5,15 @@ import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import com.bzwilson.bflp.services.customer.CustomerService;
+import com.github.javafaker.Faker;
+import com.github.javafaker.service.FakeValuesService;
+import com.github.javafaker.service.RandomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Locale;
 
 /**
  * SeedData puts both known and random data into the database. It implements CommandLineRunner.
@@ -85,12 +90,12 @@ public class SeedData
 
         Freelancer f1 = new Freelancer("free1@gmail.com",
                 "billy2",
-                "bob", 2.5, "admin",
+                "admin",
                 "admin", false, false);
 
         Freelancer f2 = new Freelancer("asd",
                 "free2",
-                "ddd", 2.5, "free2",
+                "free2",
                 "freelancer", false, false);
 
 
@@ -104,34 +109,36 @@ public class SeedData
         freelancerService.save(f2);
 
 //
-//        // data, user
+        // data, user
 
-//         using JavaFaker create a bunch of regular users
-//         https://www.baeldung.com/java-faker
-//         https://www.baeldung.com/regular-expressions-java
 
-//        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-US"),
-//                                                                    new RandomService());
-//        Faker nameFaker = new Faker(new Locale("en-US"));
-//
-//        for (int i = 0; i < 25; i++)
-//        {
-//            new User();
-//            User fakeUser;
-//
-//            users = new ArrayList<>();
-//            users.add(new UserRoles(new User(),
-//                                    r2));
-//            fakeUser = new User(nameFaker.name()
-//                                        .username(),
-//                                "password",
-//                                nameFaker.internet()
-//                                        .emailAddress(),
-//                                users);
-//            fakeUser.getUseremails()
-//                    .add(new Useremail(fakeUser,
-//                                       fakeValuesService.bothify("????##@gmail.com")));
-//            userService.save(fakeUser);
+        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-US"),
+                new RandomService());
+        Faker nameFaker = new Faker(new Locale("en-US"));
 
+        for (int i = 0; i < 15; i++) {
+            new Freelancer();
+            Freelancer freelancer;
+
+            Freelancer fakeFreelancer = new Freelancer(nameFaker.internet()
+                    .emailAddress(), nameFaker.name()
+                    .username(),
+                    "password", "freelancer", true, true
+            );
+
+
+            new Customer();
+            Customer fakecustomer = new Customer(nameFaker.name()
+                    .username(), nameFaker.internet()
+                    .emailAddress(),
+                    "password", "customer", true, true
+            );
+
+
+            freelancerService.save(fakeFreelancer);
+            customerService.save(fakecustomer);
+
+
+        }
     }
 }

@@ -69,10 +69,10 @@ public class FreelancerServiceImpl implements FreelancerService {
         Freelancer newfreelancer = new Freelancer();
 
         // if we get an id back then set it to new customer
-        if (freelancer.getFreelancerid() != 0) {
+        if (freelancer.getId() != 0) {
 //            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
 //                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
-            newfreelancer.setFreelancerid(freelancer.getFreelancerid());
+            newfreelancer.setId(freelancer.getId());
         }
 
 
@@ -92,9 +92,6 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setUsername(freelancer.getUsername());
 
-        newfreelancer.setFirstname(freelancer.getFirstname());
-
-        newfreelancer.setRating(freelancer.getRating());
 
         newfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
 
@@ -134,14 +131,6 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setUsername(freelancer.getUsername());
         }
 
-        if (freelancer.getFirstname() != null) {
-            currentfreelancer.setFirstname(freelancer.getFirstname());
-        }
-
-
-        if (freelancer.getRating() != 0) {
-            currentfreelancer.setRating(freelancer.getRating());
-        }
 
         if (freelancer.getPassword() != null) {
             currentfreelancer.setPasswordnoEncrypt(freelancer.getPassword());

@@ -17,7 +17,7 @@ public class Freelancer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long freelancerid;
+    private long id;
 
 
     @NotNull
@@ -26,12 +26,6 @@ public class Freelancer {
     private String email;
     private String username;
 
-    @NotNull
-    @Column(nullable = false)
-    private String firstname;
-
-    @Column
-    private double rating;
 
     @NotNull
     @Column(nullable = false)
@@ -54,23 +48,22 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String firstname, double rating, String password, String LOCKED_role, Boolean tutorial, Boolean setup) {
+    public Freelancer(String email, String username, String password, String LOCKED_role, Boolean tutorial, Boolean setup) {
         setEmail(email);
         setUsername(username);
-        setFirstname(firstname);
-        setRating(rating);
+
         setPassword(password);
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
         setSetup(setup);
     }
 
-    public long getFreelancerid() {
-        return freelancerid;
+    public long getId() {
+        return id;
     }
 
-    public void setFreelancerid(long freelancerid) {
-        this.freelancerid = freelancerid;
+    public void setId(long freelancerid) {
+        this.id = freelancerid;
     }
 
     public String getEmail() {
@@ -89,22 +82,7 @@ public class Freelancer {
         this.username = username;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
+    
     public String getPassword() {
         return password;
     }

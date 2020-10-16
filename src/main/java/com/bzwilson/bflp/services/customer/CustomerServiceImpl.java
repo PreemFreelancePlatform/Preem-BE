@@ -75,10 +75,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer newCustomer = new Customer();
 
         // if we get an id back then set it to new customer
-        if (customer.getCustomerid() != 0) {
+        if (customer.getId() != 0) {
 //            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
 //                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
-            newCustomer.setCustomerid(customer.getCustomerid());
+            newCustomer.setId(customer.getId());
         }
 
 

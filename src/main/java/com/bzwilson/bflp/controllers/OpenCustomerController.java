@@ -69,7 +69,7 @@ public class OpenCustomerController {
             // The location comes from a different controller!
             HttpHeaders responseHeaders = new HttpHeaders();
             URI newCustomerURI = ServletUriComponentsBuilder.fromUriString(httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/users/customer/{customerid}")
-                    .buildAndExpand(newcustomer.getCustomerid())
+                    .buildAndExpand(newcustomer.getId())
                     .toUri();
             responseHeaders.setLocation(newCustomerURI);
 

@@ -45,7 +45,6 @@ public class OpenFreelancercontroller {
 
             newfreelancer.setEmail(newminFreelancer.getEmail());
             newfreelancer.setUsername(newminFreelancer.getUsername());
-            newfreelancer.setFirstname(newminFreelancer.getFirstname());
             newfreelancer.setPassword(newminFreelancer.getPassword());
             newfreelancer.setLOCKED_role("freelancer");
             newfreelancer.setTutorial(false);
@@ -64,7 +63,7 @@ public class OpenFreelancercontroller {
             // The location comes from a different controller!
             HttpHeaders responseHeaders = new HttpHeaders();
             URI newFreelancerURI = ServletUriComponentsBuilder.fromUriString(httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/users/freelancer/{freelancerid}")
-                    .buildAndExpand(newfreelancer.getFreelancerid())
+                    .buildAndExpand(newfreelancer.getId())
                     .toUri();
             responseHeaders.setLocation(newFreelancerURI);
 

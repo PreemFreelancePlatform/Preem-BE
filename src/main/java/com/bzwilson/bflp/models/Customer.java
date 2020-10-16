@@ -20,7 +20,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long customerid;
+    private long id;
 
 
     @NotNull
@@ -63,12 +63,12 @@ public class Customer {
         setSetup(setup);
     }
 
-    public long getCustomerid() {
-        return customerid;
+    public long getId() {
+        return id;
     }
 
-    public void setCustomerid(long customerid) {
-        this.customerid = customerid;
+    public void setId(long customerid) {
+        this.id = customerid;
     }
 
     public String getUsername() {

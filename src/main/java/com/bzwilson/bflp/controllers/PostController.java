@@ -81,7 +81,7 @@ public class PostController {
                 responseHeaders,
                 HttpStatus.CREATED);
     }
-
+    
     // CUSTOMER ONLY
     @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @PatchMapping(value = "/{postid}",
