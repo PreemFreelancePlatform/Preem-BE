@@ -36,6 +36,10 @@ public class Freelancer {
     @Column(nullable = false)
     private String LOCKED_role;
 
+    @Lob
+    @Column(name = "picByte", length = 1000)
+    private byte[] picByte;
+
     @Column
     private Boolean tutorial;
     private Boolean setup;
@@ -48,14 +52,14 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String password, String LOCKED_role, Boolean tutorial, Boolean setup) {
+    public Freelancer(String email, String username, String password, String LOCKED_role, byte[] picByte, Boolean tutorial, Boolean setup) {
         setEmail(email);
         setUsername(username);
-
         setPassword(password);
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
         setSetup(setup);
+        setPicByte(picByte);
     }
 
     public long getId() {
@@ -82,7 +86,7 @@ public class Freelancer {
         this.username = username;
     }
 
-    
+
     public String getPassword() {
         return password;
     }
@@ -102,6 +106,14 @@ public class Freelancer {
 
     public void setLOCKED_role(String LOCKED_role) {
         this.LOCKED_role = LOCKED_role;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+    
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
     }
 
     public Boolean getTutorial() {

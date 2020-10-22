@@ -29,8 +29,7 @@ public class FreelancerMin {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
-
-
+    
     public String getPassword() {
         return password;
     }

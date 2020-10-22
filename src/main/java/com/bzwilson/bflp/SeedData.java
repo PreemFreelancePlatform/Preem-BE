@@ -91,12 +91,12 @@ public class SeedData
         Freelancer f1 = new Freelancer("free1@gmail.com",
                 "billy2",
                 "admin",
-                "admin", false, false);
+                "admin", null, false, false);
 
         Freelancer f2 = new Freelancer("asd",
                 "free2",
                 "free2",
-                "freelancer", false, false);
+                "freelancer", null, false, false);
 
 
         // making a customer post and assigning it to the customer i made above
@@ -123,7 +123,7 @@ public class SeedData
             Freelancer fakeFreelancer = new Freelancer(nameFaker.internet()
                     .emailAddress(), nameFaker.name()
                     .username(),
-                    "password", "freelancer", true, true
+                    "password", "freelancer", null, true, true
             );
 
 

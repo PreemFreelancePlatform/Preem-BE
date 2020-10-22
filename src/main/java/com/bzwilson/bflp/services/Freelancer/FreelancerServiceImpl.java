@@ -25,7 +25,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Autowired
     private CustomerPostRepo postRepo;
 
-
+    
     @Override
     public Freelancer findByUsername(String username) {
         Freelancer uu = freerepo.findByUsername(username.toLowerCase());
@@ -97,6 +97,8 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setLOCKED_role(freelancer.getLOCKED_role());
 
+        newfreelancer.setPicByte(freelancer.getPicByte());
+
         newfreelancer.setTutorial(freelancer.getTutorial());
 
         newfreelancer.setSetup(freelancer.getSetup());
@@ -138,6 +140,10 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         if (freelancer.getLOCKED_role() != null) {
             throw new RestrictionException("you cannot change your role");
+        }
+
+        if (freelancer.getPicByte() != null) {
+            currentfreelancer.setPicByte(freelancer.getPicByte());
         }
 
         if (freelancer.getCustomerposts().size() > 0) {

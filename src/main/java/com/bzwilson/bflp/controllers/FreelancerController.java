@@ -1,6 +1,8 @@
 package com.bzwilson.bflp.controllers;
 
+import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.models.Freelancer;
+import com.bzwilson.bflp.repositories.FreelancerRepo;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,6 +25,12 @@ public class FreelancerController {
 
     @Autowired
     private CustomerPostService customerPostService;
+
+    @Autowired
+    private FreelancerRepo freelancerRepo;
+
+    @Autowired
+    private HelperFunctions helper;
 
 
     // ADMIN ONLY
@@ -118,5 +128,19 @@ public class FreelancerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
+    @PostMapping(value = "/{fid}/upload")
+    public ResponseEntity.BodyBuilder uploadImage(
+            @PathVariable
+                    long fid,
+            @RequestParam("imageFile")
+                    MultipartFile file) throws IOException {
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        Freelancer currentfreelancer = freelancerServices.FindFreelancerById(fid);
+        currentfreelancer.setPicByte(helper.compressBytes(file.getBytes()));
+        freelancerServices.save(currentfreelancer);
+        return ResponseEntity.status(HttpStatus.OK);
+
+    }
 
 }
