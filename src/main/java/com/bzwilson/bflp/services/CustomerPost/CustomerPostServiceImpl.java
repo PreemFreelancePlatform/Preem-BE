@@ -96,7 +96,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
                 .clear();
         for (Freelancer fl : customerposts.getFreelancers()) {
             newCustomerPosts.getFreelancers()
-                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getPassword(), fl.getLOCKED_role(), fl.getPicByte(), fl.getTutorial(), fl.getSetup()));
+                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(),  fl.getPicByte()));
         }
 
         return customerpostrepo.save(newCustomerPosts);
@@ -130,7 +130,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.getFreelancers().clear();
             for (Freelancer fl : customerpost.getFreelancers()) {
                 currentcustomerposts.getFreelancers()
-                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getPassword(), fl.getLOCKED_role(), fl.getPicByte(), fl.getTutorial(), fl.getSetup()));
+                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getPicByte()));
             }
         }
 

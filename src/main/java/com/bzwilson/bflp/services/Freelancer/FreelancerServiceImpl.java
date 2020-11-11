@@ -97,11 +97,11 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setLOCKED_role(freelancer.getLOCKED_role());
 
-        newfreelancer.setPicByte(freelancer.getPicByte());
-
         newfreelancer.setTutorial(freelancer.getTutorial());
 
         newfreelancer.setSetup(freelancer.getSetup());
+
+        newfreelancer.setPicByte(freelancer.getPicByte());
 
 
         newfreelancer.getCustomerposts()
@@ -145,6 +145,8 @@ public class FreelancerServiceImpl implements FreelancerService {
         if (freelancer.getPicByte() != null) {
             currentfreelancer.setPicByte(freelancer.getPicByte());
         }
+
+
 
         if (freelancer.getCustomerposts().size() > 0) {
             for (CustomerPosts cp : freelancer.getCustomerposts()) {

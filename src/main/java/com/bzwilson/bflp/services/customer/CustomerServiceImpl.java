@@ -94,6 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         newCustomer.setSetup(customer.getSetup());
 
+        newCustomer.setPicByte(customer.getPicByte());
 
         newCustomer.getCustomerposts()
                 .clear();
@@ -131,6 +132,18 @@ public class CustomerServiceImpl implements CustomerService {
 
             if (customer.getLOCKED_role() != null) {
                 throw new RestrictionException("you cannot change your role");
+            }
+
+            if (customer.getTutorial() != null) {
+                currentCustomer.setTutorial(customer.getTutorial());
+            }
+
+            if (customer.getSetup() != null) {
+                currentCustomer.setSetup(customer.getSetup());
+            }
+
+            if (customer.getPicByte() != null) {
+                currentCustomer.setPicByte(customer.getPicByte());
             }
             // test to clear
             if (customer.getCustomerposts()

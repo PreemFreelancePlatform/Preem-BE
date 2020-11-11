@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.controllers;
 
 import com.bzwilson.bflp.models.Customer;
+import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -146,6 +149,16 @@ public class CustomerController {
         customerService.didTutorial(cid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+//    @PostMapping("/upload/{customerid}")
+//    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
+//            long customerid) throws IOException {
+//        Customer guy = customerService.findCustomerById(customerid);
+//        guy.setPicByte(helper.compressBytes(file.getBytes()));
+//        freelancerServices.save(guy);
+//        return ResponseEntity.status(HttpStatus.OK);
+//
+//    }
 
 
 }

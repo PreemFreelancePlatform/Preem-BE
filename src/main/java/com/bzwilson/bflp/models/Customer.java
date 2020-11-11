@@ -43,6 +43,9 @@ public class Customer {
     private Boolean tutorial;
     private Boolean setup;
 
+    @Lob
+    @Column
+    private byte[] picByte;
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
@@ -54,13 +57,14 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String username, String customeremail, String password, String LOCKED_role, Boolean tutorial, Boolean setup) {
+    public Customer(String username, String customeremail, String password, String LOCKED_role, Boolean tutorial, Boolean setup, byte[] picByte) {
         setUsername(username);
         setCustomeremail(customeremail);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
         setSetup(setup);
+        setPicByte(picByte);
     }
 
     public long getId() {
@@ -90,7 +94,6 @@ public class Customer {
     public String getPassword() {
         return password;
     }
-
 
     public void setPasswordNoEncrypt(String password) {
         this.password = password;
@@ -123,6 +126,14 @@ public class Customer {
 
     public void setSetup(Boolean setup) {
         this.setup = setup;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
     }
 
     public List<CustomerPosts> getCustomerposts() {

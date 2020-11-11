@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity.BodyBuilder;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -128,19 +130,15 @@ public class FreelancerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
-    @PostMapping(value = "/{fid}/upload")
-    public ResponseEntity.BodyBuilder uploadImage(
-            @PathVariable
-                    long fid,
-            @RequestParam("imageFile")
-                    MultipartFile file) throws IOException {
-        System.out.println("Original Image Byte Size - " + file.getBytes().length);
-        Freelancer currentfreelancer = freelancerServices.FindFreelancerById(fid);
-        currentfreelancer.setPicByte(helper.compressBytes(file.getBytes()));
-        freelancerServices.save(currentfreelancer);
-        return ResponseEntity.status(HttpStatus.OK);
 
-    }
+//    @PostMapping("/upload/{freelancerid}")
+//        public BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
+//                long freelancerid) throws IOException {
+//            Freelancer guy = freelancerServices.FindFreelancerById(freelancerid);
+//            guy.setPicByte(helper.compressBytes(file.getBytes()));
+//            freelancerServices.save(guy);
+//            return ResponseEntity.status(HttpStatus.OK);
+//
+//            }
 
 }

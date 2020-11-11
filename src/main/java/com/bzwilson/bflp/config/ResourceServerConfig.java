@@ -47,7 +47,7 @@ public class ResourceServerConfig
                 .permitAll()
                 .antMatchers(HttpMethod.PUT)
                 .hasAnyRole("ADMIN")
-                .antMatchers("/customer/**", "/freelancer/**", "/customer/post/**",
+                .antMatchers("/customer/**", "/freelancer/**",
                         "/oauth/revoke-token",
                         "/logout")
                 .authenticated()

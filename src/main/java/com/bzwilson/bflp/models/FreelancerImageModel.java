@@ -1,47 +1,51 @@
 //package com.bzwilson.bflp.models;
 //
+//
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//
 //import javax.persistence.*;
 //
 //@Entity
 //@Table(name = "imagemodel")
-//public class ImageModel {
+//public class FreelancerImageModel {
 //
 //    @Id
-//    @Column(name = "id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private long imageid;
 //
-//    @Column(name = "name")
+//    @Column
 //    private String name;
 //
-//    @Column(name = "type")
+//    @Column
 //    private String type;
 //
 //
-//    //image bytes can have large lengths so we specify a value
+//    @OneToOne(mappedBy = "image")
+//    @JsonIgnoreProperties(value = {"imagemodel"})
+//    private Freelancer freelancer;
 //
+//    //image bytes can have large lengths so we specify a value
 //    //which is more than the default length for picByte column
 //
 //    @Lob
-//    @Column(name = "picByte", length = 1000)
+//    @Column
 //    private byte[] picByte;
 //
-//
-//    public ImageModel() {
+//    public FreelancerImageModel() {
 //    }
 //
-//    public ImageModel(String name, String type, byte[] picByte) {
+//    public FreelancerImageModel(String name, String type, byte[] picByte) {
 //        this.name = name;
 //        this.type = type;
 //        this.picByte = picByte;
 //    }
 //
-//    public Long getId() {
-//        return id;
+//    public long getImageid() {
+//        return imageid;
 //    }
 //
-//    public void setId(Long id) {
-//        this.id = id;
+//    public void setImageid(long imageid) {
+//        this.imageid = imageid;
 //    }
 //
 //    public String getName() {
@@ -58,6 +62,14 @@
 //
 //    public void setType(String type) {
 //        this.type = type;
+//    }
+//
+//    public Freelancer getFreelancer() {
+//        return freelancer;
+//    }
+//
+//    public void setFreelancer(Freelancer freelancer) {
+//        this.freelancer = freelancer;
 //    }
 //
 //    public byte[] getPicByte() {

@@ -36,13 +36,20 @@ public class Freelancer {
     @Column(nullable = false)
     private String LOCKED_role;
 
-    @Lob
-    @Column(name = "picByte", length = 1000)
-    private byte[] picByte;
 
     @Column
     private Boolean tutorial;
     private Boolean setup;
+
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties(value = "freelancer")
+//    @JoinColumn(name = "image")
+//    private FreelancerImageModel image;
+
+    @Lob
+    @Column
+    private byte[] picByte;
 
     @ManyToMany(mappedBy = "freelancers")
     @JsonIgnoreProperties(value = {"freelancers"})
@@ -52,7 +59,7 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String password, String LOCKED_role, byte[] picByte, Boolean tutorial, Boolean setup) {
+    public Freelancer(String email, String username, String password, String LOCKED_role, Boolean tutorial, Boolean setup, byte[] picByte) {
         setEmail(email);
         setUsername(username);
         setPassword(password);
@@ -108,14 +115,6 @@ public class Freelancer {
         this.LOCKED_role = LOCKED_role;
     }
 
-    public byte[] getPicByte() {
-        return picByte;
-    }
-    
-    public void setPicByte(byte[] picByte) {
-        this.picByte = picByte;
-    }
-
     public Boolean getTutorial() {
         return tutorial;
     }
@@ -132,6 +131,15 @@ public class Freelancer {
         this.setup = setup;
     }
 
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
+
     public List<CustomerPosts> getCustomerposts() {
         return customerposts;
     }
@@ -139,6 +147,8 @@ public class Freelancer {
     public void setCustomerposts(List<CustomerPosts> customerposts) {
         this.customerposts = customerposts;
     }
+
+
 
     @JsonIgnore
     public List<SimpleGrantedAuthority> getAuthority() {

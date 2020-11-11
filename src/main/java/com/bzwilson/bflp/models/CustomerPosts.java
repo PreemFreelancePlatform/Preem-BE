@@ -26,7 +26,6 @@ public class CustomerPosts {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long postid;
 
-
     @Column
     private String name;
     private String description;
@@ -43,7 +42,6 @@ public class CustomerPosts {
             joinColumns = @JoinColumn(name = "postid"),
             inverseJoinColumns = @JoinColumn(name = "freelancerid"))
     List<Freelancer> freelancers = new ArrayList<>();
-
 
     public CustomerPosts() {
     }
