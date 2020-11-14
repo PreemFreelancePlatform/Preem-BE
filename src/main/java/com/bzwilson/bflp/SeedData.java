@@ -114,10 +114,27 @@ public class SeedData
                 new RandomService());
         Faker postfaker = new Faker(new Locale("en-US"));
 
-        for (int i = 0; i < 50; i++) {
-            CustomerPosts cp = new CustomerPosts(postfaker.app().name(), "description but for now a hero" + postfaker.overwatch().hero() + "is dope", "tags tags tags", c1);
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "Web", c1);
             c1.getCustomerposts().add(cp);
         }
+
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "Back-end", c2);
+            c1.getCustomerposts().add(cp);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "Front-end", c1);
+            c1.getCustomerposts().add(cp);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "DevOps", c2);
+            c1.getCustomerposts().add(cp);
+        }
+
+
 
 
 
