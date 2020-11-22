@@ -26,6 +26,8 @@ public class Freelancer {
     private String email;
     private String username;
 
+    @Column
+    private String category;
 
     @NotNull
     @Column(nullable = false)
@@ -40,6 +42,7 @@ public class Freelancer {
     @Column
     private Boolean tutorial;
     private Boolean setup;
+
 
 
 //    @OneToOne(cascade = CascadeType.ALL)
@@ -59,9 +62,10 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String password, String LOCKED_role, Boolean tutorial, Boolean setup, byte[] picByte) {
+    public Freelancer(String email, String username, String category, String password, String LOCKED_role, Boolean tutorial, Boolean setup, byte[] picByte) {
         setEmail(email);
         setUsername(username);
+        setCategory(category);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
@@ -93,6 +97,13 @@ public class Freelancer {
         this.username = username;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getPassword() {
         return password;

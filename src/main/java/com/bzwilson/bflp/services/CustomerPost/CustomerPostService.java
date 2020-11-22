@@ -8,6 +8,8 @@ import java.util.List;
 public interface CustomerPostService {
     List<CustomerPosts> findAll();
 
+    List<CustomerPosts> findAllByField(String field);
+
     CustomerPosts findByCustomerPostId(long id);
 
     void delete(long id);

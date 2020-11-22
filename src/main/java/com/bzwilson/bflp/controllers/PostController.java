@@ -37,6 +37,17 @@ public class PostController {
                 HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
+    @GetMapping(value = "/field/{input}",
+            produces = {"application/json"})
+    public ResponseEntity<?> findAll(@PathVariable String input) {
+        List<CustomerPosts> fieldposts = postService.findAllByField(input);
+        return new ResponseEntity<>(fieldposts,
+                HttpStatus.OK);
+    }
+
+
     // CUSTOMER ONLY
     @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{postid}",

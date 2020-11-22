@@ -27,9 +27,12 @@ public class CustomerPosts {
     private long postid;
 
     @Column
-    private String name;
+    private String task;
     private String description;
-    private String tech;
+    private String field;
+    private String specialization;
+    private String budget;
+    private String duedate;
 
     @ManyToOne
     @JoinColumn(name = "customerid")
@@ -46,10 +49,13 @@ public class CustomerPosts {
     public CustomerPosts() {
     }
 
-    public CustomerPosts(String name, String description, String tech, Customer customer) {
-        this.name = name;
+    public CustomerPosts(String task, String description, String field, String specialization, String budget, String duedate, Customer customer) {
+        this.task = task;
         this.description = description;
-        this.tech = tech;
+        this.field = field;
+        this.specialization = specialization;
+        this.budget = budget;
+        this.duedate = duedate;
         this.customer = customer;
     }
 
@@ -61,12 +67,12 @@ public class CustomerPosts {
         this.postid = postid;
     }
 
-    public String getName() {
-        return name;
+    public String getTask() {
+        return task;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTask(String task) {
+        this.task = task;
     }
 
     public String getDescription() {
@@ -77,12 +83,36 @@ public class CustomerPosts {
         this.description = description;
     }
 
-    public String getTech() {
-        return tech;
+    public String getField() {
+        return field;
     }
 
-    public void setTech(String tech) {
-        this.tech = tech;
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public String getBudget() {
+        return budget;
+    }
+
+    public void setBudget(String budget) {
+        this.budget = budget;
+    }
+
+    public String getDuedate() {
+        return duedate;
+    }
+
+    public void setDuedate(String duedate) {
+        this.duedate = duedate;
     }
 
     public Customer getCustomer() {

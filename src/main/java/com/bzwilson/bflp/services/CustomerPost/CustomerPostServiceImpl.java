@@ -37,6 +37,11 @@ public class CustomerPostServiceImpl implements CustomerPostService {
     }
 
     @Override
+    public List<CustomerPosts> findAllByField(String field) {
+      return customerpostrepo.findAllByField(field);
+    }
+
+    @Override
     public CustomerPosts findByCustomerPostId(long id)
             throws
             ResourceNotFoundException {
@@ -79,13 +84,18 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 //        }
 
 
-        newCustomerPosts.setName(customerposts.getName());
+        newCustomerPosts.setTask(customerposts.getTask());
 
         newCustomerPosts.setDescription(customerposts.getDescription());
 
-        newCustomerPosts.setTech(customerposts.getTech());
+        newCustomerPosts.setField(customerposts.getField());
+
+        newCustomerPosts.setSpecialization(customerposts.getSpecialization());
+
+        newCustomerPosts.setBudget(customerposts.getBudget());
 
         newCustomerPosts.setCustomer(customerposts.getCustomer());
+
 
 
         // REMEMBER TO ENCRYPT PASSWORD
@@ -96,7 +106,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
                 .clear();
         for (Freelancer fl : customerposts.getFreelancers()) {
             newCustomerPosts.getFreelancers()
-                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(),  fl.getPicByte()));
+                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(),  fl.getPicByte()));
         }
 
         return customerpostrepo.save(newCustomerPosts);
@@ -113,16 +123,24 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         // WILL I NEED THIS LATER??
 //        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
 
-        if (customerpost.getName() != null) {
-            currentcustomerposts.setName(customerpost.getName());
+        if (customerpost.getTask() != null) {
+            currentcustomerposts.setTask(customerpost.getTask());
         }
 
         if (customerpost.getDescription() != null) {
             currentcustomerposts.setDescription(customerpost.getDescription());
         }
 
-        if (customerpost.getTech() != null) {
-            currentcustomerposts.setTech(customerpost.getTech());
+        if (customerpost.getField() != null) {
+            currentcustomerposts.setField(customerpost.getField());
+        }
+
+        if (customerpost.getField() != null) {
+            currentcustomerposts.setField(customerpost.getField());
+        }
+
+        if (customerpost.getSpecialization() != null) {
+            currentcustomerposts.setSpecialization(customerpost.getSpecialization());
         }
 
         if (customerpost.getFreelancers()
@@ -130,7 +148,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.getFreelancers().clear();
             for (Freelancer fl : customerpost.getFreelancers()) {
                 currentcustomerposts.getFreelancers()
-                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getPicByte()));
+                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getPicByte()));
             }
         }
 

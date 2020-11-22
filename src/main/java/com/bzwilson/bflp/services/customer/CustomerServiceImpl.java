@@ -100,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .clear();
         for (CustomerPosts cp : customer.getCustomerposts()) {
             newCustomer.getCustomerposts()
-                    .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), newCustomer));
+                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), newCustomer));
         }
 
         return customerrepo.save(newCustomer);
@@ -151,7 +151,7 @@ public class CustomerServiceImpl implements CustomerService {
                 currentCustomer.getCustomerposts().clear();
                 for (CustomerPosts cp : customer.getCustomerposts()) {
                     currentCustomer.getCustomerposts()
-                            .add(new CustomerPosts(cp.getName(), cp.getDescription(), cp.getTech(), currentCustomer));
+                            .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), currentCustomer));
                 }
             }
 

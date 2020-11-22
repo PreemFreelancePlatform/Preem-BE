@@ -100,12 +100,14 @@ public class SeedData
 
         Freelancer f1 = new Freelancer("free1@gmail.com",
                 "billy2",
+                "Mobile",
                 "admin",
                 "admin", null, false, decoded);
 
 
         Freelancer f2 = new Freelancer("asd",
                 "free2",
+                "Web",
                 "free2",
                 "freelancer", null, false, decoded);
 
@@ -114,23 +116,23 @@ public class SeedData
                 new RandomService());
         Faker postfaker = new Faker(new Locale("en-US"));
 
-        for (int i = 0; i < 5; i++) {
-            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "Web", c1);
+        for (int i = 0; i < 10; i++) {
+            CustomerPosts cp = new CustomerPosts("A thing", "doesnt matter", "Web", "front-end", "1000", "1 week", c1);
             c1.getCustomerposts().add(cp);
         }
 
-        for (int i = 0; i < 5; i++) {
-            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "Back-end", c2);
+        for (int i = 0; i < 10; i++) {
+            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Dev-ops", "deploy", "150", "2 weeks", c1);
             c1.getCustomerposts().add(cp);
         }
 
-        for (int i = 0; i < 5; i++) {
-            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "Front-end", c1);
+        for (int i = 0; i < 10; i++) {
+            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Mobile", "android", "200", "4 weeks", c1);
             c1.getCustomerposts().add(cp);
         }
 
-        for (int i = 0; i < 5; i++) {
-            CustomerPosts cp = new CustomerPosts(postfaker.app().name(),postfaker.overwatch().hero() + "is a nice hero", "DevOps", c2);
+        for (int i = 0; i < 10; i++) {
+            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Systems", "no idea", "500", "", c1);
             c1.getCustomerposts().add(cp);
         }
 
@@ -146,30 +148,31 @@ public class SeedData
         // data, user
 
 
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-US"),
-                new RandomService());
-        Faker nameFaker = new Faker(new Locale("en-US"));
-
-        for (int i = 0; i < 15; i++) {
-            new Freelancer();
-            Freelancer freelancer;
-
-            Freelancer fakeFreelancer = new Freelancer(nameFaker.internet()
-                    .emailAddress(), nameFaker.name()
-                    .username(),
-                    "password", "freelancer", null, true, null
-            );
-
-            new Customer();
-            Customer fakecustomer = new Customer(nameFaker.name()
-                    .username(), nameFaker.internet()
-                    .emailAddress(),
-                    "password", "customer", true, true, decoded
-            );
-
-            freelancerService.save(fakeFreelancer);
-            customerService.save(fakecustomer);
-
-        }
+//        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-US"),
+//                new RandomService());
+//        Faker nameFaker = new Faker(new Locale("en-US"));
+//
+//        for (int i = 0; i < 15; i++) {
+//            new Freelancer();
+//            Freelancer freelancer;
+//
+//            Freelancer fakeFreelancer = new Freelancer(nameFaker.internet()
+//                    .emailAddress(), nameFaker.name()
+//                    .username(),
+//                    "Web",
+//                    "password", "freelancer", null, true, null
+//            );
+//
+//            new Customer();
+//            Customer fakecustomer = new Customer(nameFaker.name()
+//                    .username(), nameFaker.internet()
+//                    .emailAddress(),
+//                    "password", "customer", true, true, decoded
+//            );
+//
+//            freelancerService.save(fakeFreelancer);
+//            customerService.save(fakecustomer);
+//
+//        }
     }
 }
