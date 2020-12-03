@@ -28,11 +28,19 @@ public class CustomerPosts {
 
     @Column
     private String task;
+
+    @Lob
+    @Column( length = 1000 )
     private String description;
+
+
+    @Column
     private String field;
     private String specialization;
     private String budget;
     private String duedate;
+    private String postdate;
+
 
     @ManyToOne
     @JoinColumn(name = "customerid")
@@ -49,13 +57,14 @@ public class CustomerPosts {
     public CustomerPosts() {
     }
 
-    public CustomerPosts(String task, String description, String field, String specialization, String budget, String duedate, Customer customer) {
+    public CustomerPosts(String task, String description, String field, String specialization, String budget, String duedate, String postdate, Customer customer) {
         this.task = task;
         this.description = description;
         this.field = field;
         this.specialization = specialization;
         this.budget = budget;
         this.duedate = duedate;
+        this.postdate = postdate;
         this.customer = customer;
     }
 
@@ -113,6 +122,14 @@ public class CustomerPosts {
 
     public void setDuedate(String duedate) {
         this.duedate = duedate;
+    }
+
+    public String getPostdate() {
+        return postdate;
+    }
+
+    public void setPostdate(String postdate) {
+        this.postdate = postdate;
     }
 
     public Customer getCustomer() {

@@ -116,23 +116,34 @@ public class SeedData
                 new RandomService());
         Faker postfaker = new Faker(new Locale("en-US"));
 
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts("I need a thing to do stuff", "this description is going to have to be quite long tbh just becuase its a description describing things so you can know what the thing is now", "Web", "front-end", "1000", "1 week", "Mon Nov 23 2020 16:22:21 GMT-0800 (Pacific Standard Time)", c1);
+            c1.getCustomerposts().add(cp);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts("I need a responsive marketing website with a login", "Street art ramps flannel +1 post-ironic, ullamco coloring book fam vaporware magna health goth. Adaptogen ad mlkshk, locavore venmo air plant hoodie vexillologist squid unicorn mumblecore. Duis af sed pickled. Try-hard gochujang enim, mlkshk tofu flexitarian +1 ex shoreditch. Sunt paleo chicharrones, pug sustainable literally lumbersexual. Hammock quinoa consectetur four loko mixtape you probably haven't heard of them raw denim tumeric mumblecore. Biodiesel tofu YOLO minim iceland.", "Web", "back-end", "1000", "1 week", "Mon Nov 23 2020 16:22:21 GMT-0800 (Pacific Standard Time)", c1);
+            c1.getCustomerposts().add(cp);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            CustomerPosts cp = new CustomerPosts("a designer to design a design for me", "this description is going to have to be quite long tbh just becuase its a description describing things so you can know what the thing is now", "Web", "graphic", "1000", "1 week", "Mon Nov 23 2020 16:22:21 GMT-0800 (Pacific Standard Time)", c1);
+            c1.getCustomerposts().add(cp);
+        }
+
+
         for (int i = 0; i < 10; i++) {
-            CustomerPosts cp = new CustomerPosts("A thing", "doesnt matter", "Web", "front-end", "1000", "1 week", c1);
+            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Dev-ops", "deploy", "150", "2 weeks", "Tue Nov 17 2020 15:22:21 GMT-0800 (Pacific Standard Time)", c1);
             c1.getCustomerposts().add(cp);
         }
 
         for (int i = 0; i < 10; i++) {
-            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Dev-ops", "deploy", "150", "2 weeks", c1);
+            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Mobile", "android", "200", "4 weeks", "Wed Oct 27 2020 16:22:21 GMT-0800 (Pacific Standard Time)", c1);
             c1.getCustomerposts().add(cp);
         }
 
         for (int i = 0; i < 10; i++) {
-            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Mobile", "android", "200", "4 weeks", c1);
-            c1.getCustomerposts().add(cp);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Systems", "no idea", "500", "", c1);
+            CustomerPosts cp = new CustomerPosts("a thing", "doesnt matter", "Systems", "no idea", "500", "2 weeks", "Tue Nov 24 2020 16:22:21 GMT-0800 (Pacific Standard Time)", c1);
             c1.getCustomerposts().add(cp);
         }
 

@@ -108,7 +108,7 @@ public class FreelancerServiceImpl implements FreelancerService {
                 .clear();
         for (CustomerPosts cp : freelancer.getCustomerposts()) {
             newfreelancer.getCustomerposts()
-                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getCustomer()));
+                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCustomer()));
         }
 
         return freerepo.save(newfreelancer);
@@ -151,7 +151,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         if (freelancer.getCustomerposts().size() > 0) {
             for (CustomerPosts cp : freelancer.getCustomerposts()) {
                 currentfreelancer.getCustomerposts()
-                        .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getCustomer()));
+                        .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCustomer()));
             }
 
         }
