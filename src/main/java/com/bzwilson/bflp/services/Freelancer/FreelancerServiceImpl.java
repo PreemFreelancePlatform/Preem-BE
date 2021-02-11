@@ -1,5 +1,6 @@
 package com.bzwilson.bflp.services.Freelancer;
 
+import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.exceptions.RestrictionException;
 import com.bzwilson.bflp.models.CustomerPosts;
@@ -25,10 +26,22 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Autowired
     private CustomerPostRepo postRepo;
 
-    
+    @Autowired
+    private HelperFunctions helperFunctions;
+    //    List<Freelancer> findAllByCategoryAndTagsIn(String category, List<String> tags);
+    //    List<Freelancer> findAllByCategory(String category);
+
+    @Override
+    public List<Freelancer> findAllByCategoryOrTagsIn(String category, List<String> tags)
+    {
+        return freerepo.findAllByCategoryOrTagsIn(category, tags);
+    }
+
     @Override
     public Freelancer findByUsername(String username) {
         Freelancer uu = freerepo.findByUsername(username.toLowerCase());
+        // get uu and uncompress image and add back to uu then return
+//        uu.setPicByte(helperFunctions.decompressBytes(uu.getPicByte()));
         if (uu == null) {
             throw new ResourceNotFoundException("User name " + username + " not found!");
         }
@@ -92,6 +105,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setUsername(freelancer.getUsername());
 
+        newfreelancer.setCategory(freelancer.getCategory());
 
         newfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
 
@@ -100,6 +114,8 @@ public class FreelancerServiceImpl implements FreelancerService {
         newfreelancer.setTutorial(freelancer.getTutorial());
 
         newfreelancer.setSetup(freelancer.getSetup());
+
+        newfreelancer.setTags(freelancer.getTags());
 
         newfreelancer.setPicByte(freelancer.getPicByte());
 
@@ -133,9 +149,16 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setUsername(freelancer.getUsername());
         }
 
+        if (freelancer.getCategory() != null) {
+            currentfreelancer.setCategory(freelancer.getCategory());
+        }
 
         if (freelancer.getPassword() != null) {
             currentfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
+        }
+
+        if (freelancer.getTags() != null) {
+            currentfreelancer.setTags(freelancer.getTags());
         }
 
         if (freelancer.getLOCKED_role() != null) {
@@ -145,8 +168,6 @@ public class FreelancerServiceImpl implements FreelancerService {
         if (freelancer.getPicByte() != null) {
             currentfreelancer.setPicByte(freelancer.getPicByte());
         }
-
-
 
         if (freelancer.getCustomerposts().size() > 0) {
             for (CustomerPosts cp : freelancer.getCustomerposts()) {

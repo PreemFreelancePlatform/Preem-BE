@@ -2,13 +2,17 @@ package com.bzwilson.bflp.services.CustomerPost;
 
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface CustomerPostService {
-    List<CustomerPosts> findAll();
+    Page<CustomerPosts> findAll(Pageable pageable);
 
-    List<CustomerPosts> findAllByField(String field);
+    Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable);
+
+    Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable);
 
     CustomerPosts findByCustomerPostId(long id);
 

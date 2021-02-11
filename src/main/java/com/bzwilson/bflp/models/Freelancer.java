@@ -21,8 +21,7 @@ public class Freelancer {
 
 
     @NotNull
-    @Column(nullable = false,
-            unique = true)
+    @Column(nullable = false)
     private String email;
     private String username;
 
@@ -43,7 +42,8 @@ public class Freelancer {
     private Boolean tutorial;
     private Boolean setup;
 
-
+    @ElementCollection
+    private List<String> tags = new ArrayList<>();
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JsonIgnoreProperties(value = "freelancer")
@@ -58,11 +58,10 @@ public class Freelancer {
     @JsonIgnoreProperties(value = {"freelancers"})
     private List<CustomerPosts> customerposts = new ArrayList<>();
 
-
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String category, String password, String LOCKED_role, Boolean tutorial, Boolean setup, byte[] picByte) {
+    public Freelancer(String email, String username, String category, String password, String LOCKED_role, Boolean tutorial, Boolean setup, List<String> tags, byte[] picByte) {
         setEmail(email);
         setUsername(username);
         setCategory(category);
@@ -70,6 +69,7 @@ public class Freelancer {
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
         setSetup(setup);
+        setTags(tags);
         setPicByte(picByte);
     }
 
@@ -142,6 +142,13 @@ public class Freelancer {
         this.setup = setup;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
     public byte[] getPicByte() {
         return picByte;

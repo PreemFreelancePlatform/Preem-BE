@@ -5,6 +5,9 @@ import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,21 +33,33 @@ public class PostController {
     @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
     @GetMapping(value = "/posts",
             produces = {"application/json"})
-    public ResponseEntity<?> findAll() {
-        List<CustomerPosts> myPosts = postService.findAll();
-
+    public ResponseEntity<?> findAll(@RequestParam(value = "page") int page) {
+        Pageable paging = PageRequest.of(page, 10);
+        Page<CustomerPosts> myPosts = postService.findAll(paging);
         return new ResponseEntity<>(myPosts,
                 HttpStatus.OK);
     }
 
 
     @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
-    @GetMapping(value = "/field/{input}",
+    @GetMapping(value = "/filter",
             produces = {"application/json"})
-    public ResponseEntity<?> findAll(@PathVariable String input) {
-        List<CustomerPosts> fieldposts = postService.findAllByField(input);
-        return new ResponseEntity<>(fieldposts,
-                HttpStatus.OK);
+    public ResponseEntity<?> findAll(@RequestParam(value = "field") String field,
+                                     @RequestParam(value = "specialization", required = false) List<String> specialization,
+                                     @RequestParam(value = "min", required = false, defaultValue = "1" ) Double min,
+                                     @RequestParam(value = "max", required = false, defaultValue = "10000") Double max,
+                                     @RequestParam(value = "page") int page) {
+
+
+        if(specialization.isEmpty()){
+            Pageable paging = PageRequest.of(page, 13);
+            Page<CustomerPosts> fieldposts = postService.findAllByFieldAndBudgetBetween(field, min, max, paging);
+            return ResponseEntity.ok(fieldposts);
+        }
+
+        Pageable paging = PageRequest.of(page, 13);
+        Page<CustomerPosts> fieldposts = postService.findAllByFieldAndSpecializationInAndBudgetBetween(field, specialization, min, max, paging);
+        return ResponseEntity.ok(fieldposts);
     }
 
 

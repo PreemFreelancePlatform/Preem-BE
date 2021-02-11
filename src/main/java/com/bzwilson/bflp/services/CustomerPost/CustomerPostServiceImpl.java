@@ -7,6 +7,8 @@ import com.bzwilson.bflp.repositories.CustomerPostRepo;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,18 +29,28 @@ public class CustomerPostServiceImpl implements CustomerPostService {
     @Autowired
     private FreelancerRepo freerepo;
 
+//    @Override
+//    public List<CustomerPosts> findAll(Pageable pageable) {
+//        List<CustomerPosts> list = new ArrayList<>();
+//        customerpostrepo.findAll()
+//                .iterator()
+//                .forEachRemaining(list::add);
+//        return list;
+//    }
+
     @Override
-    public List<CustomerPosts> findAll() {
-        List<CustomerPosts> list = new ArrayList<>();
-        customerpostrepo.findAll()
-                .iterator()
-                .forEachRemaining(list::add);
-        return list;
+    public Page<CustomerPosts> findAll(Pageable pageable) {
+        return customerpostrepo.findAll(pageable);
     }
 
     @Override
-    public List<CustomerPosts> findAllByField(String field) {
-      return customerpostrepo.findAllByField(field);
+    public Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable) {
+      return customerpostrepo.findAllByFieldAndSpecializationInAndBudgetBetween(field, specialization, min, max, pageable);
+    }
+
+    @Override
+    public Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable) {
+        return customerpostrepo.findAllByFieldAndBudgetBetween(field, min, max, pageable);
     }
 
     @Override
@@ -106,7 +118,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
                 .clear();
         for (Freelancer fl : customerposts.getFreelancers()) {
             newCustomerPosts.getFreelancers()
-                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(),  fl.getPicByte()));
+                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(), fl.getTags(),  fl.getPicByte()));
         }
 
         return customerpostrepo.save(newCustomerPosts);
@@ -148,7 +160,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.getFreelancers().clear();
             for (Freelancer fl : customerpost.getFreelancers()) {
                 currentcustomerposts.getFreelancers()
-                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getPicByte()));
+                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getTags(), fl.getPicByte()));
             }
         }
 

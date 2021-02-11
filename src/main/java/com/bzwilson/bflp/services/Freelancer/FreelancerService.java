@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface FreelancerService {
 
+    List<Freelancer> findAllByCategoryOrTagsIn(String category, List<String> tags);
+
     Freelancer findByUsername(String username);
 
     List<Freelancer> findAll();

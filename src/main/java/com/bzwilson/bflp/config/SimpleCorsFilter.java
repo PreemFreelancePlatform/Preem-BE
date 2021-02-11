@@ -36,7 +36,9 @@ public class SimpleCorsFilter
         //                 response.setHeader("Access-Control-Allow-Origin",
         //            "https://lambdaschool.com/");
         response.setHeader("Access-Control-Allow-Origin",
-                "*");
+                "http://localhost:3000");
+
+        response.setHeader("Access-Control-Allow-Credentials", "true");
 
         // white list http methods that can be used with this API. * says lets them all work! To restrict access use something like
         //        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
@@ -51,6 +53,8 @@ public class SimpleCorsFilter
         // maximum seconds results can be cached
         response.setHeader("Access-Control-Max-Age",
                 "3600");
+
+
 
         if (HttpMethod.OPTIONS.name()
                 .equalsIgnoreCase(request.getMethod())) {

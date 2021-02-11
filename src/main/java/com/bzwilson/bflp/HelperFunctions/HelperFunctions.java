@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -71,45 +72,83 @@ public class HelperFunctions {
         return customer == null;
     }
 
+        public static byte[] compress(byte[] data) throws IOException {
+            Deflater deflater = new Deflater();
+            deflater.setInput(data);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+            deflater.finish();
+            byte[] buffer = new byte[1024];
+            while (!deflater.finished()) {
+                int count = deflater.deflate(buffer); // returns the generated code... index
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+            byte[] output = outputStream.toByteArray();
+            System.out.println("Original: " + data.length / 1024 + " Kb");
+            System.out.println("Compressed: " + output.length / 1024 + " Kb");
+            return output;
+        }
 
-    public byte[] decompressBytes(byte[] data) {
-        Inflater inflater = new Inflater();
-        inflater.setInput(data);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] buffer = new byte[1024];
-        try {
+
+        public static byte[] decompress(byte[] data) throws IOException, DataFormatException {
+            Inflater inflater = new Inflater();
+            inflater.setInput(data);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+            byte[] buffer = new byte[1024];
             while (!inflater.finished()) {
                 int count = inflater.inflate(buffer);
                 outputStream.write(buffer, 0, count);
             }
+
             outputStream.close();
-        } catch (IOException ioe) {
-        } catch (DataFormatException e) {
+            byte[] output = outputStream.toByteArray();
+            System.out.println("Original: " + data.length);
+            System.out.println("Compressed: " + output.length);
+            return output;
         }
-        return outputStream.toByteArray();
-
-    }
 
 
-    public byte[] compressBytes(byte[] data) {
-        Deflater deflater = new Deflater();
-        deflater.setInput(data);
-        deflater.finish();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] buffer = new byte[1024];
-        while (!deflater.finished()) {
-            int count = deflater.deflate(buffer);
-            outputStream.write(buffer, 0, count);
-        }
-        try {
-            outputStream.close();
-        } catch (IOException e) {
 
-        }
-        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
-        return outputStream.toByteArray();
-
-    }
+//    public byte[] decompressBytes(byte[] data) {
+//        Inflater inflater = new Inflater();
+//        inflater.setInput(data);
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+//        byte[] buffer = new byte[1024];
+//        try {
+//            while (!inflater.finished()) {
+//                int count = inflater.inflate(buffer);
+//                outputStream.write(buffer, 0, count);
+//            }
+//            outputStream.close();
+//        } catch (IOException ioe) {
+//        } catch (DataFormatException e) {
+//        }
+//
+//        System.out.println("uncompressed Image Byte Size - " + outputStream.toByteArray().length);
+//        return outputStream.toByteArray();
+//
+//    }
+//
+//
+//    public byte[] compressBytes(byte[] data) {
+//        Deflater deflater = new Deflater();
+//        deflater.setInput(data);
+//        deflater.finish();
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+//        byte[] buffer = new byte[1024];
+//        while (!deflater.finished()) {
+//            int count = deflater.deflate(buffer);
+//            outputStream.write(buffer, 0, count);
+//        }
+//        try {
+//            outputStream.close();
+//        } catch (IOException e) {
+//
+//        }
+//        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+//        return outputStream.toByteArray();
+//
+//    }
 
 //    /**
 //     * Searches to see if the exception has any constraint violations to report

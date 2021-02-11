@@ -37,7 +37,7 @@ public class CustomerPosts {
     @Column
     private String field;
     private String specialization;
-    private String budget;
+    private Double budget;
     private String duedate;
     private String postdate;
 
@@ -48,6 +48,7 @@ public class CustomerPosts {
             allowSetters = true)
     private Customer customer;
 
+    
     @ManyToMany()
     @JoinTable(name = "freelancerpost",
             joinColumns = @JoinColumn(name = "postid"),
@@ -57,7 +58,7 @@ public class CustomerPosts {
     public CustomerPosts() {
     }
 
-    public CustomerPosts(String task, String description, String field, String specialization, String budget, String duedate, String postdate, Customer customer) {
+    public CustomerPosts(String task, String description, String field, String specialization, Double budget, String duedate, String postdate, Customer customer) {
         this.task = task;
         this.description = description;
         this.field = field;
@@ -108,11 +109,11 @@ public class CustomerPosts {
         this.specialization = specialization;
     }
 
-    public String getBudget() {
+    public Double getBudget() {
         return budget;
     }
 
-    public void setBudget(String budget) {
+    public void setBudget(Double budget) {
         this.budget = budget;
     }
 

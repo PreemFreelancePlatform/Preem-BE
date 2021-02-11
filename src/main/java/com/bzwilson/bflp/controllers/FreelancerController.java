@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.controllers;
 
 import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
+import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
@@ -34,6 +35,22 @@ public class FreelancerController {
     @Autowired
     private HelperFunctions helper;
 
+
+
+
+    // search freelancers by tags, category,
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
+    @GetMapping(value = "/filter",
+            produces = {"application/json"})
+    public ResponseEntity<?> findAll(@RequestParam(value = "category") String category,
+                                     @RequestParam(value = "tags") List<String> tags) {
+
+
+        List<Freelancer> freebois = freelancerServices.findAllByCategoryOrTagsIn(category, tags);
+        return ResponseEntity.ok(freebois);
+
+    }
 
     // ADMIN ONLY
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")

@@ -44,10 +44,10 @@ public class SecurityUserServiceImpl
             throws
             ResourceNotFoundException {
 
-        Customer user = customerRepo.findByUsername(s.toLowerCase());
+        Customer user = customerRepo.findByUsername(s);
 
         if (user == null) {
-            Freelancer freelancer = freerepo.findByUsername(s.toLowerCase());
+            Freelancer freelancer = freerepo.findByUsername(s);
             return new org.springframework.security.core.userdetails.User(
                     freelancer.getUsername(),
                     freelancer.getPassword(),
