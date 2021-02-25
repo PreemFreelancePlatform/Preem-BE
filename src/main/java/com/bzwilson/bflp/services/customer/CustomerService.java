@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    Customer findByUsername(String username);
+    Customer findByEmail(String email);
 
     List<Customer> findAll();
 

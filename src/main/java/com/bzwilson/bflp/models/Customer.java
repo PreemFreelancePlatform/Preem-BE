@@ -16,18 +16,20 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
 
-// make stuff unique and encrypt password
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
+    @Column(nullable = false)
+    private String firstname;
+    private String lastname;
 
     @NotNull
     @Column(nullable = false,
             unique = true)
-    private String username;
-    private String customeremail;
+    private String email;
 
 
     @NotNull
@@ -42,6 +44,10 @@ public class Customer {
     @Column
     private Boolean tutorial;
     private Boolean setup;
+    private Boolean verified;
+    private String security1;
+    private String security2;
+
 
     @Lob
     @Column
@@ -57,13 +63,17 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String username, String customeremail, String password, String LOCKED_role, Boolean tutorial, Boolean setup, byte[] picByte) {
-        setUsername(username);
-        setCustomeremail(customeremail);
+    public Customer(String firstname, String lastname, String email, String password, String LOCKED_role, Boolean tutorial, Boolean setup, Boolean verified, String security1, String security2, byte[] picByte) {
+        setFirstname(firstname);
+        setLastname(lastname);
+        setEmail(email);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
         setSetup(setup);
+        setVerified(verified);
+        setSecurity1(security1);
+        setSecurity2(security2);
         setPicByte(picByte);
     }
 
@@ -75,20 +85,28 @@ public class Customer {
         this.id = customerid;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getCustomeremail() {
-        return customeremail;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setCustomeremail(String customeremail) {
-        this.customeremail = customeremail;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -126,6 +144,30 @@ public class Customer {
 
     public void setSetup(Boolean setup) {
         this.setup = setup;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getSecurity1() {
+        return security1;
+    }
+
+    public void setSecurity1(String security1) {
+        this.security1 = security1;
+    }
+
+    public String getSecurity2() {
+        return security2;
+    }
+
+    public void setSecurity2(String security2) {
+        this.security2 = security2;
     }
 
     public byte[] getPicByte() {

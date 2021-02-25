@@ -40,17 +40,17 @@ public class FreelancerController {
 
     // search freelancers by tags, category,
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
-    @GetMapping(value = "/filter",
-            produces = {"application/json"})
-    public ResponseEntity<?> findAll(@RequestParam(value = "category") String category,
-                                     @RequestParam(value = "tags") List<String> tags) {
-
-
-        List<Freelancer> freebois = freelancerServices.findAllByCategoryOrTagsIn(category, tags);
-        return ResponseEntity.ok(freebois);
-
-    }
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
+//    @GetMapping(value = "/filter",
+//            produces = {"application/json"})
+//    public ResponseEntity<?> findAll(@RequestParam(value = "category") String category,
+//                                     @RequestParam(value = "tags") List<String> tags) {
+//
+//
+//        List<Freelancer> freebois = freelancerServices.findAllByCategoryOrTagsIn(category, tags);
+//        return ResponseEntity.ok(freebois);
+//
+//    }
 
     // ADMIN ONLY
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
@@ -147,15 +147,14 @@ public class FreelancerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-//    @PostMapping("/upload/{freelancerid}")
-//        public BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
-//                long freelancerid) throws IOException {
-//            Freelancer guy = freelancerServices.FindFreelancerById(freelancerid);
-//            guy.setPicByte(helper.compressBytes(file.getBytes()));
-//            freelancerServices.save(guy);
-//            return ResponseEntity.status(HttpStatus.OK);
-//
-//            }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
+    @PostMapping("/upload/{freelancerid}")
+        public BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
+                long freelancerid) throws IOException {
+            Freelancer guy = freelancerServices.FindFreelancerById(freelancerid);
+            guy.setPicByte(file.getBytes());
+            freelancerServices.save(guy);
+            return ResponseEntity.status(HttpStatus.OK);
+    }
 
 }

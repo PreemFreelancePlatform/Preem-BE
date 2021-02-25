@@ -33,17 +33,6 @@ public class CustomerController {
      **/
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping(value = "/customer/name/{userName}",
-            produces = {"application/json"})
-    public ResponseEntity<?> getuserbyname(
-            @PathVariable
-                    String userName) {
-        Customer u = customerService.findByUsername(userName);
-        return new ResponseEntity<>(u,
-                HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(value = "/customers",
             produces = {"application/json"})
     public ResponseEntity<?> findAll() {

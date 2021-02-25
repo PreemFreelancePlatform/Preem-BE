@@ -83,19 +83,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             newCustomerPosts.setPostid(customerposts.getPostid());
         }
 
-
-        // delete the roles for the old user we are replacing
-        //not using roles rn
-//            for (UserRole ur: User.getUserroles() {
-//                 oldCustomer.getCustomerposts()) {
-//                deleteUserRole(ur.getUser()
-//                                .getUserid(),
-//                        ur.getRole()
-//                                .getRoleid());
-//            }
-//        }
-
-
         newCustomerPosts.setTask(customerposts.getTask());
 
         newCustomerPosts.setDescription(customerposts.getDescription());
@@ -109,16 +96,11 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         newCustomerPosts.setCustomer(customerposts.getCustomer());
 
 
-
-        // REMEMBER TO ENCRYPT PASSWORD
-//            customer.setPasswordNoEncrypt(customer.getPassword());
-
-
         newCustomerPosts.getFreelancers()
                 .clear();
         for (Freelancer fl : customerposts.getFreelancers()) {
             newCustomerPosts.getFreelancers()
-                    .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(), fl.getTags(),  fl.getPicByte()));
+                    .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(), fl.getVerified(), fl.getSecurity1(), fl.getSecurity2(), fl.getTags(), fl.getCategories(),  fl.getPicByte()));
         }
 
         return customerpostrepo.save(newCustomerPosts);
@@ -160,7 +142,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.getFreelancers().clear();
             for (Freelancer fl : customerpost.getFreelancers()) {
                 currentcustomerposts.getFreelancers()
-                        .add(new Freelancer(fl.getEmail(), fl.getUsername(), fl.getCategory(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getTags(), fl.getPicByte()));
+                        .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getVerified(), fl.getSecurity1(), fl.getSecurity2(), fl.getTags(), fl.getCategories(), fl.getPicByte()));
             }
         }
 

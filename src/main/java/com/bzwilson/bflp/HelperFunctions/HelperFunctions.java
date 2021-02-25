@@ -33,21 +33,15 @@ public class HelperFunctions {
     @Autowired
     private CustomerRepo customerRepo;
 
-    /**
-     * Checks to see if the authenticated user has access to modify the requested user's information
-     *
-     * @param username The user name of the user whose data is requested to be changed. This should either match the authenticated user
-     *                 or the authenticate must have the role ADMIN
-     * @return true if the user can make the modifications, otherwise an exception is thrown
-     */
-    public boolean isAuthorizedToMakeChange(String username) {
+
+    public boolean isAuthorizedToMakeChange(String email) {
         // Check to see if the user whose information being requested is the current user
         // Check to see if the requesting user is an admin
         // if either is true, return true
         // otherwise stop the process and throw an exception
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
-        if (username.equalsIgnoreCase(authentication.getName()
+        if (email.equalsIgnoreCase(authentication.getName()
                 .toLowerCase()) || authentication.getAuthorities()
                 .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             // this user can make this change
@@ -59,18 +53,18 @@ public class HelperFunctions {
     }
 
 
-    public boolean customerUserNameisAvailable(String username) {
-        Freelancer freelancer = freelancerRepo.findByUsername(username);
+//    public boolean customerUserNameisAvailable(String username) {
+//        Freelancer freelancer = freelancerRepo.findByUsername(username);
+//
+//        return freelancer == null;
+//    }
 
-        return freelancer == null;
-    }
 
-
-    public boolean freelancerUserNameisAvailable(String username) {
-        Customer customer = customerRepo.findByUsername(username);
-
-        return customer == null;
-    }
+//    public boolean freelancerUserNameisAvailable(String username) {
+//        Customer customer = customerRepo.findByUsername(username);
+//
+//        return customer == null;
+//    }
 
         public static byte[] compress(byte[] data) throws IOException {
             Deflater deflater = new Deflater();

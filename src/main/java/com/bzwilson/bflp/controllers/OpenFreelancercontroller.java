@@ -39,12 +39,12 @@ public class OpenFreelancercontroller {
             URISyntaxException {
         // Create the user
 
-        if (helper.freelancerUserNameisAvailable(newminFreelancer.getUsername())) {
+//        if (helper.freelancerUserNameisAvailable(newminFreelancer.getUsername())) {
 
             Freelancer newfreelancer = new Freelancer();
 
             newfreelancer.setEmail(newminFreelancer.getEmail());
-            newfreelancer.setUsername(newminFreelancer.getUsername());
+//            newfreelancer.setUsername(newminFreelancer.getUsername());
             newfreelancer.setPassword(newminFreelancer.getPassword());
             newfreelancer.setLOCKED_role("freelancer");
             newfreelancer.setTutorial(false);
@@ -71,8 +71,9 @@ public class OpenFreelancercontroller {
                     responseHeaders,
                     HttpStatus.CREATED);
 
-        } else {
-            throw new ResourceFoundException("The Username " + newminFreelancer.getUsername() + " has been taken");
         }
-    }
+//        else {
+//            throw new ResourceFoundException("The Username " + newminFreelancer.getUsername() + " has been taken");
+//        }
+//    }
 }

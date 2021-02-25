@@ -46,13 +46,13 @@ public class OpenCustomerController {
         // Create the user
 
         // if the username we are trying to make exists elsewhere throw exception
-        if (helper.customerUserNameisAvailable(newmincustomer.getUsername())) {
+//        if (helper.customerUserNameisAvailable(newmincustomer.getUsername())) {
 
             Customer newcustomer = new Customer();
 
-            newcustomer.setUsername(newmincustomer.getUsername());
+//            newcustomer.setUsername(newmincustomer.getUsername());
             newcustomer.setPassword(newmincustomer.getPassword());
-            newcustomer.setCustomeremail(newmincustomer.getCustomeremail());
+            newcustomer.setEmail(newmincustomer.getCustomeremail());
             newcustomer.setLOCKED_role("customer");
             newcustomer.setTutorial(false);
             newcustomer.setSetup(false);
@@ -76,11 +76,13 @@ public class OpenCustomerController {
             return new ResponseEntity<>(
                     responseHeaders,
                     HttpStatus.CREATED);
-        } else {
-
-            throw new ResourceFoundException("this username has been taken");
         }
-    }
+//        else {
+//
+//            throw new ResourceFoundException("this username has been taken");
+//          }
+//        }
+
 
 }
 

@@ -27,10 +27,9 @@ public class UtilityController {
             produces = {"application/json"})
 
     public ResponseEntity<?> getCurrentUserInfo(Authentication authentication) {
-        Customer customer = customerRepo.findByUsername(authentication.getName());
-
+        Customer customer = customerRepo.findByEmail(authentication.getName());
         if (customer == null) {
-            Freelancer freelancer = freelancerRepo.findByUsername(authentication.getName());
+            Freelancer freelancer = freelancerRepo.findByEmail(authentication.getName());
             return new ResponseEntity<>(freelancer,
                     HttpStatus.OK);
         } else {

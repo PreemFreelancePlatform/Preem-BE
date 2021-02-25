@@ -25,14 +25,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public Customer findByUsername(String username) {
-        Customer uu = customerrepo.findByUsername(username.toLowerCase());
-        if (uu == null) {
-            throw new ResourceNotFoundException("User name " + username + " not found!");
+    public Customer findByEmail(String email) {
+        Customer cc = customerrepo.findByEmail(email);
+        if (cc == null) {
+            throw new ResourceNotFoundException("Customer email " + email + " not found!");
         }
-        return uu;
+        return cc;
     }
-
 
     @Override
     public List<Customer> findAll() {
@@ -81,10 +80,11 @@ public class CustomerServiceImpl implements CustomerService {
             newCustomer.setId(customer.getId());
         }
 
+        newCustomer.setFirstname(customer.getFirstname());
 
-        newCustomer.setUsername(customer.getUsername());
+        newCustomer.setLastname(customer.getLastname());
 
-        newCustomer.setCustomeremail(customer.getCustomeremail());
+        newCustomer.setEmail(customer.getEmail());
 
         newCustomer.setPasswordNoEncrypt(customer.getPassword());
 
@@ -93,6 +93,12 @@ public class CustomerServiceImpl implements CustomerService {
         newCustomer.setTutorial(customer.getTutorial());
 
         newCustomer.setSetup(customer.getSetup());
+
+        newCustomer.setVerified(customer.getVerified());
+
+        newCustomer.setSecurity1(customer.getSecurity1());
+
+        newCustomer.setSecurity2(customer.getSecurity2());
 
         newCustomer.setPicByte(customer.getPicByte());
 
@@ -115,14 +121,17 @@ public class CustomerServiceImpl implements CustomerService {
         Customer currentCustomer = findCustomerById(id);
 
         // WILL I NEED THIS LATER??
-        if (helper.isAuthorizedToMakeChange(currentCustomer.getUsername())) {
+        if (helper.isAuthorizedToMakeChange(currentCustomer.getEmail())) {
 
-            if (customer.getUsername() != null) {
-                currentCustomer.setUsername(customer.getUsername());
+            if (customer.getFirstname() != null) {
+                currentCustomer.setFirstname(customer.getFirstname());
+            }
+            if (customer.getLastname() != null) {
+                currentCustomer.setLastname(customer.getLastname());
             }
 
-            if (customer.getCustomeremail() != null) {
-                currentCustomer.setCustomeremail(customer.getCustomeremail());
+            if (customer.getEmail() != null) {
+                currentCustomer.setEmail(customer.getEmail());
             }
 
             // MAKESURE TO ENCRTYPT
@@ -142,6 +151,17 @@ public class CustomerServiceImpl implements CustomerService {
                 currentCustomer.setSetup(customer.getSetup());
             }
 
+
+            if (customer.getVerified() != null) {
+                currentCustomer.setVerified(customer.getVerified());
+            }
+            if (customer.getSecurity1() != null) {
+                currentCustomer.setSecurity1(customer.getSecurity1());
+            }
+            if (customer.getSecurity2() != null) {
+                currentCustomer.setSecurity2(customer.getSecurity2());
+            }
+
             if (customer.getPicByte() != null) {
                 currentCustomer.setPicByte(customer.getPicByte());
             }
@@ -155,11 +175,11 @@ public class CustomerServiceImpl implements CustomerService {
                 }
             }
 
-
             return customerrepo.save(currentCustomer);
+
         } else {
 
-            throw new ResourceNotFoundException(customer.getUsername() + " is not authorized to make change");
+            throw new ResourceNotFoundException(customer.getFirstname() + customer.getLastname() + " is not authorized to make change");
 
         }
 

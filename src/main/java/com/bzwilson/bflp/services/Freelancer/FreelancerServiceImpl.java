@@ -31,23 +31,31 @@ public class FreelancerServiceImpl implements FreelancerService {
     //    List<Freelancer> findAllByCategoryAndTagsIn(String category, List<String> tags);
     //    List<Freelancer> findAllByCategory(String category);
 
-    @Override
-    public List<Freelancer> findAllByCategoryOrTagsIn(String category, List<String> tags)
-    {
-        return freerepo.findAllByCategoryOrTagsIn(category, tags);
-    }
+//    @Override
+//    public List<Freelancer> findAllByCategoryOrTagsIn(String category, List<String> tags)
+//    {
+//        return freerepo.findAllByCategoryOrTagsIn(category, tags);
+//    }
+
+//    @Override
+//    public Freelancer findByUsername(String username) {
+//        Freelancer uu = freerepo.findByUsername(username.toLowerCase());
+//        // get uu and uncompress image and add back to uu then return
+////        uu.setPicByte(helperFunctions.decompressBytes(uu.getPicByte()));
+//        if (uu == null) {
+//            throw new ResourceNotFoundException("User name " + username + " not found!");
+//        }
+//        return uu;
+//    }
 
     @Override
-    public Freelancer findByUsername(String username) {
-        Freelancer uu = freerepo.findByUsername(username.toLowerCase());
-        // get uu and uncompress image and add back to uu then return
-//        uu.setPicByte(helperFunctions.decompressBytes(uu.getPicByte()));
-        if (uu == null) {
-            throw new ResourceNotFoundException("User name " + username + " not found!");
+    public Freelancer findByEmail(String email) {
+        Freelancer ff = freerepo.findByEmail(email);
+        if (ff == null) {
+            throw new ResourceNotFoundException("freelancer email " + email + " not found!");
         }
-        return uu;
+        return ff;
     }
-
 
     @Override
     public List<Freelancer> findAll() {
@@ -78,34 +86,17 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Override
     public Freelancer save(Freelancer freelancer) {
 
-        // making new customerpost object
         Freelancer newfreelancer = new Freelancer();
 
-        // if we get an id back then set it to new customer
         if (freelancer.getId() != 0) {
-//            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
-//                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
             newfreelancer.setId(freelancer.getId());
         }
 
-
-        // delete the roles for the old user we are replacing
-        //not using roles rn
-//            for (UserRole ur: User.getUserroles() {
-//                 oldCustomer.getCustomerposts()) {
-//                deleteUserRole(ur.getUser()
-//                                .getUserid(),
-//                        ur.getRole()
-//                                .getRoleid());
-//            }
-//        }
-
-
         newfreelancer.setEmail(freelancer.getEmail());
 
-        newfreelancer.setUsername(freelancer.getUsername());
+        newfreelancer.setFirstname(freelancer.getFirstname());
 
-        newfreelancer.setCategory(freelancer.getCategory());
+        newfreelancer.setLastname(freelancer.getLastname());
 
         newfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
 
@@ -115,7 +106,15 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setSetup(freelancer.getSetup());
 
+        newfreelancer.setVerified(freelancer.getVerified());
+
+        newfreelancer.setSecurity1(freelancer.getSecurity1());
+
+        newfreelancer.setSecurity2(freelancer.getSecurity2());
+
         newfreelancer.setTags(freelancer.getTags());
+
+        newfreelancer.setCategories(freelancer.getCategories());
 
         newfreelancer.setPicByte(freelancer.getPicByte());
 
@@ -145,24 +144,40 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setEmail(freelancer.getEmail());
         }
 
-        if (freelancer.getUsername() != null) {
-            currentfreelancer.setUsername(freelancer.getUsername());
+        if (freelancer.getFirstname() != null) {
+            currentfreelancer.setFirstname(freelancer.getFirstname());
         }
 
-        if (freelancer.getCategory() != null) {
-            currentfreelancer.setCategory(freelancer.getCategory());
+        if (freelancer.getLastname() != null) {
+            currentfreelancer.setLastname(freelancer.getLastname());
         }
 
         if (freelancer.getPassword() != null) {
             currentfreelancer.setPasswordnoEncrypt(freelancer.getPassword());
         }
 
+
+        if (freelancer.getLOCKED_role() != null) {
+            throw new RestrictionException("you cannot change your role");
+        }
+
+        if (freelancer.getVerified() != null) {
+            currentfreelancer.setVerified(freelancer.getVerified());
+        }
+
+        if (freelancer.getSecurity1() != null) {
+            currentfreelancer.setSecurity1(freelancer.getSecurity1());
+        }
+        if (freelancer.getSecurity2() != null) {
+            currentfreelancer.setSecurity2(freelancer.getSecurity2());
+        }
+
         if (freelancer.getTags() != null) {
             currentfreelancer.setTags(freelancer.getTags());
         }
 
-        if (freelancer.getLOCKED_role() != null) {
-            throw new RestrictionException("you cannot change your role");
+        if (freelancer.getCategories() != null) {
+            currentfreelancer.setCategories(freelancer.getCategories());
         }
 
         if (freelancer.getPicByte() != null) {

@@ -50,27 +50,30 @@ public class SeedData
         byte[] decoded = Base64.decodeBase64(content.getBytes());
 
         Customer c1 = new Customer(
-                "billy1",
-                "something@yahoo.com",
-                "admin", "admin", false, false, null);
+                "corey",
+                "wilson",
+                "Corey945@gmail.com",
+                "Asd", "customer", true, true, true, "fafa", "afafa",  null);
 
 
         Customer c2 = new Customer(
-                "cus1",
-                "asfasf",
-                "cus1", "customer", false, false, null);
+                "billy",
+                "wilson",
+                "test@gmail.com",
+                "Asd", "customer", true, true, true, "fafa", "afafa",  null);
 
 
         List<String> taggers = new ArrayList<>();
         taggers.add("React");
         taggers.add("Vue");
-        taggers.add("Poop");
+        taggers.add("Photoshop");
 
-        Freelancer f1 = new Freelancer("free1@gmail.com",
+        Freelancer f1 = new Freelancer(
+                "Williamz455@gmail.com",
                 "billy",
-                "Web Development",
-                "123",
-                "freelancer", null, false, taggers, null);
+                "wilson",
+                "Asd",
+                "freelancer", false, false, true, "bang", "bang", taggers, null, null);
 
 
         for (int i = 0; i < 400; i++) {
@@ -89,7 +92,7 @@ public class SeedData
                     specs[index2],
                     (double) cash,
                     "1 week",
-                    "Dec " + date + " 2020", c1);
+                    "Jan " + date + " 2021", c1);
             c1.getCustomerposts().add(cp);
         }
 

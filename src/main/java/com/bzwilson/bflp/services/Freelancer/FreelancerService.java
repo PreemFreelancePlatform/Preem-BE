@@ -1,14 +1,17 @@
 package com.bzwilson.bflp.services.Freelancer;
 
+import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.Freelancer;
 
 import java.util.List;
 
 public interface FreelancerService {
 
-    List<Freelancer> findAllByCategoryOrTagsIn(String category, List<String> tags);
+//    List<Freelancer> findAllByCategoryOrTagsIn(String category, List<String> tags);
 
-    Freelancer findByUsername(String username);
+//    Freelancer findByUsername(String username);
+
+    Freelancer findByEmail(String email);
 
     List<Freelancer> findAll();
 

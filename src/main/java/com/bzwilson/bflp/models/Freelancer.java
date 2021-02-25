@@ -3,6 +3,7 @@ package com.bzwilson.bflp.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.javafaker.Bool;
 import com.sun.istack.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,10 +24,8 @@ public class Freelancer {
     @NotNull
     @Column(nullable = false)
     private String email;
-    private String username;
-
-    @Column
-    private String category;
+    private String firstname;
+    private String lastname;
 
     @NotNull
     @Column(nullable = false)
@@ -41,14 +40,17 @@ public class Freelancer {
     @Column
     private Boolean tutorial;
     private Boolean setup;
+    private Boolean verified;
+    private String security1;
+    private String security2;
+
 
     @ElementCollection
     private List<String> tags = new ArrayList<>();
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties(value = "freelancer")
-//    @JoinColumn(name = "image")
-//    private FreelancerImageModel image;
+    @ElementCollection
+    private List<String> categories = new ArrayList<>();
+
 
     @Lob
     @Column
@@ -61,15 +63,19 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String username, String category, String password, String LOCKED_role, Boolean tutorial, Boolean setup, List<String> tags, byte[] picByte) {
+    public Freelancer(String email, String firstname, String lastname, String password, String LOCKED_role, Boolean tutorial, Boolean setup, Boolean verified, String security1, String security2, List<String> tags, List<String> categories, byte[] picByte) {
         setEmail(email);
-        setUsername(username);
-        setCategory(category);
+        setFirstname(firstname);
+        setLastname(lastname);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
         setTutorial(tutorial);
         setSetup(setup);
+        setVerified(verified);
+        setSecurity1(security1);
+        setSecurity2(security2);
         setTags(tags);
+        setCategories(categories);
         setPicByte(picByte);
     }
 
@@ -89,20 +95,20 @@ public class Freelancer {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getCategory() {
-        return category;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPassword() {
@@ -142,12 +148,44 @@ public class Freelancer {
         this.setup = setup;
     }
 
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getSecurity1() {
+        return security1;
+    }
+
+    public void setSecurity1(String security1) {
+        this.security1 = security1;
+    }
+
+    public String getSecurity2() {
+        return security2;
+    }
+
+    public void setSecurity2(String security2) {
+        this.security2 = security2;
+    }
+
     public List<String> getTags() {
         return tags;
     }
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
     public byte[] getPicByte() {
