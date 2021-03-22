@@ -5,6 +5,7 @@ import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.exceptions.RestrictionException;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
+import com.bzwilson.bflp.models.TagRequest;
 import com.bzwilson.bflp.repositories.CustomerPostRepo;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.List;
 
 
 @Transactional
-@Service(value = "freelancerservice")
+@Service(value = "freelancerService")
 public class FreelancerServiceImpl implements FreelancerService {
 
 
@@ -77,9 +78,9 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Override
     public void delete(long id) {
-        freerepo.findById(id)
+       Freelancer freelancerDelete =  freerepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Freelancer " + id + " not found!"));
-        freerepo.deleteById(id);
+        freerepo.deleteById(freelancerDelete.getFreelancerid());
     }
 
     @Transactional
@@ -88,8 +89,10 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         Freelancer newfreelancer = new Freelancer();
 
-        if (freelancer.getId() != 0) {
-            newfreelancer.setId(freelancer.getId());
+        if (freelancer.getFreelancerid() != 0) {
+            freerepo.findById(freelancer.getFreelancerid())
+                    .orElseThrow(() -> new ResourceNotFoundException("User id " + freelancer.getFreelancerid() + " not found!"));
+            newfreelancer.setFreelancerid(freelancer.getFreelancerid());
         }
 
         newfreelancer.setEmail(freelancer.getEmail());
@@ -102,13 +105,16 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setLOCKED_role(freelancer.getLOCKED_role());
 
-        newfreelancer.setTutorial(freelancer.getTutorial());
-
         newfreelancer.setSetup(freelancer.getSetup());
 
         newfreelancer.setVerified(freelancer.getVerified());
 
+        newfreelancer.setQuestion1(freelancer.getQuestion1());
+
         newfreelancer.setSecurity1(freelancer.getSecurity1());
+
+        newfreelancer.setQuestion2(freelancer.getQuestion2());
+
 
         newfreelancer.setSecurity2(freelancer.getSecurity2());
 
@@ -119,12 +125,21 @@ public class FreelancerServiceImpl implements FreelancerService {
         newfreelancer.setPicByte(freelancer.getPicByte());
 
 
+        newfreelancer.getTagRequests()
+                .clear();
+        for (TagRequest tr : freelancer.getTagRequests()) {
+            newfreelancer.getTagRequests()
+                    .add(new TagRequest(tr.getCategoryAP4(), tr.getTagAP4(), tr.getProjlink(), tr.getFreelancer()));
+        }
+
+
         newfreelancer.getCustomerposts()
                 .clear();
         for (CustomerPosts cp : freelancer.getCustomerposts()) {
             newfreelancer.getCustomerposts()
-                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCustomer()));
+                    .add(new CustomerPosts( cp.getCustomer(), cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
         }
+
 
         return freerepo.save(newfreelancer);
     }
@@ -161,13 +176,28 @@ public class FreelancerServiceImpl implements FreelancerService {
             throw new RestrictionException("you cannot change your role");
         }
 
+        if (freelancer.getSetup() != null) {
+            currentfreelancer.setSetup(freelancer.getSetup());
+        }
+
+
         if (freelancer.getVerified() != null) {
             currentfreelancer.setVerified(freelancer.getVerified());
         }
 
+        if (freelancer.getQuestion1() != null) {
+            currentfreelancer.setQuestion1(freelancer.getQuestion1());
+        }
+
         if (freelancer.getSecurity1() != null) {
             currentfreelancer.setSecurity1(freelancer.getSecurity1());
+
         }
+
+        if (freelancer.getQuestion2() != null) {
+            currentfreelancer.setQuestion2(freelancer.getQuestion2());
+        }
+
         if (freelancer.getSecurity2() != null) {
             currentfreelancer.setSecurity2(freelancer.getSecurity2());
         }
@@ -187,7 +217,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         if (freelancer.getCustomerposts().size() > 0) {
             for (CustomerPosts cp : freelancer.getCustomerposts()) {
                 currentfreelancer.getCustomerposts()
-                        .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCustomer()));
+                        .add(new CustomerPosts( cp.getCustomer(), cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
             }
 
         }
@@ -196,19 +226,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
 
-    @Override
-    public Freelancer didTutorial(long id) {
-        Freelancer currentFreelancer = FindFreelancerById(id);
-        currentFreelancer.setTutorial(true);
-        return freerepo.save(currentFreelancer);
-    }
 
-    @Override
-    public Freelancer isSetup(long id) {
-        Freelancer currentFreelancer = FindFreelancerById(id);
-        currentFreelancer.setSetup(true);
-        return freerepo.save(currentFreelancer);
-    }
 
 }
 //

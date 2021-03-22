@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,8 +44,8 @@ public class SecurityConfig
     /**
      * Connects the user details used by Spring Security to our implementation of it
      */
-    @Resource(name = "securityUserService")
-    private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService securityUserService;
 
     /**
      * Ties our implementation of user details and password encoding to the Authentication Manager
@@ -56,7 +57,7 @@ public class SecurityConfig
     public void globalUserDetails(AuthenticationManagerBuilder auth)
             throws
             Exception {
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(securityUserService)
                 .passwordEncoder(encoder());
     }
 

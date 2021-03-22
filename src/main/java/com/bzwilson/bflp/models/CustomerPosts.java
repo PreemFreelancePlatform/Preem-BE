@@ -2,6 +2,7 @@ package com.bzwilson.bflp.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,47 +27,51 @@ public class CustomerPosts {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long postid;
 
-    @Column
-    private String task;
-
-    @Lob
-    @Column( length = 1000 )
-    private String description;
-
-
-    @Column
-    private String field;
-    private String specialization;
-    private Double budget;
-    private String duedate;
-    private String postdate;
-
-
     @ManyToOne
     @JoinColumn(name = "customerid")
     @JsonIgnoreProperties(value = "customerposts",
             allowSetters = true)
     private Customer customer;
 
-    
+    @Column
+    private String task;
+
+    @JsonView(View.Base.class)
+    @Lob
+    @Column( length = 1000 )
+    private String description;
+
+    @Column
+    private String category;
+
+    @ElementCollection
+    private List<String> tags = new ArrayList<>();
+
+    @Column
+    private Double budget;
+    private String duedate;
+    private String postdate;
+
     @ManyToMany()
     @JoinTable(name = "freelancerpost",
             joinColumns = @JoinColumn(name = "postid"),
             inverseJoinColumns = @JoinColumn(name = "freelancerid"))
+            @JsonIgnoreProperties(value = {"customerposts", "freelancers"})
     List<Freelancer> freelancers = new ArrayList<>();
 
     public CustomerPosts() {
     }
 
-    public CustomerPosts(String task, String description, String field, String specialization, Double budget, String duedate, String postdate, Customer customer) {
-        this.task = task;
-        this.description = description;
-        this.field = field;
-        this.specialization = specialization;
-        this.budget = budget;
-        this.duedate = duedate;
-        this.postdate = postdate;
-        this.customer = customer;
+    public CustomerPosts(Customer customer, String task, String description, String category, List<String> tags, Double budget, String duedate, String postdate, List<Freelancer> freelancers) {
+        setCustomer(customer);
+        setTask(task);
+        setDescription(description);
+        setCategory(category);
+        setTags(tags);
+        setBudget(budget);
+        setDuedate(duedate);
+        setPostdate(postdate);
+        setFreelancers(freelancers);
     }
 
     public long getPostid() {
@@ -75,6 +80,15 @@ public class CustomerPosts {
 
     public void setPostid(long postid) {
         this.postid = postid;
+    }
+
+    @JsonView(View.Base.class)
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getTask() {
@@ -93,20 +107,20 @@ public class CustomerPosts {
         this.description = description;
     }
 
-    public String getField() {
-        return field;
+    public String getCategory() {
+        return category;
     }
 
-    public void setField(String field) {
-        this.field = field;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getSpecialization() {
-        return specialization;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public Double getBudget() {
@@ -133,14 +147,6 @@ public class CustomerPosts {
         this.postdate = postdate;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public List<Freelancer> getFreelancers() {
         return freelancers;
     }
@@ -149,6 +155,7 @@ public class CustomerPosts {
         this.freelancers = freelancers;
     }
 }
+
 
 
 

@@ -3,7 +3,7 @@ package com.bzwilson.bflp.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.javafaker.Bool;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,32 +18,36 @@ public class Freelancer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long freelancerid;
 
-
-    @NotNull
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String firstname;
     private String lastname;
 
-    @NotNull
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotNull
     @Column(nullable = false)
     private String LOCKED_role;
 
-
     @Column
-    private Boolean tutorial;
     private Boolean setup;
     private Boolean verified;
+    private String question1;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String security1;
+    private String question2;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String security2;
 
+    @OneToMany(mappedBy = "freelancer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<TagRequest> tagRequests = new ArrayList<>();
 
     @ElementCollection
     private List<String> tags = new ArrayList<>();
@@ -63,28 +67,29 @@ public class Freelancer {
     public Freelancer() {
     }
 
-    public Freelancer(String email, String firstname, String lastname, String password, String LOCKED_role, Boolean tutorial, Boolean setup, Boolean verified, String security1, String security2, List<String> tags, List<String> categories, byte[] picByte) {
+    public Freelancer(String email, String firstname, String lastname, String password, String LOCKED_role, Boolean setup, Boolean verified, String question1, String security1, String question2, String security2, List<String> tags, List<String> categories, byte[] picByte) {
         setEmail(email);
         setFirstname(firstname);
         setLastname(lastname);
         setPassword(password);
         setLOCKED_role(LOCKED_role);
-        setTutorial(tutorial);
         setSetup(setup);
         setVerified(verified);
+        setQuestion1(question1);
         setSecurity1(security1);
+        setQuestion2(question2);
         setSecurity2(security2);
         setTags(tags);
         setCategories(categories);
         setPicByte(picByte);
     }
 
-    public long getId() {
-        return id;
+    public long getFreelancerid() {
+        return freelancerid;
     }
 
-    public void setId(long freelancerid) {
-        this.id = freelancerid;
+    public void setFreelancerid(long freelancerid) {
+        this.freelancerid = freelancerid;
     }
 
     public String getEmail() {
@@ -132,14 +137,6 @@ public class Freelancer {
         this.LOCKED_role = LOCKED_role;
     }
 
-    public Boolean getTutorial() {
-        return tutorial;
-    }
-
-    public void setTutorial(Boolean tutorial) {
-        this.tutorial = tutorial;
-    }
-
     public Boolean getSetup() {
         return setup;
     }
@@ -156,12 +153,31 @@ public class Freelancer {
         this.verified = verified;
     }
 
+
+    @JsonView(View.Recovery.class)
+    public String getQuestion1() {
+        return question1;
+    }
+
+    public void setQuestion1(String question1) {
+        this.question1 = question1;
+    }
+
     public String getSecurity1() {
         return security1;
     }
 
     public void setSecurity1(String security1) {
         this.security1 = security1;
+    }
+
+    @JsonView(View.Recovery.class)
+    public String getQuestion2() {
+        return question2;
+    }
+
+    public void setQuestion2(String question2) {
+        this.question2 = question2;
     }
 
     public String getSecurity2() {
@@ -194,6 +210,14 @@ public class Freelancer {
 
     public void setPicByte(byte[] picByte) {
         this.picByte = picByte;
+    }
+
+    public List<TagRequest> getTagRequests() {
+        return tagRequests;
+    }
+
+    public void setTagRequests(List<TagRequest> tagRequests) {
+        this.tagRequests = tagRequests;
     }
 
     public List<CustomerPosts> getCustomerposts() {

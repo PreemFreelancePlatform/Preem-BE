@@ -3,6 +3,7 @@ package com.bzwilson.bflp.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,11 +17,12 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
 
-
+    @JsonView(View.Base.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long customerid;
 
+    @JsonView(View.Base.class)
     @NotNull
     @Column(nullable = false)
     private String firstname;
@@ -31,12 +33,12 @@ public class Customer {
             unique = true)
     private String email;
 
-
     @NotNull
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @JsonView(View.Base.class)
     @NotNull
     @Column(nullable = false)
     private String LOCKED_role;
@@ -45,14 +47,17 @@ public class Customer {
     private Boolean tutorial;
     private Boolean setup;
     private Boolean verified;
+    private String question1;
     private String security1;
+    private String question2;
     private String security2;
 
-
+    @JsonView(View.Base.class)
     @Lob
     @Column
     private byte[] picByte;
 
+    @JsonView(View.Base.class)
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
@@ -63,7 +68,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String email, String password, String LOCKED_role, Boolean tutorial, Boolean setup, Boolean verified, String security1, String security2, byte[] picByte) {
+    public Customer(String firstname, String lastname, String email, String password, String LOCKED_role, Boolean tutorial, Boolean setup, Boolean verified, String question1, String security1, String question2, String security2, byte[] picByte) {
         setFirstname(firstname);
         setLastname(lastname);
         setEmail(email);
@@ -72,17 +77,19 @@ public class Customer {
         setTutorial(tutorial);
         setSetup(setup);
         setVerified(verified);
+        setQuestion1(question1);
         setSecurity1(security1);
+        setQuestion2(question2);
         setSecurity2(security2);
         setPicByte(picByte);
     }
 
-    public long getId() {
-        return id;
+    public long getCustomerid() {
+        return customerid;
     }
 
-    public void setId(long customerid) {
-        this.id = customerid;
+    public void setCustomerid(long customerid) {
+        this.customerid = customerid;
     }
 
     public String getFirstname() {
@@ -154,12 +161,30 @@ public class Customer {
         this.verified = verified;
     }
 
+    @JsonView(View.Recovery.class)
+    public String getQuestion1() {
+        return question1;
+    }
+
+    public void setQuestion1(String question1) {
+        this.question1 = question1;
+    }
+
     public String getSecurity1() {
         return security1;
     }
 
     public void setSecurity1(String security1) {
         this.security1 = security1;
+    }
+
+    @JsonView(View.Recovery.class)
+    public String getQuestion2() {
+        return question2;
+    }
+
+    public void setQuestion2(String question2) {
+        this.question2 = question2;
     }
 
     public String getSecurity2() {

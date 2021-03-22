@@ -9,10 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface CustomerPostRepo extends PagingAndSortingRepository<CustomerPosts, Long> {
-
-    Page<CustomerPosts> findAll(Pageable pageable);
-    Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable);
-    Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable);
+//    Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable);
+//    Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable);
 
 
 

@@ -122,32 +122,17 @@ public class CustomerController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
-    @PatchMapping(value = "/{cid}/tutorial")
-    public ResponseEntity<?> setTut(
-            @PathVariable
-                    long cid) {
-        customerService.didTutorial(cid);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PatchMapping("/upload/{customerid}")
+    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
+            long customerid) throws IOException {
+//            Freelancer guy = freelancerServices.FindFreelancerById(freelancerid);
+//            guy.setPicByte(file.getBytes());
+//            freelancerServices.save(guy);
+        Customer newman = new Customer();
+        newman.setPicByte(file.getBytes());
+        customerService.update(newman, customerid);
+        return ResponseEntity.status(HttpStatus.OK);
     }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
-    @PatchMapping(value = "/{cid}/setup")
-    public ResponseEntity<?> setSetup(
-            @PathVariable
-                    long cid) {
-        customerService.didTutorial(cid);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-//    @PostMapping("/upload/{customerid}")
-//    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
-//            long customerid) throws IOException {
-//        Customer guy = customerService.findCustomerById(customerid);
-//        guy.setPicByte(helper.compressBytes(file.getBytes()));
-//        freelancerServices.save(guy);
-//        return ResponseEntity.status(HttpStatus.OK);
-//
-//    }
 
 
 }

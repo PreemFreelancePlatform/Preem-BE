@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
 /**
  * Spring uses filters to manage web traffic. Here we manually add a CORS (Cross-Origin Resource Sharing) filter to the chain.
  * Using the Order annotation, we tell Spring this is the most important filter. If this filter blocks a request,
@@ -36,9 +37,7 @@ public class SimpleCorsFilter
         //                 response.setHeader("Access-Control-Allow-Origin",
         //            "https://lambdaschool.com/");
         response.setHeader("Access-Control-Allow-Origin",
-                "http://localhost:3000");
-
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+                "*");
 
         // white list http methods that can be used with this API. * says lets them all work! To restrict access use something like
         //        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
@@ -54,12 +53,12 @@ public class SimpleCorsFilter
         response.setHeader("Access-Control-Max-Age",
                 "3600");
 
-
-
         if (HttpMethod.OPTIONS.name()
-                .equalsIgnoreCase(request.getMethod())) {
+                .equalsIgnoreCase(request.getMethod()))
+        {
             response.setStatus(HttpServletResponse.SC_OK);
-        } else {
+        } else
+        {
             filterChain.doFilter(servletRequest,
                     servletResponse);
         }

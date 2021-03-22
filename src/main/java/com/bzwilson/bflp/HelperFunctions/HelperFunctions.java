@@ -52,7 +52,7 @@ public class HelperFunctions {
         }
     }
 
-
+        // DONT NEED ANYMORE AS EMAILS ARE UNIQUE
 //    public boolean customerUserNameisAvailable(String username) {
 //        Freelancer freelancer = freelancerRepo.findByUsername(username);
 //

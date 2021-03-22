@@ -44,7 +44,8 @@ public class ResourceServerConfig
         http.authorizeRequests()
                 .antMatchers("/",
                         "/h2-console/**",
-                        "/createnewuser")
+                        "/createnewfreelancer",
+                        "/createnewcustomer")
                 .permitAll()
                 .antMatchers(HttpMethod.PUT)
                 .hasAnyRole("ADMIN")

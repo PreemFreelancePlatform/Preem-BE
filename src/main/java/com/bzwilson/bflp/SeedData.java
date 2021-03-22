@@ -6,9 +6,6 @@ import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import com.bzwilson.bflp.services.customer.CustomerService;
-import com.github.javafaker.Faker;
-import com.github.javafaker.service.FakeValuesService;
-import com.github.javafaker.service.RandomService;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 
@@ -36,7 +32,6 @@ public class SeedData
 
     @Transactional
     @Override
-
     public void run(String[] args)
             throws
             Exception {
@@ -50,17 +45,17 @@ public class SeedData
         byte[] decoded = Base64.decodeBase64(content.getBytes());
 
         Customer c1 = new Customer(
-                "corey",
+                "c",
                 "wilson",
-                "Corey945@gmail.com",
-                "Asd", "customer", true, true, true, "fafa", "afafa",  null);
+                "c",
+                "c", "admin", true, true, true, "do u like booty", "hell yeah", "how much booty u like", "a lot of it",  null);
 
 
         Customer c2 = new Customer(
-                "billy",
+                "billycust",
                 "wilson",
-                "test@gmail.com",
-                "Asd", "customer", true, true, true, "fafa", "afafa",  null);
+                "b",
+                "b", "customer", true, true, true, "how big yo dick is", "fafa", "what u doin", "afafa",  null);
 
 
         List<String> taggers = new ArrayList<>();
@@ -69,14 +64,14 @@ public class SeedData
         taggers.add("Photoshop");
 
         Freelancer f1 = new Freelancer(
-                "Williamz455@gmail.com",
-                "billy",
+                "a",
+                "Billy",
                 "wilson",
-                "Asd",
-                "freelancer", false, false, true, "bang", "bang", taggers, null, null);
+                "a",
+                "freelancer", false, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggers, null, null);
 
 
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < 3; i++) {
             final String[] backnames = {"Hey this is a task and doesnt really matter", "I need somebody to build this for me because im a duck", "how long can a title be before its just too long??", "i need somebody to construct a thing for me woot yay it works"};
             final String[] specs = {"Back-End", "Front-End", "Full-Stack", "Web-Design", "UI/UX", "Testing", "AR/VR", "Wordpress"};
             Random random = new Random();
@@ -84,15 +79,19 @@ public class SeedData
             int index2 = random.nextInt(specs.length);
             int cash = random.nextInt(10000) + 100;
             int date = random.nextInt(7) + 20;
+            List <String> tags = new ArrayList<>();
+            tags.add(specs[index2]);
+            tags.add(specs[index2]);
 
             CustomerPosts cp = new CustomerPosts(
+                    c1,
                     backnames[index1],
                     "this description is going to have to be quite long tbh just because its a description describing things so you can know what the thing is now ok so i need to write and take up mroe space so here it is yes mhm great stuff guys have a good day sincerely mr duckerson",
                     "Web Development",
-                    specs[index2],
+                    tags,
                     (double) cash,
                     "1 week",
-                    "Jan " + date + " 2021", c1);
+                    "Jan " + date + " 2021", null);
             c1.getCustomerposts().add(cp);
         }
 

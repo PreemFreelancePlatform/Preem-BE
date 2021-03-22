@@ -3,9 +3,11 @@ package com.bzwilson.bflp.controllers;
 import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
+import com.bzwilson.bflp.models.View;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
 import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,13 +54,22 @@ public class FreelancerController {
 //
 //    }
 
+
+    @GetMapping(value = "/freelancer/{email}",
+            produces = {"application/json"})
+    public ResponseEntity<?> findAll(@PathVariable String email) {
+        Freelancer freelancer = freelancerServices.findByEmail(email);
+        return new ResponseEntity<>(freelancer,
+                HttpStatus.OK);
+    }
+
+
     // ADMIN ONLY
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @GetMapping(value = "/freelancers",
             produces = {"application/json"})
     public ResponseEntity<?> findAll() {
         List<Freelancer> mylancers = freelancerServices.findAll();
-
         return new ResponseEntity<>(mylancers,
                 HttpStatus.OK);
     }
@@ -84,9 +95,6 @@ public class FreelancerController {
             @PathVariable
                     long postid) {
 
-
-        // do this for adding
-
         customerPostService.apply(freelancerid, postid);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -97,7 +105,7 @@ public class FreelancerController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
     @PatchMapping(value = "/freelancer/{id}",
             consumes = {"application/json"})
-    public ResponseEntity<?> updatePost(
+    public ResponseEntity<?> updatefreelancer(
             @RequestBody
                     Freelancer freelancer,
             @PathVariable
@@ -130,30 +138,15 @@ public class FreelancerController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
-    @PatchMapping(value = "/{fid}/tutorial")
-    public ResponseEntity<?> setTut(
-            @PathVariable
-                    long fid) {
-        freelancerServices.didTutorial(fid);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
-    @PatchMapping(value = "/{fid}/setup")
-    public ResponseEntity<?> setSetup(
-            @PathVariable
-                    long fid) {
-        freelancerServices.isSetup(fid);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
-    @PostMapping("/upload/{freelancerid}")
+    @PatchMapping("/upload/{freelancerid}")
         public BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file, @PathVariable
                 long freelancerid) throws IOException {
-            Freelancer guy = freelancerServices.FindFreelancerById(freelancerid);
-            guy.setPicByte(file.getBytes());
-            freelancerServices.save(guy);
+//            Freelancer guy = freelancerServices.FindFreelancerById(freelancerid);
+//            guy.setPicByte(file.getBytes());
+//            freelancerServices.save(guy);
+        Freelancer newman = new Freelancer();
+        newman.setPicByte(file.getBytes());
+        freelancerServices.update(newman, freelancerid);
             return ResponseEntity.status(HttpStatus.OK);
     }
 

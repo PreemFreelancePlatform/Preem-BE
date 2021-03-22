@@ -1,55 +1,51 @@
 package com.bzwilson.bflp.controllers;
 
-import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
-import com.bzwilson.bflp.exceptions.ResourceFoundException;
 import com.bzwilson.bflp.models.Freelancer;
-import com.bzwilson.bflp.models.FreelancerMin;
+import com.bzwilson.bflp.models.MinUser;
 import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
+import java.util.List;
 @RestController
 public class OpenFreelancercontroller {
 
     @Autowired
     private FreelancerService freelancerservice;
 
-    @Autowired
-    private HelperFunctions helper;
-
-
     @PostMapping(value = "/createnewfreelancer",
             consumes = {"application/json"},
             produces = {"application/json"})
-    public ResponseEntity<?> addFreelancer(
+    public ResponseEntity<?> addSelf(
             HttpServletRequest httpServletRequest,
+            @Valid
             @RequestBody
-                    FreelancerMin newminFreelancer)
+                MinUser minUser)
             throws
             URISyntaxException {
-        // Create the user
 
 //        if (helper.freelancerUserNameisAvailable(newminFreelancer.getUsername())) {
 
             Freelancer newfreelancer = new Freelancer();
 
-            newfreelancer.setEmail(newminFreelancer.getEmail());
-//            newfreelancer.setUsername(newminFreelancer.getUsername());
-            newfreelancer.setPassword(newminFreelancer.getPassword());
+            newfreelancer.setFirstname(minUser.getFirstname());
+            newfreelancer.setLastname(minUser.getLastname());
+            newfreelancer.setEmail(minUser.getEmail());
+            newfreelancer.setPassword(minUser.getPassword());
             newfreelancer.setLOCKED_role("freelancer");
-            newfreelancer.setTutorial(false);
             newfreelancer.setSetup(false);
-
 
             // add the default role of user
 //        List<UserRoles> newRoles = new ArrayList<>();
@@ -59,21 +55,14 @@ public class OpenFreelancercontroller {
 
             newfreelancer = freelancerservice.save(newfreelancer);
 
-            // set the location header for the newly created resource
-            // The location comes from a different controller!
-            HttpHeaders responseHeaders = new HttpHeaders();
-            URI newFreelancerURI = ServletUriComponentsBuilder.fromUriString(httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/users/freelancer/{freelancerid}")
-                    .buildAndExpand(newfreelancer.getId())
-                    .toUri();
-            responseHeaders.setLocation(newFreelancerURI);
 
-            return new ResponseEntity<>(
-                    responseHeaders,
-                    HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                HttpStatus.CREATED);
+    }
 
         }
 //        else {
 //            throw new ResourceFoundException("The Username " + newminFreelancer.getUsername() + " has been taken");
 //        }
 //    }
-}
+

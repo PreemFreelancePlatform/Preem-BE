@@ -14,4 +14,5 @@ public interface FreelancerRepo extends CrudRepository<Freelancer, Long> {
     Freelancer findByEmail(String email);
 
 
+
 }

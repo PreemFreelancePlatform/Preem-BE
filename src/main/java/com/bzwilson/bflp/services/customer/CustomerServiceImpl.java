@@ -74,10 +74,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer newCustomer = new Customer();
 
         // if we get an id back then set it to new customer
-        if (customer.getId() != 0) {
+        if (customer.getCustomerid() != 0) {
 //            Customer oldCustomer = customerrepo.findById(customer.getCustomerid())
 //                    .orElseThrow(() -> new ResourceNotFoundException("User id " + customer.getCustomerid() + " not found!"));
-            newCustomer.setId(customer.getId());
+            newCustomer.setCustomerid(customer.getCustomerid());
         }
 
         newCustomer.setFirstname(customer.getFirstname());
@@ -96,7 +96,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         newCustomer.setVerified(customer.getVerified());
 
+        newCustomer.setQuestion1(customer.getQuestion1());
+
         newCustomer.setSecurity1(customer.getSecurity1());
+
+        newCustomer.setQuestion2(customer.getQuestion2());
 
         newCustomer.setSecurity2(customer.getSecurity2());
 
@@ -106,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .clear();
         for (CustomerPosts cp : customer.getCustomerposts()) {
             newCustomer.getCustomerposts()
-                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), newCustomer));
+                    .add(new CustomerPosts(newCustomer, cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
         }
 
         return customerrepo.save(newCustomer);
@@ -151,13 +155,22 @@ public class CustomerServiceImpl implements CustomerService {
                 currentCustomer.setSetup(customer.getSetup());
             }
 
-
             if (customer.getVerified() != null) {
                 currentCustomer.setVerified(customer.getVerified());
             }
+
+            if (customer.getQuestion1() != null) {
+                currentCustomer.setQuestion1(customer.getQuestion1());
+            }
+
             if (customer.getSecurity1() != null) {
                 currentCustomer.setSecurity1(customer.getSecurity1());
             }
+
+            if (customer.getQuestion2() != null) {
+                currentCustomer.setQuestion2(customer.getQuestion2());
+            }
+
             if (customer.getSecurity2() != null) {
                 currentCustomer.setSecurity2(customer.getSecurity2());
             }
@@ -171,7 +184,7 @@ public class CustomerServiceImpl implements CustomerService {
                 currentCustomer.getCustomerposts().clear();
                 for (CustomerPosts cp : customer.getCustomerposts()) {
                     currentCustomer.getCustomerposts()
-                            .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getField(), cp.getSpecialization(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), currentCustomer));
+                            .add(new CustomerPosts(currentCustomer, cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
                 }
             }
 

@@ -1,20 +1,29 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
+import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
+import com.bzwilson.bflp.exceptions.ResourceFoundException;
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
+import com.bzwilson.bflp.exceptions.RestrictionException;
+import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
+import com.bzwilson.bflp.models.JsonPage;
 import com.bzwilson.bflp.repositories.CustomerPostRepo;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
+import com.bzwilson.bflp.services.Freelancer.FreelancerService;
 import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Transactional
 @Service(value = "customerPostService")
@@ -29,6 +38,13 @@ public class CustomerPostServiceImpl implements CustomerPostService {
     @Autowired
     private FreelancerRepo freerepo;
 
+    @Autowired
+    private FreelancerService freelancerService;
+
+
+    @Autowired
+    private HelperFunctions helperFunctions;
+
 //    @Override
 //    public List<CustomerPosts> findAll(Pageable pageable) {
 //        List<CustomerPosts> list = new ArrayList<>();
@@ -39,19 +55,21 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 //    }
 
     @Override
-    public Page<CustomerPosts> findAll(Pageable pageable) {
-        return customerpostrepo.findAll(pageable);
+    public Page<CustomerPosts> findAll(int page, int size) {
+            Pageable pr = PageRequest.of(page, size);
+            return new JsonPage<CustomerPosts>(customerpostrepo.findAll(pr), pr);
     }
 
-    @Override
-    public Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable) {
-      return customerpostrepo.findAllByFieldAndSpecializationInAndBudgetBetween(field, specialization, min, max, pageable);
-    }
 
-    @Override
-    public Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable) {
-        return customerpostrepo.findAllByFieldAndBudgetBetween(field, min, max, pageable);
-    }
+//    @Override
+//    public Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable) {
+//      return customerpostrepo.findAllByFieldAndSpecializationInAndBudgetBetween(field, specialization, min, max, pageable);
+//    }
+//
+//    @Override
+//    public Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable) {
+//        return customerpostrepo.findAllByFieldAndBudgetBetween(field, min, max, pageable);
+//    }
 
     @Override
     public CustomerPosts findByCustomerPostId(long id)
@@ -69,6 +87,19 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         customerpostrepo.deleteById(id);
     }
 
+    @Override
+    public CustomerPosts removeFreelancerFromPost(long pid, long fid) {
+        Freelancer fr = freelancerService.FindFreelancerById(fid);
+        CustomerPosts newpost = findByCustomerPostId(pid);
+
+        if(newpost.getFreelancers().contains(fr)) {
+          newpost.getFreelancers().remove(fr);
+        } else {
+            throw new ResourceFoundException("Freelancer" + fr.getFreelancerid() + "aint on this post big homie");
+        }
+        return customerpostrepo.save(newpost);
+    }
+
     @Transactional
     @Override
     public CustomerPosts save(CustomerPosts customerposts) {
@@ -83,24 +114,27 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             newCustomerPosts.setPostid(customerposts.getPostid());
         }
 
+        newCustomerPosts.setCustomer(customerposts.getCustomer());
+
         newCustomerPosts.setTask(customerposts.getTask());
 
         newCustomerPosts.setDescription(customerposts.getDescription());
 
-        newCustomerPosts.setField(customerposts.getField());
+        newCustomerPosts.setCategory(customerposts.getCategory());
 
-        newCustomerPosts.setSpecialization(customerposts.getSpecialization());
+        newCustomerPosts.setTags(customerposts.getTags());
 
         newCustomerPosts.setBudget(customerposts.getBudget());
 
-        newCustomerPosts.setCustomer(customerposts.getCustomer());
+        newCustomerPosts.setDuedate(customerposts.getDuedate());
 
+        newCustomerPosts.setPostdate(customerposts.getPostdate());
 
         newCustomerPosts.getFreelancers()
                 .clear();
         for (Freelancer fl : customerposts.getFreelancers()) {
             newCustomerPosts.getFreelancers()
-                    .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(),  fl.getTutorial(), fl.getSetup(), fl.getVerified(), fl.getSecurity1(), fl.getSecurity2(), fl.getTags(), fl.getCategories(),  fl.getPicByte()));
+                    .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(), fl.getSetup(), fl.getVerified(), fl.getQuestion1(), fl.getSecurity1(), fl.getQuestion2(), fl.getSecurity2(), fl.getTags(), fl.getCategories(),  fl.getPicByte()));
         }
 
         return customerpostrepo.save(newCustomerPosts);
@@ -114,7 +148,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         CustomerPosts currentcustomerposts = findByCustomerPostId(id);
 
-        // WILL I NEED THIS LATER??
+        // WILL I NEED THIS LATER?? yes ---------------------------------------------------------------------------
 //        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
 
         if (customerpost.getTask() != null) {
@@ -125,16 +159,24 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.setDescription(customerpost.getDescription());
         }
 
-        if (customerpost.getField() != null) {
-            currentcustomerposts.setField(customerpost.getField());
+        if (customerpost.getCategory() != null) {
+            currentcustomerposts.setCategory(customerpost.getCategory());
         }
 
-        if (customerpost.getField() != null) {
-            currentcustomerposts.setField(customerpost.getField());
+        if (customerpost.getTags() != null) {
+            currentcustomerposts.setTags(customerpost.getTags());
         }
 
-        if (customerpost.getSpecialization() != null) {
-            currentcustomerposts.setSpecialization(customerpost.getSpecialization());
+        if (customerpost.getBudget() != null) {
+            currentcustomerposts.setBudget(customerpost.getBudget());
+        }
+
+        if (customerpost.getDuedate() != null) {
+            currentcustomerposts.setDuedate(customerpost.getDuedate());
+        }
+
+        if (customerpost.getPostdate() != null) {
+            currentcustomerposts.setPostdate(customerpost.getPostdate());
         }
 
         if (customerpost.getFreelancers()
@@ -142,7 +184,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.getFreelancers().clear();
             for (Freelancer fl : customerpost.getFreelancers()) {
                 currentcustomerposts.getFreelancers()
-                        .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(), fl.getTutorial(), fl.getSetup(), fl.getVerified(), fl.getSecurity1(), fl.getSecurity2(), fl.getTags(), fl.getCategories(), fl.getPicByte()));
+                        .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(), fl.getSetup(), fl.getVerified(), fl.getQuestion1(), fl.getSecurity1(), fl.getQuestion2(), fl.getSecurity2(), fl.getTags(), fl.getCategories(),  fl.getPicByte()));
             }
         }
 
@@ -156,7 +198,12 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         CustomerPosts cp = customerpostrepo.findById(pid).orElseThrow(EntityNotFoundException::new);
         Freelancer fl = freerepo.findById(fid).orElseThrow(EntityNotFoundException::new);
 
-        cp.getFreelancers().add(fl);
+        if(cp.getFreelancers().contains(fl)) {
+            throw new RestrictionException("You have already applied to this post");
+        } else {
+            cp.getFreelancers().add(fl);
+        }
+
 
         return customerpostrepo.save(cp);
     }
