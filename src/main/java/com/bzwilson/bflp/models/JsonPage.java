@@ -20,32 +20,32 @@ public class JsonPage<T> extends org.springframework.data.domain.PageImpl<T> {
         super(page.getContent(), pageable, page.getTotalElements());
     }
 
-    @JsonView(View.Base.class)
+    @JsonView(View.PostInfo.class)
     public int getTotalPages() {
         return super.getTotalPages();
     }
 
-    @JsonView(View.Base.class)
+    @JsonView(View.PostInfo.class)
     public long getTotalElements() {
         return super.getTotalElements();
     }
 
-    @JsonView(View.Base.class)
+    @JsonView(View.PostInfo.class)
     public boolean hasNext() {
         return super.hasNext();
     }
 
-    @JsonView(View.Base.class)
+    @JsonView(View.PostInfo.class)
     public boolean isLast() {
         return super.isLast();
     }
 
-    @JsonView(View.Base.class)
+    @JsonView(View.PostInfo.class)
     public boolean hasContent() {
         return super.hasContent();
     }
 
-    @JsonView(View.Base.class)
+    @JsonView(View.PostInfo.class)
     public List<T> getContent() {
         return super.getContent();
     }

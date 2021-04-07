@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.sun.istack.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -47,6 +46,8 @@ public class Freelancer {
     @OneToMany(mappedBy = "freelancer",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"freelancer"},
+            allowSetters = true)
     private List<TagRequest> tagRequests = new ArrayList<>();
 
     @ElementCollection
@@ -55,7 +56,6 @@ public class Freelancer {
     @ElementCollection
     private List<String> categories = new ArrayList<>();
 
-
     @Lob
     @Column
     private byte[] picByte;
@@ -63,6 +63,14 @@ public class Freelancer {
     @ManyToMany(mappedBy = "freelancers")
     @JsonIgnoreProperties(value = {"freelancers"})
     private List<CustomerPosts> customerposts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "freelancer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"customer", "contracts"},
+            allowSetters = true)
+    private List<Contract> contracts = new ArrayList<>();
+
 
     public Freelancer() {
     }
@@ -228,7 +236,13 @@ public class Freelancer {
         this.customerposts = customerposts;
     }
 
+    public List<Contract> getContracts() {
+        return contracts;
+    }
 
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
+    }
 
     @JsonIgnore
     public List<SimpleGrantedAuthority> getAuthority() {

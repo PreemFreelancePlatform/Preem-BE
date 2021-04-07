@@ -17,8 +17,8 @@ public class TagRequestServicesImpl implements TagRequestServices {
     private TagRequestRepo tagRequestRepo;
 
     @Override
-    public TagRequest findAllByCategoryAP4(String category) {
-       return tagRequestRepo.findAllByCategoryAP4(category);
+    public TagRequest findAllByCategory(String category) {
+       return tagRequestRepo.findAllByCategory(category);
     }
 
     @Override
@@ -53,14 +53,29 @@ public class TagRequestServicesImpl implements TagRequestServices {
             newTagRequest.setRequestid(tagRequest.getRequestid());
         }
 
-        newTagRequest.setCategoryAP4(tagRequest.getCategoryAP4());
+        newTagRequest.setCategory(tagRequest.getCategory());
 
-        newTagRequest.setTagAP4(tagRequest.getTagAP4());
+        newTagRequest.getTags()
+                .clear();
+        for(String str : tagRequest.getTags()) {
+            newTagRequest.getTags().add(str);
+        }
 
-        newTagRequest.setProjlink(tagRequest.getProjlink());
+        newTagRequest.getProjects()
+                .clear();
+        for(String str : tagRequest.getProjects()) {
+            newTagRequest.getProjects().add(str);
+        }
+
+        newTagRequest.getGithubs()
+                .clear();
+        for(String str : tagRequest.getGithubs()) {
+            newTagRequest.getGithubs().add(str);
+        }
 
         newTagRequest.setFreelancer(tagRequest.getFreelancer());
 
         return tagRequestRepo.save(newTagRequest);
     }
 }
+

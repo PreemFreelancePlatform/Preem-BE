@@ -1,8 +1,11 @@
 package com.bzwilson.bflp.services.customer;
 
 import com.bzwilson.bflp.models.Customer;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 public interface CustomerService {
 

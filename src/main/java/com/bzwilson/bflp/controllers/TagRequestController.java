@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tagRequest/")
+@RequestMapping("/tagRequest")
 public class TagRequestController {
 
 

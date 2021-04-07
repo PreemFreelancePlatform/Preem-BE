@@ -12,45 +12,25 @@ import java.util.List;
 @Table(name = "customerpost")
 public class CustomerPosts {
 
-    // THINGS a customer post needs
-    // unique id
-    // name
-    // description
-    // tech stack
-    // list of applicants to particular job post
-
-    // this will be a list of posts that a customer will put up
-    // many to one relationship with customers
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long postid;
 
-    @ManyToOne
-    @JoinColumn(name = "customerid")
-    @JsonIgnoreProperties(value = "customerposts",
-            allowSetters = true)
-    private Customer customer;
-
     @Column
     private String task;
 
-    @JsonView(View.Base.class)
     @Lob
     @Column( length = 1000 )
     private String description;
 
     @Column
+    private Double budget;
+    private String duedate;
+    private String postdate;
     private String category;
 
     @ElementCollection
     private List<String> tags = new ArrayList<>();
-
-    @Column
-    private Double budget;
-    private String duedate;
-    private String postdate;
 
     @ManyToMany()
     @JoinTable(name = "freelancerpost",
@@ -59,21 +39,29 @@ public class CustomerPosts {
             @JsonIgnoreProperties(value = {"customerposts", "freelancers"})
     List<Freelancer> freelancers = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "customerid")
+    @JsonIgnoreProperties(value = "customerposts",
+            allowSetters = true)
+    private Customer customer;
+
+
     public CustomerPosts() {
     }
 
-    public CustomerPosts(Customer customer, String task, String description, String category, List<String> tags, Double budget, String duedate, String postdate, List<Freelancer> freelancers) {
-        setCustomer(customer);
+    public CustomerPosts(String task, String description, Double budget, String duedate, String postdate, String category, List<String> tags, List<Freelancer> freelancers, Customer customer) {
         setTask(task);
         setDescription(description);
-        setCategory(category);
-        setTags(tags);
         setBudget(budget);
         setDuedate(duedate);
         setPostdate(postdate);
+        setCategory(category);
+        setTags(tags);
         setFreelancers(freelancers);
+        setCustomer(customer);
     }
 
+    @JsonView(View.PostInfo.class)
     public long getPostid() {
         return postid;
     }
@@ -82,15 +70,7 @@ public class CustomerPosts {
         this.postid = postid;
     }
 
-    @JsonView(View.Base.class)
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
+    @JsonView(View.PostInfo.class)
     public String getTask() {
         return task;
     }
@@ -99,6 +79,7 @@ public class CustomerPosts {
         this.task = task;
     }
 
+    @JsonView(View.PostInfo.class)
     public String getDescription() {
         return description;
     }
@@ -107,22 +88,7 @@ public class CustomerPosts {
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
+    @JsonView(View.PostInfo.class)
     public Double getBudget() {
         return budget;
     }
@@ -131,6 +97,7 @@ public class CustomerPosts {
         this.budget = budget;
     }
 
+    @JsonView(View.PostInfo.class)
     public String getDuedate() {
         return duedate;
     }
@@ -139,6 +106,7 @@ public class CustomerPosts {
         this.duedate = duedate;
     }
 
+    @JsonView(View.PostInfo.class)
     public String getPostdate() {
         return postdate;
     }
@@ -147,12 +115,38 @@ public class CustomerPosts {
         this.postdate = postdate;
     }
 
-    public List<Freelancer> getFreelancers() {
-        return freelancers;
+
+    @JsonView(View.PostInfo.class)
+    public String getCategory() {
+        return category;
     }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @JsonView(View.PostInfo.class)
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public List<Freelancer> getFreelancers() { return freelancers; }
 
     public void setFreelancers(List<Freelancer> freelancers) {
         this.freelancers = freelancers;
+    }
+
+    @JsonView(View.PostInfo.class)
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
 

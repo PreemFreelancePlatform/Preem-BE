@@ -33,32 +33,32 @@ public class PostController {
 
 
     @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
-    @JsonView(View.Base.class)
     @GetMapping(value = "/posts")
     public Page<CustomerPosts> findAll(@RequestParam(value = "page", defaultValue = "0") int page) {
         return postService.findAll(page, 10);
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
-//    @GetMapping(value = "/filter",
-//            produces = {"application/json"})
-//    public ResponseEntity<?> findAll(@RequestParam(value = "field") String field,
-//                                     @RequestParam(value = "specialization", required = false) List<String> specialization,
-//                                     @RequestParam(value = "min", required = false, defaultValue = "1" ) Double min,
-//                                     @RequestParam(value = "max", required = false, defaultValue = "10000") Double max,
-//                                     @RequestParam(value = "page") int page) {
-//
-//
-//        if(specialization.isEmpty()){
-//            Pageable paging = PageRequest.of(page, 13);
-//            Page<CustomerPosts> fieldposts = postService.findAllByFieldAndBudgetBetween(field, min, max, paging);
-//            return ResponseEntity.ok(fieldposts);
-//        }
-//
-//        Pageable paging = PageRequest.of(page, 13);
-//        Page<CustomerPosts> fieldposts = postService.findAllByFieldAndSpecializationInAndBudgetBetween(field, specialization, min, max, paging);
-//        return ResponseEntity.ok(fieldposts);
-//    }
+    @JsonView(View.PostInfo.class)
+    @PreAuthorize("hasAnyRole('ROLE_FREELANCER', 'ROLE_ADMIN')")
+    @GetMapping(value = "/filter",
+            produces = {"application/json"})
+    public ResponseEntity<?> findAll(@RequestParam(value = "category") List<String> category,
+                                     @RequestParam(value = "tags", required = false) List<String> tags,
+                                     @RequestParam(value = "min", required = false, defaultValue = "1" ) Double min,
+                                     @RequestParam(value = "max", required = false, defaultValue = "10000") Double max,
+                                     @RequestParam(value = "page") int page) {
+
+
+        if(tags.isEmpty()){
+            Pageable paging = PageRequest.of(page, 13);
+            Page<CustomerPosts> fieldposts = postService.findAllByCategoryInAndBudgetBetween(category, min, max, page, paging);
+            return ResponseEntity.ok(fieldposts);
+        }
+
+        Pageable paging = PageRequest.of(page, 13);
+        Page<CustomerPosts> fieldposts = postService.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, page, paging);
+        return ResponseEntity.ok(fieldposts);
+    }
 
 
     // CUSTOMER ONLY
