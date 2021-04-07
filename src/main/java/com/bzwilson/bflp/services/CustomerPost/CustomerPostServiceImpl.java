@@ -60,16 +60,17 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             return new JsonPage<CustomerPosts>(customerpostrepo.findAll(pr), pr);
     }
 
+    @Override
+    public Page<CustomerPosts> findAllByCategoryInAndTagsInAndBudgetBetween(List<String> category, List<String> tags, Double min, Double max, int page, Pageable pageable) {
+        Pageable pr = PageRequest.of(page, 12);
+        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, pr), pr);
+    }
 
-//    @Override
-//    public Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable) {
-//      return customerpostrepo.findAllByFieldAndSpecializationInAndBudgetBetween(field, specialization, min, max, pageable);
-//    }
-//
-//    @Override
-//    public Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable) {
-//        return customerpostrepo.findAllByFieldAndBudgetBetween(field, min, max, pageable);
-//    }
+    @Override
+    public Page<CustomerPosts> findAllByCategoryInAndBudgetBetween(List<String>  category, Double min, Double max, int page, Pageable pageable) {
+        Pageable pr = PageRequest.of(page, 12);
+        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndBudgetBetween(category, min, max, pr), pr);
+    }
 
     @Override
     public CustomerPosts findByCustomerPostId(long id)
@@ -114,15 +115,9 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             newCustomerPosts.setPostid(customerposts.getPostid());
         }
 
-        newCustomerPosts.setCustomer(customerposts.getCustomer());
-
         newCustomerPosts.setTask(customerposts.getTask());
 
         newCustomerPosts.setDescription(customerposts.getDescription());
-
-        newCustomerPosts.setCategory(customerposts.getCategory());
-
-        newCustomerPosts.setTags(customerposts.getTags());
 
         newCustomerPosts.setBudget(customerposts.getBudget());
 
@@ -130,12 +125,19 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         newCustomerPosts.setPostdate(customerposts.getPostdate());
 
+        newCustomerPosts.setCategory(customerposts.getCategory());
+
+        newCustomerPosts.setTags(customerposts.getTags());
+
+
         newCustomerPosts.getFreelancers()
                 .clear();
         for (Freelancer fl : customerposts.getFreelancers()) {
             newCustomerPosts.getFreelancers()
                     .add(new Freelancer(fl.getEmail(), fl.getFirstname(), fl.getLastname(), fl.getPassword(), fl.getLOCKED_role(), fl.getSetup(), fl.getVerified(), fl.getQuestion1(), fl.getSecurity1(), fl.getQuestion2(), fl.getSecurity2(), fl.getTags(), fl.getCategories(),  fl.getPicByte()));
         }
+
+        newCustomerPosts.setCustomer(customerposts.getCustomer());
 
         return customerpostrepo.save(newCustomerPosts);
     }
@@ -159,14 +161,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             currentcustomerposts.setDescription(customerpost.getDescription());
         }
 
-        if (customerpost.getCategory() != null) {
-            currentcustomerposts.setCategory(customerpost.getCategory());
-        }
-
-        if (customerpost.getTags() != null) {
-            currentcustomerposts.setTags(customerpost.getTags());
-        }
-
         if (customerpost.getBudget() != null) {
             currentcustomerposts.setBudget(customerpost.getBudget());
         }
@@ -177,6 +171,14 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
         if (customerpost.getPostdate() != null) {
             currentcustomerposts.setPostdate(customerpost.getPostdate());
+        }
+
+        if (customerpost.getCategory() != null) {
+            currentcustomerposts.setCategory(customerpost.getCategory());
+        }
+
+        if (customerpost.getTags() != null) {
+            currentcustomerposts.setTags(customerpost.getTags());
         }
 
         if (customerpost.getFreelancers()

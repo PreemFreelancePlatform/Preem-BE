@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tagrequest")
@@ -15,9 +17,18 @@ public class TagRequest {
 
     @NotNull
     @Column(nullable = false)
-    private String categoryAP4;
-    private String tagAP4;
-    private String projlink;
+    private String category;
+
+    @ElementCollection
+    private List<String> tags = new ArrayList<>();
+
+    @ElementCollection
+    private List<String> projects = new ArrayList<>();
+
+    @ElementCollection
+    private List<String> githubs = new ArrayList<>();
+
+
 
     @ManyToOne
     @JoinColumn(name = "freelancerid")
@@ -29,10 +40,11 @@ public class TagRequest {
     public TagRequest() {
     }
 
-    public TagRequest(String categoryAP4, String tagAP4, String projlink, Freelancer freelancer) {
-        this.categoryAP4 = categoryAP4;
-        this.tagAP4 = tagAP4;
-        this.projlink = projlink;
+    public TagRequest(String category, List<String> tags, List<String> projects, List<String> githubs, Freelancer freelancer) {
+        this.category = category;
+        this.tags = tags;
+        this.projects = projects;
+        this.githubs = githubs;
         this.freelancer = freelancer;
     }
 
@@ -40,32 +52,40 @@ public class TagRequest {
         return requestid;
     }
 
-    public void setRequestid(long id) {
-        this.requestid = id;
+    public void setRequestid(long requestid) {
+        this.requestid = requestid;
     }
 
-    public String getCategoryAP4() {
-        return categoryAP4;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryAP4(String categoryAP4) {
-        this.categoryAP4 = categoryAP4;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getTagAP4() {
-        return tagAP4;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setTagAP4(String tagAP4) {
-        this.tagAP4 = tagAP4;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
-    public String getProjlink() {
-        return projlink;
+    public List<String> getProjects() {
+        return projects;
     }
 
-    public void setProjlink(String projlink) {
-        this.projlink = projlink;
+    public void setProjects(List<String> projects) {
+        this.projects = projects;
+    }
+
+    public List<String> getGithubs() {
+        return githubs;
+    }
+
+    public void setGithubs(List<String> githubs) {
+        this.githubs = githubs;
     }
 
     public Freelancer getFreelancer() {

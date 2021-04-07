@@ -115,12 +115,19 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setQuestion2(freelancer.getQuestion2());
 
-
         newfreelancer.setSecurity2(freelancer.getSecurity2());
 
-        newfreelancer.setTags(freelancer.getTags());
+        newfreelancer.getTags()
+                .clear();
+        for(String str : freelancer.getTags()) {
+            newfreelancer.getTags().add(str);
+        }
 
-        newfreelancer.setCategories(freelancer.getCategories());
+        newfreelancer.getCategories()
+                .clear();
+        for(String str : freelancer.getCategories()) {
+            newfreelancer.getCategories().add(str);
+        }
 
         newfreelancer.setPicByte(freelancer.getPicByte());
 
@@ -129,7 +136,7 @@ public class FreelancerServiceImpl implements FreelancerService {
                 .clear();
         for (TagRequest tr : freelancer.getTagRequests()) {
             newfreelancer.getTagRequests()
-                    .add(new TagRequest(tr.getCategoryAP4(), tr.getTagAP4(), tr.getProjlink(), tr.getFreelancer()));
+                    .add(new TagRequest(tr.getCategory(), tr.getTags(), tr.getProjects(), tr.getGithubs(), tr.getFreelancer()));
         }
 
 
@@ -137,7 +144,7 @@ public class FreelancerServiceImpl implements FreelancerService {
                 .clear();
         for (CustomerPosts cp : freelancer.getCustomerposts()) {
             newfreelancer.getCustomerposts()
-                    .add(new CustomerPosts( cp.getCustomer(), cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
+                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), cp.getCustomer()));
         }
 
 
@@ -202,22 +209,31 @@ public class FreelancerServiceImpl implements FreelancerService {
             currentfreelancer.setSecurity2(freelancer.getSecurity2());
         }
 
-        if (freelancer.getTags() != null) {
-            currentfreelancer.setTags(freelancer.getTags());
+        if (freelancer.getTags().size() > 1) {
+            for(String str : freelancer.getTags()) {
+                currentfreelancer.getTags().add(str);
+            }
         }
 
-        if (freelancer.getCategories() != null) {
-            currentfreelancer.setCategories(freelancer.getCategories());
+        if (freelancer.getCategories().size() > 1) {
+            for(String str : freelancer.getCategories()) {
+                currentfreelancer.getCategories().add(str);
+            }
         }
 
         if (freelancer.getPicByte() != null) {
             currentfreelancer.setPicByte(freelancer.getPicByte());
         }
 
+        for (TagRequest tr : freelancer.getTagRequests()) {
+            currentfreelancer.getTagRequests()
+                    .add(new TagRequest(tr.getCategory(), tr.getTags(), tr.getProjects(), tr.getGithubs(), tr.getFreelancer()));
+        }
+
         if (freelancer.getCustomerposts().size() > 0) {
             for (CustomerPosts cp : freelancer.getCustomerposts()) {
                 currentfreelancer.getCustomerposts()
-                        .add(new CustomerPosts( cp.getCustomer(), cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
+                        .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), cp.getCustomer()));
             }
 
         }

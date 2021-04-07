@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface TagRequestServices {
 
-    TagRequest findAllByCategoryAP4(String categoryAP4);
+    TagRequest findAllByCategory(String category);
 
     List<TagRequest> findAll();
 

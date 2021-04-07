@@ -17,12 +17,10 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
 
-    @JsonView(View.Base.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long customerid;
 
-    @JsonView(View.Base.class)
     @NotNull
     @Column(nullable = false)
     private String firstname;
@@ -38,7 +36,6 @@ public class Customer {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonView(View.Base.class)
     @NotNull
     @Column(nullable = false)
     private String LOCKED_role;
@@ -52,18 +49,23 @@ public class Customer {
     private String question2;
     private String security2;
 
-    @JsonView(View.Base.class)
     @Lob
     @Column
     private byte[] picByte;
 
-    @JsonView(View.Base.class)
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnoreProperties(value = {"customer", "freelancerpost"},
             allowSetters = true)
     private List<CustomerPosts> customerposts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"customer", "contracts"},
+            allowSetters = true)
+    private List<Contract> contracts = new ArrayList<>();
 
     public Customer() {
     }
@@ -84,6 +86,7 @@ public class Customer {
         setPicByte(picByte);
     }
 
+    @JsonView(View.PostInfo.class)
     public long getCustomerid() {
         return customerid;
     }
@@ -92,6 +95,7 @@ public class Customer {
         this.customerid = customerid;
     }
 
+    @JsonView(View.PostInfo.class)
     public String getFirstname() {
         return firstname;
     }
@@ -100,6 +104,7 @@ public class Customer {
         this.firstname = firstname;
     }
 
+    @JsonView(View.PostInfo.class)
     public String getLastname() {
         return lastname;
     }
@@ -195,12 +200,21 @@ public class Customer {
         this.security2 = security2;
     }
 
+    @JsonView(View.PostInfo.class)
     public byte[] getPicByte() {
         return picByte;
     }
 
     public void setPicByte(byte[] picByte) {
         this.picByte = picByte;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     public List<CustomerPosts> getCustomerposts() {

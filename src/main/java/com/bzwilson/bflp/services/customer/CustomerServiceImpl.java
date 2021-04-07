@@ -3,6 +3,7 @@ package com.bzwilson.bflp.services.customer;
 import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.exceptions.RestrictionException;
+import com.bzwilson.bflp.models.Contract;
 import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.repositories.CustomerRepo;
@@ -106,11 +107,19 @@ public class CustomerServiceImpl implements CustomerService {
 
         newCustomer.setPicByte(customer.getPicByte());
 
+
+        newCustomer.getContracts()
+                .clear();
+        for (Contract cp : customer.getContracts()) {
+            newCustomer.getContracts()
+                    .add(new Contract(cp.getPrice(), cp.getFinaloffer(), cp.getExtras(), cp.getPaytime(), cp.getTask(), cp.getDeliverdate(), cp.getDescription(), cp.getFreelancerOK(), cp.getClientOK(), cp.getActive()));
+        }
+
         newCustomer.getCustomerposts()
                 .clear();
         for (CustomerPosts cp : customer.getCustomerposts()) {
             newCustomer.getCustomerposts()
-                    .add(new CustomerPosts(newCustomer, cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
+                    .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), newCustomer));
         }
 
         return customerrepo.save(newCustomer);
@@ -178,13 +187,16 @@ public class CustomerServiceImpl implements CustomerService {
             if (customer.getPicByte() != null) {
                 currentCustomer.setPicByte(customer.getPicByte());
             }
-            // test to clear
+
+
+
+
             if (customer.getCustomerposts()
                     .size() > 0) {
                 currentCustomer.getCustomerposts().clear();
                 for (CustomerPosts cp : customer.getCustomerposts()) {
                     currentCustomer.getCustomerposts()
-                            .add(new CustomerPosts(currentCustomer, cp.getTask(), cp.getDescription(), cp.getCategory(), cp.getTags(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getFreelancers()));
+                            .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), currentCustomer));
                 }
             }
 

@@ -58,40 +58,45 @@ public class SeedData
                 "b", "customer", true, true, true, "how big yo dick is", "fafa", "what u doin", "afafa",  null);
 
 
-        List<String> taggers = new ArrayList<>();
-        taggers.add("React");
-        taggers.add("Vue");
-        taggers.add("Photoshop");
+        List<String> cats = new ArrayList<>();
+        cats.add("Web Development");
+        cats.add("Game Development");
+
+        List<String> taggies = new ArrayList<>();
+        taggies.add("Back-End");
+        taggies.add("Front-End");
+
 
         Freelancer f1 = new Freelancer(
                 "a",
-                "Billy",
-                "wilson",
+                "William",
+                "Wilson",
                 "a",
-                "freelancer", false, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggers, null, null);
+                "freelancer", true, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggies, cats, null);
 
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 30; i++) {
             final String[] backnames = {"Hey this is a task and doesnt really matter", "I need somebody to build this for me because im a duck", "how long can a title be before its just too long??", "i need somebody to construct a thing for me woot yay it works"};
             final String[] specs = {"Back-End", "Front-End", "Full-Stack", "Web-Design", "UI/UX", "Testing", "AR/VR", "Wordpress"};
             Random random = new Random();
             int index1 = random.nextInt(backnames.length);
             int index2 = random.nextInt(specs.length);
+            int index3 = random.nextInt(specs.length);
             int cash = random.nextInt(10000) + 100;
             int date = random.nextInt(7) + 20;
             List <String> tags = new ArrayList<>();
             tags.add(specs[index2]);
-            tags.add(specs[index2]);
 
             CustomerPosts cp = new CustomerPosts(
-                    c1,
                     backnames[index1],
                     "this description is going to have to be quite long tbh just because its a description describing things so you can know what the thing is now ok so i need to write and take up mroe space so here it is yes mhm great stuff guys have a good day sincerely mr duckerson",
-                    "Web Development",
-                    tags,
                     (double) cash,
                     "1 week",
-                    "Jan " + date + " 2021", null);
+                    "Jan " + date + " 2021",
+                    "Web Development",
+                    tags,
+                    null, c1);
+
             c1.getCustomerposts().add(cp);
         }
 

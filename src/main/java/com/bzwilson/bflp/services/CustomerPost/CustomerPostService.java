@@ -10,9 +10,8 @@ import java.util.List;
 public interface CustomerPostService {
     Page<CustomerPosts> findAll(int page, int size);
 
-//    Page<CustomerPosts> findAllByFieldAndSpecializationInAndBudgetBetween(String field, List<String> specialization, Double min, Double max, Pageable pageable);
-//
-//    Page<CustomerPosts> findAllByFieldAndBudgetBetween(String field, Double min, Double max, Pageable pageable);
+    Page<CustomerPosts> findAllByCategoryInAndTagsInAndBudgetBetween(List<String> category, List<String> tags, Double min, Double max, int page, Pageable pageable);
+    Page<CustomerPosts> findAllByCategoryInAndBudgetBetween(List<String> category, Double min, Double max, int page, Pageable pageable);
 
     CustomerPosts findByCustomerPostId(long id);
 
