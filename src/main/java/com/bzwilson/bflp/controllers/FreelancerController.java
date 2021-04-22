@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.controllers;
 
 import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
+import com.bzwilson.bflp.exceptions.RestrictionException;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.models.View;
@@ -88,12 +89,12 @@ public class FreelancerController {
 
     // FREELANCER AUTHORIZED  CONSIDER USING AUTHENTICATED USER FOR THIS LATER
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
-    @PostMapping(value = "/freelancer/{freelancerid}/post/{postid}")
+    @PostMapping(value = "/{freelancerid}/post/{postid}")
     public ResponseEntity<?> AddFreelancertopost(
             @PathVariable
                     long freelancerid,
             @PathVariable
-                    long postid) {
+                    long postid) throws RestrictionException {
 
         customerPostService.apply(freelancerid, postid);
 

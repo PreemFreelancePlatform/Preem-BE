@@ -62,14 +62,13 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
     public Page<CustomerPosts> findAllByCategoryInAndTagsInAndBudgetBetween(List<String> category, List<String> tags, Double min, Double max, int page, Pageable pageable) {
-        Pageable pr = PageRequest.of(page, 12);
-        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, pr), pr);
+        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, pageable), pageable);
     }
 
     @Override
     public Page<CustomerPosts> findAllByCategoryInAndBudgetBetween(List<String>  category, Double min, Double max, int page, Pageable pageable) {
         Pageable pr = PageRequest.of(page, 12);
-        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndBudgetBetween(category, min, max, pr), pr);
+        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndBudgetBetween(category, min, max, pageable), pageable);
     }
 
     @Override

@@ -46,17 +46,18 @@ public class PostController {
                                      @RequestParam(value = "tags", required = false) List<String> tags,
                                      @RequestParam(value = "min", required = false, defaultValue = "1" ) Double min,
                                      @RequestParam(value = "max", required = false, defaultValue = "10000") Double max,
-                                     @RequestParam(value = "page") int page) {
+                                     @RequestParam(value = "page") int page,
+                                     @RequestParam(value = "size") int size) {
 
 
         if(tags.isEmpty()){
-            Pageable paging = PageRequest.of(page, 13);
-            Page<CustomerPosts> fieldposts = postService.findAllByCategoryInAndBudgetBetween(category, min, max, page, paging);
+            Pageable pr = PageRequest.of(page, size);
+            Page<CustomerPosts> fieldposts = postService.findAllByCategoryInAndBudgetBetween(category, min, max, page, pr);
             return ResponseEntity.ok(fieldposts);
         }
 
-        Pageable paging = PageRequest.of(page, 13);
-        Page<CustomerPosts> fieldposts = postService.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, page, paging);
+        Pageable pr = PageRequest.of(page, size);
+        Page<CustomerPosts> fieldposts = postService.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, page, pr);
         return ResponseEntity.ok(fieldposts);
     }
 

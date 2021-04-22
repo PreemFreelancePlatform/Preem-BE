@@ -75,7 +75,7 @@ public class SeedData
                 "freelancer", true, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggies, cats, null);
 
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 100; i++) {
             final String[] backnames = {"Hey this is a task and doesnt really matter", "I need somebody to build this for me because im a duck", "how long can a title be before its just too long??", "i need somebody to construct a thing for me woot yay it works"};
             final String[] specs = {"Back-End", "Front-End", "Full-Stack", "Web-Design", "UI/UX", "Testing", "AR/VR", "Wordpress"};
             Random random = new Random();

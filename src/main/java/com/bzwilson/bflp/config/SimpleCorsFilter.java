@@ -40,7 +40,7 @@ public class SimpleCorsFilter
                 "*");
 
         // white list http methods that can be used with this API. * says lets them all work! To restrict access use something like
-        //        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        //        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
         response.setHeader("Access-Control-Allow-Methods",
                 "*");
 
