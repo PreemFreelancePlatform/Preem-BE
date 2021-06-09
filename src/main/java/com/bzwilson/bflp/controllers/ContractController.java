@@ -2,8 +2,11 @@ package com.bzwilson.bflp.controllers;
 
 
 import com.bzwilson.bflp.models.Contract;
+import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.services.Contracts.ContractService;
+import com.bzwilson.bflp.services.Freelancer.FreelancerService;
+import com.bzwilson.bflp.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,6 +25,14 @@ public class ContractController {
 
     @Autowired
     private ContractService contractService;
+
+
+    @Autowired
+    private CustomerService customerService;
+
+
+    @Autowired
+    private FreelancerService freelancerService;
 
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
@@ -46,7 +58,7 @@ public class ContractController {
 
     // FREELANCER AUTHORIZED  CONSIDER USING AUTHENTICATED USER FOR THIS LATER
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_FREELANCER')")
-    @PostMapping(value = "/to/{fid}/{cid}")
+    @PostMapping(value = "new/{fid}/{cid}")
     public ResponseEntity<?> makenewcontract(
             @PathVariable
                     long fid,
@@ -55,7 +67,12 @@ public class ContractController {
             @RequestBody
                     Contract contract) {
 
-        contractService.createnew(contract, fid, cid);
+        Customer cus = customerService.findCustomerById(cid);
+        Freelancer fl = freelancerService.findFreelancerById(fid);
+        contract.setCustomer(cus);
+        contract.setFreelancer(fl);
+
+        contractService.createnew(contract);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

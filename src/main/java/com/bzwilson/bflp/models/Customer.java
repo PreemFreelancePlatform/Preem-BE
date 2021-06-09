@@ -86,7 +86,8 @@ public class Customer {
         setPicByte(picByte);
     }
 
-    @JsonView(View.PostInfo.class)
+
+    @JsonView({View.PostInfo.class, View.Confusion2.class})
     public long getCustomerid() {
         return customerid;
     }
@@ -95,7 +96,7 @@ public class Customer {
         this.customerid = customerid;
     }
 
-    @JsonView(View.PostInfo.class)
+    @JsonView({View.PostInfo.class, View.Confusion2.class})
     public String getFirstname() {
         return firstname;
     }
@@ -104,7 +105,7 @@ public class Customer {
         this.firstname = firstname;
     }
 
-    @JsonView(View.PostInfo.class)
+    @JsonView({View.PostInfo.class, View.Confusion2.class})
     public String getLastname() {
         return lastname;
     }
@@ -200,7 +201,7 @@ public class Customer {
         this.security2 = security2;
     }
 
-    @JsonView(View.PostInfo.class)
+    @JsonView({View.PostInfo.class, View.Confusion2.class})
     public byte[] getPicByte() {
         return picByte;
     }

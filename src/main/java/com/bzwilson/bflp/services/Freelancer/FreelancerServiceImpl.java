@@ -3,6 +3,7 @@ package com.bzwilson.bflp.services.Freelancer;
 import com.bzwilson.bflp.HelperFunctions.HelperFunctions;
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
 import com.bzwilson.bflp.exceptions.RestrictionException;
+import com.bzwilson.bflp.models.Contract;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import com.bzwilson.bflp.models.TagRequest;
@@ -68,7 +69,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Freelancer FindFreelancerById(long id)
+    public Freelancer findFreelancerById(long id)
             throws
             ResourceNotFoundException {
         return freerepo.findById(id)
@@ -131,14 +132,12 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         newfreelancer.setPicByte(freelancer.getPicByte());
 
-
         newfreelancer.getTagRequests()
                 .clear();
         for (TagRequest tr : freelancer.getTagRequests()) {
             newfreelancer.getTagRequests()
                     .add(new TagRequest(tr.getCategory(), tr.getTags(), tr.getProjects(), tr.getGithubs(), tr.getFreelancer()));
         }
-
 
         newfreelancer.getCustomerposts()
                 .clear();
@@ -147,6 +146,12 @@ public class FreelancerServiceImpl implements FreelancerService {
                     .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), cp.getCustomer()));
         }
 
+        newfreelancer.getContracts()
+                .clear();
+        for (Contract ct : freelancer.getContracts()) {
+            newfreelancer.getContracts()
+                    .add(new Contract(ct.getCustomer(), ct.getFreelancer(), ct.getPrice(), ct.getPaytime(), ct.getTask(), ct.getDeliverdate(), ct.getDescription(), ct.getFreelancerOK(), ct.getClientOK(), ct.getActive()));
+        }
 
         return freerepo.save(newfreelancer);
     }
@@ -157,7 +162,7 @@ public class FreelancerServiceImpl implements FreelancerService {
             Freelancer freelancer,
             long id) {
 
-        Freelancer currentfreelancer = FindFreelancerById(id);
+        Freelancer currentfreelancer = findFreelancerById(id);
 
         // WILL I NEED THIS LATER??
 //        if (helper.isAuthorizedToMakeChange(currentUser.getUsername())) {
@@ -234,6 +239,14 @@ public class FreelancerServiceImpl implements FreelancerService {
             for (CustomerPosts cp : freelancer.getCustomerposts()) {
                 currentfreelancer.getCustomerposts()
                         .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), cp.getCustomer()));
+            }
+
+        }
+
+        if (freelancer.getContracts().size() > 0) {
+            for (Contract ct : freelancer.getContracts()) {
+                currentfreelancer.getContracts()
+                        .add(new Contract(ct.getCustomer(), ct.getFreelancer(), ct.getPrice(), ct.getPaytime(), ct.getTask(), ct.getDeliverdate(), ct.getDescription(), ct.getFreelancerOK(), ct.getClientOK(), ct.getActive()));
             }
 
         }

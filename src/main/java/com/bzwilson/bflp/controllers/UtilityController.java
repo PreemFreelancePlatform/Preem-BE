@@ -1,22 +1,22 @@
 package com.bzwilson.bflp.controllers;
 
 import com.bzwilson.bflp.exceptions.ResourceNotFoundException;
-import com.bzwilson.bflp.models.Customer;
-import com.bzwilson.bflp.models.Freelancer;
-import com.bzwilson.bflp.models.View;
+import com.bzwilson.bflp.models.*;
 import com.bzwilson.bflp.repositories.CustomerRepo;
 import com.bzwilson.bflp.repositories.FreelancerRepo;
+import com.bzwilson.bflp.services.Contracts.ContractService;
+import com.bzwilson.bflp.services.CustomerPost.CustomerPostService;
 import com.bzwilson.bflp.services.Security.EmailSenderService;
+import com.bzwilson.bflp.services.customer.CustomerService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Random;
+import java.util.List;
 
 @RestController
 public class UtilityController {
@@ -25,18 +25,51 @@ public class UtilityController {
     private CustomerRepo customerRepo;
 
     @Autowired
+    private CustomerPostService customerPostService;
+
+    @Autowired
+    private ContractService contractService;
+
+    @Autowired
     private FreelancerRepo freelancerRepo;
 
     @Autowired
     private EmailSenderService emailSenderService;
 
+
+
+    @GetMapping(value = "/getmyposts",
+            produces = {"application/json"})
+    public ResponseEntity<?> getMyPosts(Authentication authentication) {
+        Customer customer = customerRepo.findByEmail(authentication.getName());
+        List<CustomerPosts> myPosts = customerPostService.findAllByCustomer(customer);
+        return new ResponseEntity<>(myPosts,
+                HttpStatus.OK);
+    }
+
+    @JsonView(View.Confusion1.class)
+    @GetMapping(value = "/cgetmycontracts",
+            produces = {"application/json"})
+    public ResponseEntity<?> CgetMyContracts(Authentication authentication) {
+        List<Contract> myContracts = contractService.findAllByCustomer_Email(authentication.getName());
+            return new ResponseEntity<>(myContracts,
+                    HttpStatus.OK);
+    }
+
+    @JsonView(View.Confusion2.class)
+    @GetMapping(value = "/fgetmycontracts",
+            produces = {"application/json"})
+    public ResponseEntity<?> FgetMyContracts(Authentication authentication) {
+        List<Contract> myContracts = contractService.findAllByFreelancer_Email(authentication.getName());
+        return new ResponseEntity<>(myContracts,
+                HttpStatus.OK);
+    }
+
+
     @ApiOperation(value = "returns the currently authenticated user",
             response = Customer.class)
     @GetMapping(value = "/getmyinfo",
             produces = {"application/json"})
-
-
-
     public ResponseEntity<?> getCurrentUserInfo(Authentication authentication) {
         Customer customer = customerRepo.findByEmail(authentication.getName());
         if (customer == null) {
@@ -48,7 +81,6 @@ public class UtilityController {
                     HttpStatus.OK);
         }
     }
-
 
 
     @PostMapping(value = "recover/{email}")

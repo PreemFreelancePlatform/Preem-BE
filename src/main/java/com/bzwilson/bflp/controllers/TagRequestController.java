@@ -60,7 +60,7 @@ public class TagRequestController {
             throws
             URISyntaxException {
 
-        Freelancer f = freelancerService.FindFreelancerById(freelancerid);
+        Freelancer f = freelancerService.findFreelancerById(freelancerid);
 
         List<TagRequest> list = f.getTagRequests();
 

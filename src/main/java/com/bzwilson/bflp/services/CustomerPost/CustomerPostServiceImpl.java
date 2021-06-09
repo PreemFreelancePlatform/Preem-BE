@@ -62,14 +62,13 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
     public Page<CustomerPosts> findAllByCategoryInAndTagsInAndBudgetBetween(List<String> category, List<String> tags, Double min, Double max, int page, Pageable pageable) {
-        Pageable pr = PageRequest.of(page, 12);
-        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, pr), pr);
+        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndTagsInAndBudgetBetween(category, tags, min, max, pageable), pageable);
     }
 
     @Override
     public Page<CustomerPosts> findAllByCategoryInAndBudgetBetween(List<String>  category, Double min, Double max, int page, Pageable pageable) {
         Pageable pr = PageRequest.of(page, 12);
-        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndBudgetBetween(category, min, max, pr), pr);
+        return new JsonPage<CustomerPosts>(customerpostrepo.findAllByCategoryInAndBudgetBetween(category, min, max, pageable), pageable);
     }
 
     @Override
@@ -90,7 +89,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
     public CustomerPosts removeFreelancerFromPost(long pid, long fid) {
-        Freelancer fr = freelancerService.FindFreelancerById(fid);
+        Freelancer fr = freelancerService.findFreelancerById(fid);
         CustomerPosts newpost = findByCustomerPostId(pid);
 
         if(newpost.getFreelancers().contains(fr)) {
@@ -128,7 +127,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         newCustomerPosts.setCategory(customerposts.getCategory());
 
         newCustomerPosts.setTags(customerposts.getTags());
-
 
         newCustomerPosts.getFreelancers()
                 .clear();
@@ -196,7 +194,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
     public CustomerPosts apply(long fid, long pid) {
-
         CustomerPosts cp = customerpostrepo.findById(pid).orElseThrow(EntityNotFoundException::new);
         Freelancer fl = freerepo.findById(fid).orElseThrow(EntityNotFoundException::new);
 
@@ -206,7 +203,15 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             cp.getFreelancers().add(fl);
         }
 
-
         return customerpostrepo.save(cp);
     }
+
+    @Override
+    public List<CustomerPosts> findAllByCustomer(Customer customer)
+            throws
+            ResourceNotFoundException {
+        return customerpostrepo.findAllByCustomer(customer);
+    }
+
+
 }

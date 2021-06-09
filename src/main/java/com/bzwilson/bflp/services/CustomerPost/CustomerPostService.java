@@ -1,5 +1,6 @@
 package com.bzwilson.bflp.services.CustomerPost;
 
+import com.bzwilson.bflp.models.Customer;
 import com.bzwilson.bflp.models.CustomerPosts;
 import com.bzwilson.bflp.models.Freelancer;
 import org.springframework.data.domain.Page;
@@ -26,5 +27,8 @@ public interface CustomerPostService {
             long id);
 
     CustomerPosts apply(long pid, long fid);
+
+    List<CustomerPosts> findAllByCustomer(Customer customer); // change to email
+
 
 }
