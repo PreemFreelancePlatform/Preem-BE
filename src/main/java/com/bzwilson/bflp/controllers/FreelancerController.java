@@ -82,7 +82,7 @@ public class FreelancerController {
     public ResponseEntity<?> FindFreelancerById(
             @PathVariable
                     Long id) {
-        Freelancer u = freelancerServices.FindFreelancerById(id);
+        Freelancer u = freelancerServices.findFreelancerById(id);
         return new ResponseEntity<>(u,
                 HttpStatus.OK);
     }

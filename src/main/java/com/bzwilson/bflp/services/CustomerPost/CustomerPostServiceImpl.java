@@ -89,7 +89,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
     public CustomerPosts removeFreelancerFromPost(long pid, long fid) {
-        Freelancer fr = freelancerService.FindFreelancerById(fid);
+        Freelancer fr = freelancerService.findFreelancerById(fid);
         CustomerPosts newpost = findByCustomerPostId(pid);
 
         if(newpost.getFreelancers().contains(fr)) {
@@ -127,7 +127,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
         newCustomerPosts.setCategory(customerposts.getCategory());
 
         newCustomerPosts.setTags(customerposts.getTags());
-
 
         newCustomerPosts.getFreelancers()
                 .clear();
@@ -195,7 +194,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
     @Override
     public CustomerPosts apply(long fid, long pid) {
-
         CustomerPosts cp = customerpostrepo.findById(pid).orElseThrow(EntityNotFoundException::new);
         Freelancer fl = freerepo.findById(fid).orElseThrow(EntityNotFoundException::new);
 
@@ -205,7 +203,15 @@ public class CustomerPostServiceImpl implements CustomerPostService {
             cp.getFreelancers().add(fl);
         }
 
-
         return customerpostrepo.save(cp);
     }
+
+    @Override
+    public List<CustomerPosts> findAllByCustomer(Customer customer)
+            throws
+            ResourceNotFoundException {
+        return customerpostrepo.findAllByCustomer(customer);
+    }
+
+
 }

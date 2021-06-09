@@ -1,6 +1,7 @@
 package com.bzwilson.bflp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -13,13 +14,13 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customerid")
     @JsonIgnoreProperties(value = "contracts",
             allowSetters = true)
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "freelancerid")
     @JsonIgnoreProperties(value = "contracts",
             allowSetters = true)
@@ -29,8 +30,6 @@ public class Contract {
     private Double price;
 
     @Column
-    private String finaloffer;// if freelancer or client is done negotiating lol
-    private String extras;
     private String paytime;
     private String task;
     private String deliverdate;
@@ -47,10 +46,10 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(Double price, String finaloffer, String extras, String paytime, String task, String deliverdate, String description, boolean freelancerOK, boolean clientOK, boolean active) {
+    public Contract(Customer customer , Freelancer freelancer, Double price, String paytime, String task, String deliverdate, String description, boolean freelancerOK, boolean clientOK, boolean active) {
+        setCustomer(customer);
+        setFreelancer(freelancer);
         setPrice(price);
-        setFinaloffer(finaloffer);
-        setExtras(extras);
         setPaytime(paytime);
         setTask(task);
         setDeliverdate(deliverdate);
@@ -60,7 +59,7 @@ public class Contract {
         setActive(false);
     }
 
-
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public long getId() {
         return id;
     }
@@ -69,6 +68,7 @@ public class Contract {
         this.id = id;
     }
 
+    @JsonView(View.Confusion2.class)
     public Customer getCustomer() {
         return customer;
     }
@@ -77,6 +77,7 @@ public class Contract {
         this.customer = customer;
     }
 
+    @JsonView(View.Confusion1.class)
     public Freelancer getFreelancer() {
         return freelancer;
     }
@@ -85,6 +86,7 @@ public class Contract {
         this.freelancer = freelancer;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public Double getPrice() {
         return price;
     }
@@ -93,22 +95,7 @@ public class Contract {
         this.price = price;
     }
 
-    public String getFinaloffer() {
-        return finaloffer;
-    }
-
-    public void setFinaloffer(String finaloffer) {
-        this.finaloffer = finaloffer;
-    }
-
-    public String getExtras() {
-        return extras;
-    }
-
-    public void setExtras(String extras) {
-        this.extras = extras;
-    }
-
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public String getPaytime() {
         return paytime;
     }
@@ -117,6 +104,7 @@ public class Contract {
         this.paytime = paytime;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public String getTask() {
         return task;
     }
@@ -125,6 +113,7 @@ public class Contract {
         this.task = task;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public String getDeliverdate() {
         return deliverdate;
     }
@@ -133,6 +122,7 @@ public class Contract {
         this.deliverdate = deliverdate;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public String getDescription() {
         return description;
     }
@@ -141,6 +131,7 @@ public class Contract {
         this.description = description;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public boolean getFreelancerOK() {
         return freelancerOK;
     }
@@ -149,6 +140,7 @@ public class Contract {
         this.freelancerOK = freelancerOK;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public boolean getClientOK() {
         return clientOK;
     }
@@ -157,6 +149,7 @@ public class Contract {
         this.clientOK = clientOK;
     }
 
+    @JsonView({View.Confusion1.class, View.Confusion2.class})
     public boolean getActive() {
         return active;
     }

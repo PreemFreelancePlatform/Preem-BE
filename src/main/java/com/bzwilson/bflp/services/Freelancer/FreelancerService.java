@@ -15,7 +15,7 @@ public interface FreelancerService {
 
     List<Freelancer> findAll();
 
-    Freelancer FindFreelancerById(long id);
+    Freelancer findFreelancerById(long id);
 
     void delete(long id);
 

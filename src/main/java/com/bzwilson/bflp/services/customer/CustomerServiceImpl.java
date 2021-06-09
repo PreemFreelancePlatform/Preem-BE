@@ -112,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .clear();
         for (Contract cp : customer.getContracts()) {
             newCustomer.getContracts()
-                    .add(new Contract(cp.getPrice(), cp.getFinaloffer(), cp.getExtras(), cp.getPaytime(), cp.getTask(), cp.getDeliverdate(), cp.getDescription(), cp.getFreelancerOK(), cp.getClientOK(), cp.getActive()));
+                    .add(new Contract(cp.getCustomer(), cp.getFreelancer(), cp.getPrice(), cp.getPaytime(), cp.getTask(), cp.getDeliverdate(), cp.getDescription(), cp.getFreelancerOK(), cp.getClientOK(), cp.getActive()));
         }
 
         newCustomer.getCustomerposts()
@@ -188,9 +188,6 @@ public class CustomerServiceImpl implements CustomerService {
                 currentCustomer.setPicByte(customer.getPicByte());
             }
 
-
-
-
             if (customer.getCustomerposts()
                     .size() > 0) {
                 currentCustomer.getCustomerposts().clear();
@@ -198,6 +195,14 @@ public class CustomerServiceImpl implements CustomerService {
                     currentCustomer.getCustomerposts()
                             .add(new CustomerPosts(cp.getTask(), cp.getDescription(), cp.getBudget(), cp.getDuedate(), cp.getPostdate(), cp.getCategory(), cp.getTags(), cp.getFreelancers(), currentCustomer));
                 }
+            }
+
+            if (customer.getContracts().size() > 0) {
+                for (Contract ct : customer.getContracts()) {
+                    currentCustomer.getContracts()
+                            .add(new Contract(ct.getCustomer(), ct.getFreelancer(), ct.getPrice(), ct.getPaytime(), ct.getTask(), ct.getDeliverdate(), ct.getDescription(), ct.getFreelancerOK(), ct.getClientOK(), ct.getActive()));
+                }
+
             }
 
             return customerrepo.save(currentCustomer);

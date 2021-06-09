@@ -64,24 +64,17 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Contract createnew(Contract contract, long fid, long cid) {
-
-        Customer cus = customerRepo.findById(cid).orElseThrow(EntityNotFoundException::new);
-        Freelancer fl = freelancerRepo.findById(fid).orElseThrow(EntityNotFoundException::new);
+    public Contract createnew(Contract contract) {
 
         Contract newcontract = new Contract();
 
-        newcontract.setCustomer(cus);
+        newcontract.setCustomer(contract.getCustomer());
 
-        newcontract.setFreelancer(fl);
+        newcontract.setFreelancer(contract.getFreelancer());
 
         newcontract.setPrice(contract.getPrice());
 
-        newcontract.setFinaloffer(contract.getFinaloffer());
-
-        newcontract.setExtras(contract.getExtras());
-
-        newcontract.setPaytime(contract.getPaytime());
+        newcontract.setPaytime(contract.getPaytime());  
 
         newcontract.setTask(contract.getTask());
 
@@ -117,14 +110,6 @@ public class ContractServiceImpl implements ContractService {
             newcontract.setPrice(contract.getPrice());
             }
 
-            if (newcontract.getFinaloffer() != null) {
-                newcontract.setFinaloffer(contract.getFinaloffer());
-            }
-
-            if (newcontract.getExtras() != null) {
-                newcontract.setExtras(contract.getExtras());
-            }
-
             if (newcontract.getTask() != null) {
                 newcontract.setTask(contract.getTask());
             }
@@ -152,6 +137,23 @@ public class ContractServiceImpl implements ContractService {
 //            throw new ResourceNotFoundException(customer.getFirstname() + customer.getLastname() + " is not authorized to make change");
 
         }
+
+
+
+    @Override
+    public List<Contract> findAllByCustomer_Email(String email)
+        throws
+        ResourceNotFoundException {
+        return contractRepo.findAllByCustomer_Email(email);
+    }
+
+    @Override
+    public List<Contract> findAllByFreelancer_Email(String email)
+            throws
+            ResourceNotFoundException {
+        return contractRepo.findAllByFreelancer_Email(email);
+    }
+
 
 
 }

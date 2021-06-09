@@ -67,7 +67,7 @@ public class Freelancer {
     @OneToMany(mappedBy = "freelancer",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JsonIgnoreProperties(value = {"customer", "contracts"},
+    @JsonIgnoreProperties(value = {"contracts"},
             allowSetters = true)
     private List<Contract> contracts = new ArrayList<>();
 
@@ -92,6 +92,7 @@ public class Freelancer {
         setPicByte(picByte);
     }
 
+    @JsonView(View.Confusion1.class)
     public long getFreelancerid() {
         return freelancerid;
     }
@@ -100,6 +101,7 @@ public class Freelancer {
         this.freelancerid = freelancerid;
     }
 
+    @JsonView(View.Confusion1.class)
     public String getEmail() {
         return email;
     }
@@ -108,6 +110,7 @@ public class Freelancer {
         this.email = email;
     }
 
+    @JsonView(View.Confusion1.class)
     public String getFirstname() {
         return firstname;
     }
@@ -116,6 +119,7 @@ public class Freelancer {
         this.firstname = firstname;
     }
 
+    @JsonView(View.Confusion1.class)
     public String getLastname() {
         return lastname;
     }
@@ -160,7 +164,6 @@ public class Freelancer {
     public void setVerified(Boolean verified) {
         this.verified = verified;
     }
-
 
     @JsonView(View.Recovery.class)
     public String getQuestion1() {
@@ -212,6 +215,7 @@ public class Freelancer {
         this.categories = categories;
     }
 
+    @JsonView(View.Confusion1.class)
     public byte[] getPicByte() {
         return picByte;
     }
