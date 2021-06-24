@@ -60,7 +60,7 @@ public class SeedData
                 "billycust",
                 "wilson",
                 "b",
-                "b", "customer", true, true, true, "how big yo dick is", "fafa", "what u doin", "afafa",  null);
+                "b", "freelancer", true, true, true, "how big yo dick is", "fafa", "what u doin", "afafa",  null);
 
 
         List<String> cats = new ArrayList<>();
@@ -80,30 +80,30 @@ public class SeedData
                 "freelancer", true, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggies, cats, null);
 
 
-//        for (int i = 0; i < 100; i++) {
-//            final String[] backnames = {"Hey this is a task and doesnt really matter", "I need somebody to build this for me because im a duck", "how long can a title be before its just too long??", "i need somebody to construct a thing for me woot yay it works"};
-//            final String[] specs = {"Back-End", "Front-End", "Full-Stack", "Web-Design", "UI/UX", "Testing", "AR/VR", "Wordpress"};
-//            Random random = new Random();
-//            int index1 = random.nextInt(backnames.length);
-//            int index2 = random.nextInt(specs.length);
-//            int index3 = random.nextInt(specs.length);
-//            int cash = random.nextInt(10000) + 100;
-//            int date = random.nextInt(7) + 20;
-//            List <String> tags = new ArrayList<>();
-//            tags.add(specs[index2]);
-//
-//            CustomerPosts cp = new CustomerPosts(
-//                    backnames[index1],
-//                    "this description is going to have to be quite long tbh just because its a description describing things so you can know what the thing is now ok so i need to write and take up mroe space so here it is yes mhm great stuff guys have a good day sincerely mr duckerson",
-//                    (double) cash,
-//                    "1 week",
-//                    "Jan " + date + " 2021",
-//                    "Web Development",
-//                    tags,
-//                    null, c1);
-//
-//            c1.getCustomerposts().add(cp);
-//        }
+        for (int i = 0; i < 100; i++) {
+            final String[] backnames = {"Hey this is a task and doesnt really matter", "I need somebody to build this for me because im a duck", "how long can a title be before its just too long??", "i need somebody to construct a thing for me woot yay it works"};
+            final String[] specs = {"Back-End", "Front-End", "Full-Stack", "Web-Design", "UI/UX", "Testing", "AR/VR", "Wordpress"};
+            Random random = new Random();
+            int index1 = random.nextInt(backnames.length);
+            int index2 = random.nextInt(specs.length);
+            int index3 = random.nextInt(specs.length);
+            int cash = random.nextInt(10000) + 100;
+            int date = random.nextInt(7) + 20;
+            List <String> tags = new ArrayList<>();
+            tags.add(specs[index2]);
+
+            CustomerPosts cp = new CustomerPosts(
+                    backnames[index1],
+                    "this description is going to have to be quite long tbh just because its a description describing things so you can know what the thing is now ok so i need to write and take up mroe space so here it is yes mhm great stuff guys have a good day sincerely mr duckerson",
+                    (double) cash,
+                    "1 week",
+                    "Jan " + date + " 2021",
+                    "Web Development",
+                    tags,
+                    null, c1);
+
+            c1.getCustomerposts().add(cp);
+        }
 
 
         Contract j1 = new Contract(c2, f1, 1200.00, "now", "make a cool website", "may 17th", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", false, false, true);
@@ -194,7 +194,9 @@ public class SeedData
 //        }
 //
 //
-
+        customerService.save(c1);
+        customerService.save(c2);
+        freelancerService.save(f1);
 
 
         // data, user
