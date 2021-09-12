@@ -50,7 +50,7 @@ public class SeedData
         byte[] decoded = Base64.decodeBase64(content.getBytes());
 
         Customer c1 = new Customer(
-                "c",
+                "Corey",
                 "wilson",
                 "c",
                 "c", "admin", true, true, true, "do u like booty", "hell yeah", "how much booty u like", "a lot of it",  null);
@@ -73,16 +73,34 @@ public class SeedData
 
 
         Freelancer f1 = new Freelancer(
-                "f",
+                "bill",
                 "William",
                 "Wilson",
                 "f",
                 "freelancer", true, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggies, cats, null);
 
 
+        Freelancer f2 = new Freelancer(
+                "josh",
+                "josh",
+                "Wilson",
+                "f",
+                "freelancer", true, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggies, cats, null);
+
+
+        Freelancer f3 = new Freelancer(
+                "corey",
+                "corey",
+                "Wilson",
+                "f",
+                "freelancer", true, false, "how bored are you right now", "fafa", "what the fuck am i doing", "afafa", taggies, cats, null);
+
+
+
+
         for (int i = 0; i < 100; i++) {
             final String[] backnames = {"Hey this is a task and doesnt really matter", "I need somebody to build this for me because im a duck", "how long can a title be before its just too long??", "i need somebody to construct a thing for me woot yay it works"};
-            final String[] specs = {"Back-End", "Front-End", "Full-Stack", "Web-Design", "UI/UX", "Testing", "AR/VR", "Wordpress"};
+            final String[] specs = {"Back-end", "Front-end", "Full-stack", "Web-design", "UI/UX", "Testing", "AR", "VR", "Wordpress"};
             Random random = new Random();
             int index1 = random.nextInt(backnames.length);
             int index2 = random.nextInt(specs.length);
@@ -197,6 +215,8 @@ public class SeedData
         customerService.save(c1);
         customerService.save(c2);
         freelancerService.save(f1);
+        freelancerService.save(f2);
+        freelancerService.save(f3);
 
 
         // data, user
