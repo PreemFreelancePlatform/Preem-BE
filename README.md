@@ -30,27 +30,57 @@ To access endpoints requiring authentication, you will need to obtain a token. T
 | Username          | email                  |
 | Password          | password               |
 
-
-
-
 Please replace Username and Password to the user who is asking to auth.
 
 # Utility endpoints
-
 | Endpoint | HTTP Method | Description | Parameters | Response |
 |---|---|---|---|---|
-| `/recover/{email}` | POST | Provides recovery functionality for a forgotten password | `email`: User's email, `answer1` and `answer2`: Answers to security questions | "CORRECT" if successful recovery, "WRONG" if answers don't match |
-| `/getquestions/{email}` | GET | Fetches security questions for password recovery | `email`: User's email | Customer or Freelancer security questions |
+| `/logout | GET | Revoke token | N/A | HTTP Status OK |
+| `/createnew{customer/freelancer} |POST| creates new user | {email, username, firstname, password} | HTTP Status CREATED |
+| `/recover/{email}` | POST | Provides recovery functionality for a forgotten password | {email, answer1, answer2} | Bot sends temp info if correct |
+| `/getquestions/{email}` | GET | Fetches security questions for password recovery | {email} | Customer or Freelancer security questions |
 
-# Customer Endpoints 
+# Freelancer Endpoints 
 All API endpoints start with: `http://localhost:2019`
 The following table provides an overview of the API endpoints available in the `FreelancerController` class:
-| Endpoint                                  | Description                                          | Role Access |
-| ----------------------------------------- | ---------------------------------------------------- | ----------- |
-| `GET /customer/customers`                 | Retrieves a list of all customers.                   | ADMIN, FREELANCER |
-| `GET /customer/customer/{email}`          | Retrieves a `Customer` object by the specified email.| ADMIN, FREELANCER, CUSTOMER |
-| `GET /customer/customer/{id}`             | Retrieves a `Customer` object by the specified ID.   | ADMIN, FREELANCER, CUSTOMER |
-| `POST /customer/customer`                 | Creates a new `Customer` object.                     | ADMIN |
-| `PATCH /customer/customer/{id}`           | Updates a `Customer` object by the specified ID.     | ADMIN, CUSTOMER |
-| `DELETE /customer/customer/{customerId}`  | Deletes a `Customer` object by the specified ID.     | ADMIN |
+| Endpoint | HTTP Method | Description | Parameters | Response |
+|---|---|---|---|---|
+| `/freelancer/freelancers` | GET | Fetches all freelancers (Admin or Customer only) | N/A | List of Freelancers in JSON |
+| `/freelancer/freelancer/{email}` | GET | Fetches freelancer by email | {email} | Freelancer information in JSON |
+| `/freelancer/freelancer/{id}` | GET | Fetches freelancer by ID | {id} | Freelancer information in JSON |
+| `/freelancer/{freelancerid}/post/{postid}` | POST | Adds a freelancer to a post | {freelancerid, postid} | HTTP Status OK |
+| `/freelancer/freelancer/{id}` | PATCH | Updates a freelancer's information | {id, {properties} } | HTTP Status OK |
+| `/freelancer/freelancer/{freelancerid}` | DELETE | Deletes a freelancer by ID (Admin only) | {id} | HTTP Status OK |
+| `/freelancer/upload/{freelancerid}` | PATCH | Uploads an image for a freelancer | {id, MultipartFile} | HTTP Status OK |
+
+# Customer Endpoints 
+All API endpoints start with: http://localhost:2019
+The following table provides an overview of the API endpoints available in the CustomerController class:
+| Endpoint | HTTP Method | Description | Parameters | Response |
+|---|---|---|---|---|
+| `/customer/customers` | GET | Fetches all customers (Admin only) | N/A | List of Customers in JSON |
+| `/customer/customer/{customerid}` | GET | Fetches customer by ID | { customerid } | Customer information in JSON |
+| `/customer/customer/{customerid}` | PATCH | Updates a customer's information | { customerid, {properties} | HTTP Status OK |
+| `/customer/customer/{customerid}` | DELETE | Deletes a customer by ID (Admin only) | { customerid } | HTTP Status OK |
+| `/customer/upload/{customerid}` | PATCH | Uploads an image for a customer | { customerid", MultipartFile } | HTTP Status OK |
+
+ # Contract Endpoints
+All API endpoints start with: http://localhost:2019
+The following table provides an overview of the API endpoints available in the ContractController class:
+| Endpoint | HTTP Method | Description | Parameters | Response |
+|---|---|---|---|---|
+| `/contract/contracts` | GET | Fetches all contracts (Admin or Customer only) | N/A | List of Contracts in JSON |
+| `/contract/{id}` | GET | Fetches contract by ID | { "id" } | Contract information in JSON |
+| `/contract/new/{fid}/{cid}` | POST | Creates a new contract | { "fid", "cid", "contract" } | HTTP Status OK |
+| `/contract/{id}` | PATCH | Updates a contract's information | { "id", "contract" } | HTTP Status OK |
+| `/contract/{contractid}` | DELETE | Deletes a contract by ID (Admin only) | { "contractid" } | HTTP Status OK |
+
+
+
+
+
+
+
+
+
 
