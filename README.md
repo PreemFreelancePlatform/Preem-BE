@@ -11,8 +11,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 
 ## For Auth token
-All API endpoints start with: `http://localhost:2019`
-
 Almost All of the endpoints require authentication so you will need to obtain a token. This can be done by making a request to the authorization endpoint with the appropriate credentials.
 
 # Users
@@ -42,7 +40,7 @@ Please replace Username and Password to the user who is asking to auth.
 | `/getquestions/{email}` | GET | Fetches security questions for password recovery | {email} | Customer or Freelancer security questions |
 
 # Freelancer Endpoints 
-All API endpoints start with: `http://localhost:2019`
+All API endpoints start with: `http://localhost:2019/`
 The following table provides an overview of the API endpoints available in the `FreelancerController` class:
 | Endpoint | HTTP Method | Description | Parameters | Response |
 |---|---|---|---|---|
@@ -55,7 +53,7 @@ The following table provides an overview of the API endpoints available in the `
 | `/freelancer/upload/{freelancerid}` | PATCH | Uploads an image for a freelancer | {id, MultipartFile} | HTTP Status OK |
 
 # Customer Endpoints 
-All API endpoints start with: http://localhost:2019
+All API endpoints start with: http://localhost:2019/
 The following table provides an overview of the API endpoints available in the CustomerController class:
 | Endpoint | HTTP Method | Description | Parameters | Response |
 |---|---|---|---|---|
@@ -66,7 +64,7 @@ The following table provides an overview of the API endpoints available in the C
 | `/customer/upload/{customerid}` | PATCH | Uploads an image for a customer | { customerid", MultipartFile } | HTTP Status OK |
 
  # Contract Endpoints
-All API endpoints start with: http://localhost:2019
+All API endpoints start with: http://localhost:2019/
 The following table provides an overview of the API endpoints available in the ContractController class:
 | Endpoint | HTTP Method | Description | Parameters | Response |
 |---|---|---|---|---|
