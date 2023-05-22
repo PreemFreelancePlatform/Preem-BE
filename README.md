@@ -10,19 +10,16 @@ These instructions will get you a copy of the project up and running on your loc
 5. mvn spring-boot:run` || press run
 
 
-
-## For Authenticated Endpoints
+## For Auth token
+All API endpoints start with: `http://localhost:2019`
 To access endpoints requiring authentication, you will need to obtain a token. This can be done by making a request to the authorization endpoint with the appropriate credentials.
 
 # Users
-| Role | email      | 
-| ----------------- | ---------------------- |
-| Access Token URL  | http://localhost:2019/login |
-| Client ID         | OAUTHCLIENTID          |
-| Client Secret     | OAUTHCLIENTSECRET      |
-| Username          | email                  |
-| Password          | password               |
-
+| Role              |      email            |   password    |
+| ----------------- | ---------------------- |  ----------    |
+| Admin           |     Admin             |  Admin   |
+| Freelancer     | JimBob@gmail.com       |  jimbob  |
+| Customer        | JoshWilson@gmail.com  |  josh |
 
 # Params
 | Parameter         | Value                  |
@@ -33,15 +30,17 @@ To access endpoints requiring authentication, you will need to obtain a token. T
 | Username          | email                  |
 | Password          | password               |
 
+
+
+
 Please replace Username and Password to the user who is asking to auth.
 
-
 # Freelancer Endpoints
+All API endpoints start with: `http://localhost:2019`
 The following table provides an overview of the API endpoints available in the `FreelancerController` class:
-
 | Endpoint                                               | Description                                                            | Role Access |
 | ------------------------------------------------------ | ---------------------------------------------------------------------- | ----------- |
-| `GET /freelancer/freelancer/{email}`                   | Retrieves a `Freelancer` object by the specified email.                | FREELANCER, CUSTOMER |
+| `GET /freelancer/freelancer/{email}`                   | Retrieves a `Freelancer` object by the specified email.                | ADMIN, CUSTOMER, FREELANCER |
 | `GET /freelancer/freelancers`                          | Retrieves a list of all freelancers.                                   | ADMIN, CUSTOMER |
 | `GET /freelancer/freelancer/{id}`                      | Retrieves a `Freelancer` object by the specified ID.                   | ADMIN, CUSTOMER, FREELANCER |
 | `POST /freelancer/{freelancerid}/post/{postid}`        | Adds a freelancer to a post by the specified IDs.                      | ADMIN, FREELANCER |
@@ -50,5 +49,16 @@ The following table provides an overview of the API endpoints available in the `
 | `PATCH /freelancer/upload/{freelancerid}`              | Uploads an image for the specified freelancer ID.                      | ADMIN, FREELANCER |
 
 
-Please note that the descriptions provided are based on the limited information available in the code snippets. You may need to further refine and customize the descriptions based on your specific application and business logic.
+
+# Customer Endpoints 
+All API endpoints start with: `http://localhost:2019`
+The following table provides an overview of the API endpoints available in the `FreelancerController` class:
+| Endpoint                                  | Description                                          | Role Access |
+| ----------------------------------------- | ---------------------------------------------------- | ----------- |
+| `GET /customer/customers`                 | Retrieves a list of all customers.                   | ADMIN, FREELANCER |
+| `GET /customer/customer/{email}`          | Retrieves a `Customer` object by the specified email.| ADMIN, FREELANCER, CUSTOMER |
+| `GET /customer/customer/{id}`             | Retrieves a `Customer` object by the specified ID.   | ADMIN, FREELANCER, CUSTOMER |
+| `POST /customer/customer`                 | Creates a new `Customer` object.                     | ADMIN |
+| `PATCH /customer/customer/{id}`           | Updates a `Customer` object by the specified ID.     | ADMIN, CUSTOMER |
+| `DELETE /customer/customer/{customerId}`  | Deletes a `Customer` object by the specified ID.     | ADMIN |
 
