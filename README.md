@@ -12,6 +12,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## For Auth token
 All API endpoints start with: `http://localhost:2019`
+
 Almost All of the endpoints require authentication so you will need to obtain a token. This can be done by making a request to the authorization endpoint with the appropriate credentials.
 
 # Users
