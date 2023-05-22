@@ -35,20 +35,12 @@ To access endpoints requiring authentication, you will need to obtain a token. T
 
 Please replace Username and Password to the user who is asking to auth.
 
-# Freelancer Endpoints
-All API endpoints start with: `http://localhost:2019`
-The following table provides an overview of the API endpoints available in the `FreelancerController` class:
-| Endpoint                                               | Description                                                            | Role Access |
-| ------------------------------------------------------ | ---------------------------------------------------------------------- | ----------- |
-| `GET /freelancer/freelancer/{email}`                   | Retrieves a `Freelancer` object by the specified email.                | ADMIN, CUSTOMER, FREELANCER |
-| `GET /freelancer/freelancers`                          | Retrieves a list of all freelancers.                                   | ADMIN, CUSTOMER |
-| `GET /freelancer/freelancer/{id}`                      | Retrieves a `Freelancer` object by the specified ID.                   | ADMIN, CUSTOMER, FREELANCER |
-| `POST /freelancer/{freelancerid}/post/{postid}`        | Adds a freelancer to a post by the specified IDs.                      | ADMIN, FREELANCER |
-| `PATCH /freelancer/freelancer/{id}`                    | Updates a `Freelancer` object by the specified ID.                     | ADMIN, FREELANCER |
-| `DELETE /freelancer/freelancer/{freelancerid}`         | Deletes a `Freelancer` object by the specified ID.                     | ADMIN |
-| `PATCH /freelancer/upload/{freelancerid}`              | Uploads an image for the specified freelancer ID.                      | ADMIN, FREELANCER |
+# Utility endpoints
 
-
+| Endpoint | HTTP Method | Description | Parameters | Response |
+|---|---|---|---|---|
+| `/recover/{email}` | POST | Provides recovery functionality for a forgotten password | `email`: User's email, `answer1` and `answer2`: Answers to security questions | "CORRECT" if successful recovery, "WRONG" if answers don't match |
+| `/getquestions/{email}` | GET | Fetches security questions for password recovery | `email`: User's email | Customer or Freelancer security questions |
 
 # Customer Endpoints 
 All API endpoints start with: `http://localhost:2019`
