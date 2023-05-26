@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 5. mvn spring-boot:run` || press run
 6. test endpoints with postman (preferred)
 
-## Dependencies 
+# Dependencies 
 -Spring Boot Data JPA
 -Spring Boot Security
 -Spring Security OAuth2
