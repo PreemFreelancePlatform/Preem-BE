@@ -4,10 +4,10 @@
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 1. install JDK 16
-2. install intellij
 3. git clone (https://github.com/PreemFreelancePlatform/Preem-BE)
 4. mvn clean install
 5. mvn spring-boot:run` || press run
+6. test endpoints with postman (preferred)
 
 
 ## For Auth token
