@@ -11,9 +11,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 # Dependencies 
 -Spring Boot Data JPA
+
 -Spring Boot Security
+
 -Spring Security OAuth2
+
 -Spring Boot  Mail
+
 -Spring Boot  WebSocket
 -Spring Boot Web
 -Spring Boot DevTools
