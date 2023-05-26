@@ -9,8 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 5. mvn spring-boot:run` || press run
 6. test endpoints with postman (preferred)
 
-# Dependencies 
-__
+Dependencies:
 Spring Boot Data JPA
 Spring Boot Security
 Spring Security OAuth2
@@ -21,7 +20,7 @@ Spring Boot DevTools
 H2 Database Engine
 PostgreSQL JDBC
 JavaFaker
-__
+
 
 ## For Auth token
 Almost All of the endpoints require authentication so you will need to obtain a token. This can be done by making a request to the authorization endpoint with the appropriate credentials.
