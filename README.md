@@ -35,6 +35,24 @@ Most endpoints require authentication using OAuth2. To obtain a token, use the f
 |----------|---------|-------------|------------|-----------|
 | `/login` | POST | Obtain authentication token | `username`, `password`, `client_id`, `client_secret` | JWT Token |
 
+# Users
+| Role              |      email            |   password    |
+| ----------------- | ---------------------- |  ----------    |
+| Admin           |     Admin             |  Admin   |
+| Freelancer     | JimBob@gmail.com       |  jimbob  |
+| Customer        | JoshWilson@gmail.com  |  josh |
+
+# Params
+| Parameter         | Value                  |
+| ----------------- | ---------------------- |
+| Access Token URL  | http://localhost:2019/login |
+| Client ID         | OAUTHCLIENTID          |
+| Client Secret     | OAUTHCLIENTSECRET      |
+| Username          | email                  |
+| Password          | password               |
+
+replace Username and Password to the user who is asking to auth
+
 ## Common Response Codes
 - `200 OK`: Request successful
 - `201 Created`: Resource created successfully
